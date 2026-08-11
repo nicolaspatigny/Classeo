@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { EmploiDuTempsService } from '../../../core/services/emploi-du-temps';
 import { SeanceCalendrier } from '../../../models/seance-calendrier';
@@ -11,11 +11,13 @@ import { SeanceCalendrier } from '../../../models/seance-calendrier';
 })
 export class Calendrier {
 
-  private readonly emploiDuTempsService = inject(EmploiDuTempsService);
+  private readonly emploiDuTempsService = inject(
+    EmploiDuTempsService
+  );
 
-  seances: SeanceCalendrier[] = [];
+  seances = signal<SeanceCalendrier[]>([]);
 
-  semaineActuelle: Date = this.getMonday(new Date());
+  semaineActuelle: Date = new Date('2026-08-10');
 
   jours: string[] = [
     'Lundi',
@@ -34,12 +36,6 @@ export class Calendrier {
     this.chargerSeances();
   }
 
-  /**
-   * Charge les séances de l'élève connecté.
-   *
-   * Pour l'instant, les informations de l'élève
-   * sont encore mockées.
-   */
   private chargerSeances(): void {
 
     const eleveId = 1;
@@ -48,13 +44,18 @@ export class Calendrier {
     this.emploiDuTempsService
       .getEmploiDuTemps(eleveId, promotionId)
       .subscribe(seances => {
-        this.seances = seances;
+
+        console.log('Séances reçues :', seances);
+
+        this.seances.set(seances);
+
+        console.log(
+          'Séances après affectation :',
+          this.seances()
+        );
       });
   }
 
-  /**
-   * Retourne le lundi de la semaine contenant la date donnée.
-   */
   private getMonday(date: Date): Date {
 
     const result = new Date(date);
@@ -65,20 +66,15 @@ export class Calendrier {
       ? -6
       : 1 - day;
 
-    result.setDate(result.getDate() + difference);
+    result.setDate(
+      result.getDate() + difference
+    );
+
     result.setHours(0, 0, 0, 0);
 
     return result;
   }
 
-  /**
-   * Retourne la date correspondant au jour demandé.
-   *
-   * 0 = lundi
-   * 1 = mardi
-   * ...
-   * 4 = vendredi
-   */
   getDateForDay(index: number): Date {
 
     const date = new Date(this.semaineActuelle);
@@ -90,23 +86,17 @@ export class Calendrier {
     return date;
   }
 
-  /**
-   * Retourne les séances d'un jour donné.
-   */
   getSeancesForDay(index: number): SeanceCalendrier[] {
 
     const date = this.getDateForDay(index);
 
     const dateString = this.formatDate(date);
 
-    return this.seances.filter(
+    return this.seances().filter(
       item => item.seance.date === dateString
     );
   }
 
-  /**
-   * Semaine précédente.
-   */
   previousWeek(): void {
 
     const date = new Date(this.semaineActuelle);
@@ -118,9 +108,6 @@ export class Calendrier {
     this.semaineActuelle = date;
   }
 
-  /**
-   * Semaine suivante.
-   */
   nextWeek(): void {
 
     const date = new Date(this.semaineActuelle);
@@ -132,21 +119,12 @@ export class Calendrier {
     this.semaineActuelle = date;
   }
 
-  /**
-   * Retour à la semaine actuelle.
-   */
   today(): void {
 
     this.semaineActuelle =
       this.getMonday(new Date());
   }
 
-  /**
-   * Formate une date au format YYYY-MM-DD.
-   *
-   * Ce format correspond à celui utilisé
-   * dans seances.json.
-   */
   private formatDate(date: Date): string {
 
     const year = date.getFullYear();
@@ -162,11 +140,6 @@ export class Calendrier {
     return `${year}-${month}-${day}`;
   }
 
-  /**
-   * Format d'affichage du jour.
-   *
-   * Exemple : 14/09
-   */
   formatDay(date: Date): string {
 
     return date.toLocaleDateString(
@@ -178,9 +151,6 @@ export class Calendrier {
     );
   }
 
-  /**
-   * Libellé de la semaine affichée.
-   */
   getWeekLabel(): string {
 
     const debut = this.semaineActuelle;
@@ -211,12 +181,6 @@ export class Calendrier {
     return `${debutLabel} → ${finLabel}`;
   }
 
-  /**
-   * Calcule la position verticale d'une séance.
-   *
-   * Notre calendrier commence à 08:00
-   * et chaque heure représente 80px.
-   */
   getTop(heureDebut: string): number {
 
     const [hours, minutes] =
@@ -228,12 +192,6 @@ export class Calendrier {
     );
   }
 
-  /**
-   * Calcule la hauteur d'une séance.
-   *
-   * Exemple :
-   * 14:00 → 16:00 = 160px
-   */
   getHeight(
     heureDebut: string,
     heureFin: string

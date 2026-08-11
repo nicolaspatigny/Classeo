@@ -1,4 +1,19 @@
-import { Service } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Service()
-export class Note {}
+import { Note } from '../../models/note';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NoteService {
+
+  private readonly http = inject(HttpClient);
+
+  private readonly url = 'assets/mock/notes.json';
+
+  getNotes(): Observable<Note[]> {
+    return this.http.get<Note[]>(this.url);
+  }
+}
