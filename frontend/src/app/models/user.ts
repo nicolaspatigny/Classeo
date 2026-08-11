@@ -3,14 +3,8 @@ export interface User {
   nom: string;
   prenom: string;
   dateNaissance: string;
-  role: UserRole;
-
-  filiereId?: number;
-  cursusId?: number;
-  promotionId?: number;
+  role: 'ADMIN' | 'ENSEIGNANT' | 'ELEVE';
+  filiere?: number;
+  cursus?: number;
+  promotion?: number;
 }
-
-export type UserRole =
-  | 'ELEVE'
-  | 'ENSEIGNANT'
-  | 'ADMIN';

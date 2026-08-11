@@ -1,0 +1,9 @@
+<h1>TEST USERS</h1>
+
+<p>Nombre : {{ users().length }}</p>
+
+@for (user of users(); track $index) {
+  <p>
+    {{ user.prenom }} {{ user.nom }} - {{ user.role }}
+  </p>
+}
