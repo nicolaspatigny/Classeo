@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
 
 import { User } from '../../models/user';
 
@@ -16,4 +16,11 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.usersUrl);
   }
+
+  getUserById(id: number): Observable<User | undefined> {
+    return this.getUsers().pipe(
+      map(users => users.find(user => user.id === id))
+    );
+  }
+
 }

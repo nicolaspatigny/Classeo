@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { UserService } from '../../core/services/user';
+import {User} from '../../models/user';
 
 @Component({
   selector: 'app-test-users',
@@ -11,7 +12,7 @@ export class TestUsersComponent {
 
   private readonly userService = inject(UserService);
 
-  users = signal<any[]>([]);
+  users = signal<User[]>([]);
 
   constructor() {
     this.userService.getUsers().subscribe(users => {

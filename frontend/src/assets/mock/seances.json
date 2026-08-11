@@ -2,7 +2,7 @@
   {
     "id": 1,
     "coursId": 1,
-    "date": "2026-09-14",
+    "date": "2026-08-13",
     "heureDebut": "14:00",
     "heureFin": "16:00",
     "salle": "B204"
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "coursId": 2,
-    "date": "2026-09-15",
+    "date": "2026-08-12",
     "heureDebut": "09:00",
     "heureFin": "11:00",
     "salle": "C101"
@@ -18,7 +18,7 @@
   {
     "id": 3,
     "coursId": 1,
-    "date": "2026-09-21",
+    "date": "2026-08-21",
     "heureDebut": "14:00",
     "heureFin": "16:00",
     "salle": "B204"

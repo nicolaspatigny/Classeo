@@ -1,0 +1,170 @@
+<div class="min-h-screen bg-slate-50 flex">
+
+  <!-- Sidebar -->
+  <aside
+    class="bg-white border-r border-slate-200 flex flex-col transition-all duration-200"
+    [class.w-64]="menuOpen"
+    [class.w-20]="!menuOpen"
+  >
+
+    <!-- Logo / titre -->
+    <div class="h-20 flex items-center border-b border-slate-200 px-4">
+
+      @if (menuOpen) {
+        <div>
+          <h1 class="text-xl font-bold text-cyan-600">
+            CLASSEO
+          </h1>
+
+          <p class="text-xs text-slate-400">
+            Portail élève
+          </p>
+        </div>
+      } @else {
+        <span class="text-xl font-bold text-cyan-600 mx-auto">
+          C
+        </span>
+      }
+
+    </div>
+
+
+    <!-- Navigation -->
+    <nav class="flex-1 p-3">
+
+      <a
+        routerLink="/eleve/accueil"
+        routerLinkActive="bg-cyan-50 text-cyan-700"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-3 px-3 py-3 rounded-lg
+               text-slate-600 hover:bg-slate-50
+               transition-colors"
+      >
+        <span class="text-lg">⌂</span>
+
+        @if (menuOpen) {
+          <span>Accueil</span>
+        }
+      </a>
+
+      <a
+        routerLink="/eleve/calendrier"
+        routerLinkActive="bg-cyan-50 text-cyan-700"
+        class="flex items-center gap-3 px-3 py-3 rounded-lg
+               text-slate-600 hover:bg-slate-50
+               transition-colors"
+      >
+        <span class="text-lg">□</span>
+
+        @if (menuOpen) {
+          <span>Calendrier</span>
+        }
+      </a>
+
+      <a
+        routerLink="/eleve/cours"
+        routerLinkActive="bg-cyan-50 text-cyan-700"
+        class="flex items-center gap-3 px-3 py-3 rounded-lg
+               text-slate-600 hover:bg-slate-50
+               transition-colors"
+      >
+        <span class="text-lg">▣</span>
+
+        @if (menuOpen) {
+          <span>Cours</span>
+        }
+      </a>
+
+
+      <a
+        routerLink="/eleve/notes"
+        routerLinkActive="bg-cyan-50 text-cyan-700"
+        class="flex items-center gap-3 px-3 py-3 rounded-lg
+               text-slate-600 hover:bg-slate-50
+               transition-colors"
+      >
+        <span class="text-lg">✓</span>
+
+        @if (menuOpen) {
+          <span>Notes</span>
+        }
+      </a>
+
+
+
+    </nav>
+
+
+    <!-- Bas de sidebar -->
+    <div class="p-3 border-t border-slate-200">
+
+      <button
+        type="button"
+        class="w-full flex items-center gap-3 px-3 py-3
+               rounded-lg text-slate-500
+               hover:bg-slate-50 transition-colors"
+      >
+        <span class="text-lg">↪</span>
+
+        @if (menuOpen) {
+          <span>Déconnexion</span>
+        }
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- Contenu principal -->
+  <main class="flex-1 min-w-0">
+
+    <!-- Header -->
+    <header
+      class="h-20 bg-white border-b border-slate-200
+             flex items-center px-6"
+    >
+
+      <button
+        type="button"
+        (click)="toggleMenu()"
+        class="p-2 rounded-lg text-slate-500
+               hover:bg-slate-100 transition-colors"
+      >
+        ☰
+      </button>
+
+      <div class="ml-auto flex items-center gap-3">
+
+        <div class="text-right">
+          <p class="text-sm font-medium text-slate-800">
+            Alice Dupont
+          </p>
+
+          <p class="text-xs text-slate-400">
+            Élève
+          </p>
+        </div>
+
+        <div
+          class="w-10 h-10 rounded-full
+                 bg-cyan-100 text-cyan-700
+                 flex items-center justify-center
+                 font-semibold"
+        >
+          AD
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- Page -->
+    <section class="p-6">
+      <router-outlet />
+    </section>
+
+  </main>
+
+</div>

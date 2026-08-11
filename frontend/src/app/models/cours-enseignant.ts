@@ -1,4 +1,4 @@
-export interface CoursEnseigant {
+export interface CoursEnseignant {
   coursId: number;
-  enseigantId: number;
+  enseignantId: number;
 }
