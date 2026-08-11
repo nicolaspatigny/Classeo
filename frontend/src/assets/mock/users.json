@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "nom": "Dupont",
+    "prenom": "Alice",
+    "dateNaissance": "2002-05-14",
+    "role": "ELEVE",
+    "filiereId": 1,
+    "cursusId": 1,
+    "promotionId": 2
+  },
+  {
+    "id": 2,
+    "nom": "Martin",
+    "prenom": "Thomas",
+    "dateNaissance": "2001-09-23",
+    "role": "ELEVE",
+    "filiereId": 2,
+    "cursusId": 2,
+    "promotionId": 1
+  },
+  {
+    "id": 3,
+    "nom": "Bernard",
+    "prenom": "Lucas",
+    "dateNaissance": "2003-01-17",
+    "role": "ELEVE",
+    "filiereId": 1,
+    "cursusId": 1,
+    "promotionId": 2
+  },
+  {
+    "id": 4,
+    "nom": "Martin",
+    "prenom": "Jean",
+    "dateNaissance": "1985-03-21",
+    "role": "ENSEIGNANT"
+  },
+  {
+    "id": 5,
+    "nom": "Durand",
+    "prenom": "Sophie",
+    "dateNaissance": "1978-11-02",
+    "role": "ADMIN"
+  }
+]

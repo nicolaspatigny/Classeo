@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "nom": "Licence",
+    "filiereId": 1
+  },
+  {
+    "id": 2,
+    "nom": "Master",
+    "filiereId": 2
+  }
+]

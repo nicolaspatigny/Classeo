@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "coursId": 1,
+    "date": "2026-09-14",
+    "heureDebut": "14:00",
+    "heureFin": "16:00",
+    "salle": "B204"
+  },
+  {
+    "id": 2,
+    "coursId": 2,
+    "date": "2026-09-15",
+    "heureDebut": "09:00",
+    "heureFin": "11:00",
+    "salle": "C101"
+  },
+  {
+    "id": 3,
+    "coursId": 1,
+    "date": "2026-09-21",
+    "heureDebut": "14:00",
+    "heureFin": "16:00",
+    "salle": "B204"
+  },
+  {
+    "id": 4,
+    "coursId": 3,
+    "date": "2026-09-22",
+    "heureDebut": "10:00",
+    "heureFin": "12:00",
+    "salle": "A302"
+  },
+  {
+    "id": 5,
+    "coursId": 2,
+    "date": "2026-09-22",
+    "heureDebut": "14:00",
+    "heureFin": "16:00",
+    "salle": "C101"
+  },
+  {
+    "id": 6,
+    "coursId": 4,
+    "date": "2026-09-23",
+    "heureDebut": "08:00",
+    "heureFin": "10:00",
+    "salle": "B105"
+  }
+]

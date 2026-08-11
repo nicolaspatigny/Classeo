@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nom": "Programmation Java"
+  },
+  {
+    "id": 2,
+    "nom": "Base de données"
+  },
+  {
+    "id": 3,
+    "nom": "Algorithmique"
+  },
+  {
+    "id": 4,
+    "nom": "Réseaux"
+  }
+]

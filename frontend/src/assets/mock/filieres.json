@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "nom": "Informatique"
+  },
+  {
+    "id": 2,
+    "nom": "Mathématiques"
+  },
+  {
+    "id": 3,
+    "nom": "Physique"
+  }
+]
