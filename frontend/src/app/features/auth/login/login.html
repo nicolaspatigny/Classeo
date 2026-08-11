@@ -1,0 +1,169 @@
+<div
+  class="min-h-screen flex items-center justify-center transition-colors duration-500"
+  [style.background-color]="currentTheme.dark"
+>
+
+  <div class="w-full max-w-md">
+
+    <!-- Logo -->
+    <div class="flex items-center justify-center mb-16">
+      <div class="w-130 h-40 rounded-full bg-white/95 flex items-center justify-center shadow-md">
+        <img
+          [src]="currentTheme.logo"
+          [alt]="'Logo portail ' + currentTheme.name"
+          class="w-100 h-40 object-contain"
+        >
+      </div>
+    </div>
+
+    <!-- Login card -->
+    <div class="bg-white rounded-xl shadow-xl p-8">
+
+      <!-- Portals -->
+      <div class="flex gap-2 mb-8">
+
+        <button
+          type="button"
+          (click)="selectPortal('ELEVE')"
+          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          [style.background-color]="
+            selectedPortal === 'ELEVE'
+              ? themes.ELEVE.primary
+              : '#E2E8F0'
+          "
+          [style.color]="
+            selectedPortal === 'ELEVE'
+              ? 'white'
+              : '#334155'
+          "
+        >
+          Élève
+        </button>
+
+        <button
+          type="button"
+          (click)="selectPortal('ENSEIGNANT')"
+          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          [style.background-color]="
+            selectedPortal === 'ENSEIGNANT'
+              ? themes.ENSEIGNANT.primary
+              : '#E2E8F0'
+          "
+          [style.color]="
+            selectedPortal === 'ENSEIGNANT'
+              ? 'white'
+              : '#334155'
+          "
+        >
+          Enseignant
+        </button>
+
+        <button
+          type="button"
+          (click)="selectPortal('ADMIN')"
+          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          [style.background-color]="
+            selectedPortal === 'ADMIN'
+              ? themes.ADMIN.primary
+              : '#E2E8F0'
+          "
+          [style.color]="
+            selectedPortal === 'ADMIN'
+              ? 'white'
+              : '#334155'
+          "
+        >
+          Admin
+        </button>
+
+      </div>
+
+      <!-- Title -->
+      <div class="text-center mb-6">
+
+        <h1
+          class="text-2xl font-semibold"
+          [style.color]="currentTheme.dark"
+        >
+          Portail {{ currentTheme.name }}
+        </h1>
+
+      </div>
+
+      <!-- Form -->
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="space-y-5"
+      >
+
+        <div>
+          <label
+            for="username"
+            class="block text-sm font-medium text-slate-700 mb-1"
+          >
+            Identifiant
+          </label>
+
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            class="w-full px-4 py-2 border border-slate-300 rounded-lg
+            focus:outline-none"
+          >
+
+          @if (loginForm.controls.username.touched &&
+          loginForm.controls.username.hasError('required')) {
+
+            <p class="mt-1 text-sm text-red-600">
+              L'identifiant est requis.
+            </p>
+
+          }
+        </div>
+
+        <div>
+          <label
+            for="password"
+            class="block text-sm font-medium text-slate-700 mb-1"
+          >
+            Mot de passe
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="w-full px-4 py-2 border border-slate-300 rounded-lg
+            focus:outline-none"
+          >
+          @if (loginForm.controls.password.touched &&
+          loginForm.controls.password.hasError('required')) {
+
+            <p class="mt-1 text-sm text-red-600">
+              Le mot de passe est requis.
+            </p>
+
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-2.5 rounded-lg text-white font-medium
+         transition-all duration-150 ease-out
+         hover:brightness-90 hover:-translate-y-0.5
+         active:translate-y-0 active:scale-[0.98]
+         focus:outline-none focus:ring-2 focus:ring-offset-2"
+          [style.background-color]="currentTheme.primary"
+        >
+          Connexion
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
