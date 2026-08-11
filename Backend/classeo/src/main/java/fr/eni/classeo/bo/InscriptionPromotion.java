@@ -17,6 +17,7 @@ import java.util.Date;
 public class InscriptionPromotion {
 
     @EmbeddedId
+    @Builder.Default
     private InscriptionPromotionPK id =  new InscriptionPromotionPK();
 
     @ManyToOne(fetch = FetchType.LAZY)

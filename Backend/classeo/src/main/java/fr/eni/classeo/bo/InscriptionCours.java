@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class InscriptionCours {
 
     @EmbeddedId
+    @Builder.Default
     private InscriptionCoursPK id = new InscriptionCoursPK();
 
     @ManyToOne(fetch = FetchType.LAZY)
