@@ -53,3 +53,7 @@ L’objectif est que les principales informations soient accessibles rapidement,
 ## 6. Synthèse
 
 L’application aura donc pour objectif de centraliser le suivi pédagogique et administratif au sein d’une seule plateforme, tout en donnant à chaque utilisateur uniquement les fonctionnalités nécessaires à son rôle.
+
+## 7. Versions
+@angular/cli@22.1.3
+tailwindcss@4.3.3
