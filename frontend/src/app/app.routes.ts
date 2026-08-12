@@ -3,9 +3,6 @@ import { Routes } from '@angular/router';
 // Core
 import { LoginComponent } from './features/auth/login/login';
 
-// Test - To remove //
-import { TestUsersComponent } from './features/test-users/test-users';
-
 // Guard
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
