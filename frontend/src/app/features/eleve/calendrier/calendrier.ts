@@ -63,17 +63,11 @@ export class Calendrier {
       )
       .subscribe(seances => {
 
-        console.log(
-          'Séances reçues :',
-          seances
-        );
+
 
         this.seances.set(seances);
 
-        console.log(
-          'Séances après affectation :',
-          this.seances()
-        );
+
       });
   }
 

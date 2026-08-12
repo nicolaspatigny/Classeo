@@ -43,14 +43,12 @@ export class Cours {
       )
       .subscribe(cours => {
 
-        console.log('Cours reçus :', cours);
+
 
         this.cours.set(cours);
 
-        console.log(
-          'Cours après affectation :',
-          this.cours()
-        );
+
+
       });
   }
 }

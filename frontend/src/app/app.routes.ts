@@ -8,6 +8,8 @@ import { TestUsersComponent } from './features/test-users/test-users';
 
 // Guard
 import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 // -- PART ELEVE -- //
 import { EleveLayout } from './features/eleve/layout/eleve-layout';
@@ -22,6 +24,7 @@ export const routes: Routes = [
 
   {
     path: 'login',
+    canActivate: [guestGuard],
     component: LoginComponent
   },
 
@@ -39,7 +42,10 @@ export const routes: Routes = [
   {
     path: 'eleve',
     component: EleveLayout,
-    canActivate: [authGuard],
+    canActivate: [
+      authGuard,
+      roleGuard('ELEVE')
+    ],
     children: [
 
       {

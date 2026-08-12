@@ -23,16 +23,11 @@ export class NotesEleveService {
 
       map(data => {
 
-        console.log('Notes :', data.notes);
-        console.log('Cours :', data.cours);
-        console.log('Eleve recherché :', eleveId);
 
         // On récupère uniquement les notes de cet élève
         const notesEleve = data.notes.filter(
           note => note.eleveId === eleveId
         );
-
-        console.log('Notes de l’élève :', notesEleve);
 
         const result: NoteCours[] = [];
 
@@ -54,8 +49,6 @@ export class NotesEleveService {
             notes
           });
         }
-
-        console.log('Résultat final :', result);
 
         return result;
       })

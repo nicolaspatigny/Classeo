@@ -34,17 +34,9 @@ export class Notes {
       .getNotesEleve(user.id)
       .subscribe(notesCours => {
 
-        console.log(
-          'Notes reçues :',
-          notesCours
-        );
 
         this.notesCours.set(notesCours);
 
-        console.log(
-          'Notes après affectation :',
-          this.notesCours()
-        );
       });
   }
 }

@@ -123,10 +123,6 @@ export class LoginComponent {
 
         next: response => {
 
-          console.log(
-            'Connexion réussie :',
-            response
-          );
 
           this.loading = false;
 

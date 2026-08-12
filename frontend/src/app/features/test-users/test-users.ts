@@ -16,11 +16,9 @@ export class TestUsersComponent {
 
   constructor() {
     this.userService.getUsers().subscribe(users => {
-      console.log('Reçu :', users);
 
       this.users.set(users);
 
-      console.log('Nombre après affectation :', this.users().length);
     });
   }
 }
