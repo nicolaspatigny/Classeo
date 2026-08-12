@@ -1,128 +1,88 @@
-<div class="min-h-screen bg-slate-50 flex">
+<div class="flex min-h-screen bg-slate-50">
 
   <!-- Sidebar -->
   <aside
-    class="bg-white border-r border-slate-200 flex flex-col transition-all duration-200"
-    [class.w-64]="menuOpen"
-    [class.w-20]="!menuOpen"
+    class="w-64 bg-[#1E3A8A] text-white flex flex-col"
+    [class.hidden]="!menuOpen"
   >
 
-    <!-- Logo / titre -->
-    <div class="h-20 flex items-center border-b border-slate-200 px-4">
+    <!-- Logo -->
+    <div class="p-6 border-b border-white/10">
 
-      @if (menuOpen) {
-        <div>
-          <h1 class="text-xl font-bold text-cyan-600">
-            CLASSEO
-          </h1>
-
-          <p class="text-xs text-slate-400">
-            Portail élève
-          </p>
-        </div>
-      } @else {
-        <span class="text-xl font-bold text-cyan-600 mx-auto">
-          C
-        </span>
-      }
+      <div
+        class="flex items-center justify-center
+               bg-white rounded-xl p-3"
+      >
+        <img
+          src="assets/images/classeo-portail-eleve.png"
+          alt="Classeo - Portail élève"
+          class="h-20 w-auto object-contain"
+        >
+      </div>
 
     </div>
 
 
     <!-- Navigation -->
-    <nav class="flex-1 p-3">
+    <nav class="flex-1 p-4 space-y-2">
 
       <a
-        routerLink="/eleve/accueil"
-        routerLinkActive="bg-cyan-50 text-cyan-700"
+        routerLink="/eleve"
+        routerLinkActive="bg-[#06B6D4]"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="flex items-center gap-3 px-3 py-3 rounded-lg
-               text-slate-600 hover:bg-slate-50
+        class="block px-4 py-3 rounded-lg
+               text-white/80
+               hover:bg-white/10 hover:text-white
                transition-colors"
       >
-        <span class="text-lg">⌂</span>
-
-        @if (menuOpen) {
-          <span>Accueil</span>
-        }
-      </a>
-
-      <a
-        routerLink="/eleve/calendrier"
-        routerLinkActive="bg-cyan-50 text-cyan-700"
-        class="flex items-center gap-3 px-3 py-3 rounded-lg
-               text-slate-600 hover:bg-slate-50
-               transition-colors"
-      >
-        <span class="text-lg">□</span>
-
-        @if (menuOpen) {
-          <span>Calendrier</span>
-        }
+        Accueil
       </a>
 
       <a
         routerLink="/eleve/cours"
-        routerLinkActive="bg-cyan-50 text-cyan-700"
-        class="flex items-center gap-3 px-3 py-3 rounded-lg
-               text-slate-600 hover:bg-slate-50
+        routerLinkActive="bg-[#06B6D4]"
+        class="block px-4 py-3 rounded-lg
+               text-white/80
+               hover:bg-white/10 hover:text-white
                transition-colors"
       >
-        <span class="text-lg">▣</span>
-
-        @if (menuOpen) {
-          <span>Cours</span>
-        }
+        Cours
       </a>
-
 
       <a
         routerLink="/eleve/notes"
-        routerLinkActive="bg-cyan-50 text-cyan-700"
-        class="flex items-center gap-3 px-3 py-3 rounded-lg
-               text-slate-600 hover:bg-slate-50
+        routerLinkActive="bg-[#06B6D4]"
+        class="block px-4 py-3 rounded-lg
+               text-white/80
+               hover:bg-white/10 hover:text-white
                transition-colors"
       >
-        <span class="text-lg">✓</span>
-
-        @if (menuOpen) {
-          <span>Notes</span>
-        }
+        Notes
       </a>
 
-
+      <a
+        routerLink="/eleve/calendrier"
+        routerLinkActive="bg-[#06B6D4]"
+        class="block px-4 py-3 rounded-lg
+               text-white/80
+               hover:bg-white/10 hover:text-white
+               transition-colors"
+      >
+        Calendrier
+      </a>
 
     </nav>
-
-
-    <!-- Bas de sidebar -->
-    <div class="p-3 border-t border-slate-200">
-
-      <button
-        type="button"
-        class="w-full flex items-center gap-3 px-3 py-3
-               rounded-lg text-slate-500
-               hover:bg-slate-50 transition-colors"
-      >
-        <span class="text-lg">↪</span>
-
-        @if (menuOpen) {
-          <span>Déconnexion</span>
-        }
-      </button>
-
-    </div>
 
   </aside>
 
 
-  <!-- Contenu principal -->
+  <!-- Zone principale -->
   <main class="flex-1 min-w-0">
 
     <!-- Header -->
     <header
-      class="h-20 bg-white border-b border-slate-200
-             flex items-center px-6"
+      class="h-16 bg-white border-b border-slate-200
+             flex items-center px-4"
     >
 
       <button
@@ -134,36 +94,15 @@
         ☰
       </button>
 
-      <div class="ml-auto flex items-center gap-3">
-
-        <div class="text-right">
-          <p class="text-sm font-medium text-slate-800">
-            Alice Dupont
-          </p>
-
-          <p class="text-xs text-slate-400">
-            Élève
-          </p>
-        </div>
-
-        <div
-          class="w-10 h-10 rounded-full
-                 bg-cyan-100 text-cyan-700
-                 flex items-center justify-center
-                 font-semibold"
-        >
-          AD
-        </div>
-
-      </div>
-
     </header>
 
 
-    <!-- Page -->
-    <section class="p-6">
-      <router-outlet />
-    </section>
+    <!-- Contenu -->
+    <div class="p-6 lg:p-8">
+
+      <router-outlet></router-outlet>
+
+    </div>
 
   </main>
 
