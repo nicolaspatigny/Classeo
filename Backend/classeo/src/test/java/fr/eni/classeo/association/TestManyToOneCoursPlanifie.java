@@ -11,6 +11,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @Slf4j
 @DataJpaTest
@@ -68,24 +69,52 @@ public class TestManyToOneCoursPlanifie {
                 .nom("Mai26")
                 .cursus(cursus)
                 .build();
+
         testEntityManager.persist(promotion);
         testEntityManager.flush();
     }
 
     @Test
-    void testManyToOnePromotion(){
+    void testManyToOneSave(){
         CoursPlanifie cp = CoursPlanifie.builder()
                 .formateur(formateur)
+                .cursusCours(cursusCours)
                 .promotion(promotion)
                 .build();
 
-        // WHEN
-        Integer id = testEntityManager.persistAndFlush(cp).getId();
-        testEntityManager.clear();
+        CoursPlanifie cpDb = coursPlanifieRepository.save(cp);
+        assertThat(cpDb.getId()).isGreaterThan(0);
 
-        // THEN
-        CoursPlanifie result = coursPlanifieRepository.findById(id).orElseThrow();
+        CoursPlanifie result = coursPlanifieRepository.findById(cpDb.getId()).orElseThrow();
+
         assertThat(result.getFormateur()).isNotNull();
         assertThat(result.getFormateur().getLogin()).isEqualTo("gg@mail.com");
+        assertThat(result.getPromotion()).isNotNull();
+        assertThat(result.getPromotion().getNom()).isEqualTo("Mai26");
+        assertThat(result.getCursusCours()).isNotNull();
+        assertThat(result.getCursusCours().getCursus().getNom()).isEqualTo("CDA");
+
+        log.info(result.toString());
     }
+
+    @Test
+    void testManyToOneDelete(){
+        CoursPlanifie cp = CoursPlanifie.builder()
+                .formateur(formateur)
+                .cursusCours(cursusCours)
+                .promotion(promotion)
+                .build();
+
+        final CoursPlanifie cpDb = testEntityManager.persist(cp);
+        testEntityManager.flush();
+        assertThat(cpDb.getId()).isGreaterThan(0);
+
+        coursPlanifieRepository.delete(cpDb);
+
+        final CoursPlanifie cpDb2 = testEntityManager.find(CoursPlanifie.class, cpDb.getId());
+        assertNull(cpDb2);
+
+    }
+
+
 }
