@@ -122,4 +122,15 @@ export class AuthService {
 
     return JSON.parse(user) as User;
   }
+
+  hasRole(role: User['role']): boolean {
+
+    const user = this.getCurrentUser();
+
+    if (!user) {
+      return false;
+    }
+
+    return user.role === role;
+  }
 }
