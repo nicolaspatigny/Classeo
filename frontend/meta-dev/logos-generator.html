@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logos Classeo - déclinaisons</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .checkerboard {
+      background-color: #f8fafc;
+      background-image: linear-gradient(45deg, #cbd5e1 25%, transparent 25%), linear-gradient(-45deg, #cbd5e1 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #cbd5e1 75%), linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen py-10 px-4 font-sans">
+<div class="max-w-6xl mx-auto space-y-8">
+
+  <!-- Header -->
+  <header class="text-center space-y-3 pb-6 border-b border-slate-800">
+    <h1 class="text-4xl font-extrabold tracking-tight text-white">Charte Graphique - Logos <span class="text-cyan-400">Classeo</span></h1>
+    <p class="text-slate-400 max-w-2xl mx-auto">
+      Retrouvez ci-dessous les 4 versions du logo pour votre plateforme scolaire. Téléchargez directement chaque version au format **PNG haute résolution** ou **SVG**.
+    </p>
+  </header>
+
+  <!-- Grid of Logos -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+    <!-- 1. LOGO PRINCIPAL (SANS SOUS-TITRE) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-direction flex-col justify-between shadow-xl">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <span class="px-3 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold rounded-full uppercase tracking-wider">01. Principal</span>
+          <span class="text-xs text-slate-400">Sans sous-titre</span>
+        </div>
+        <div id="container-logo-1" class="checkerboard rounded-xl p-8 flex items-center justify-center transition-colors duration-300">
+          <svg id="svg-logo-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" class="w-full h-auto max-h-36">
+            <defs>
+              <linearGradient id="grad-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1E3A8A" />
+                <stop offset="100%" stop-color="#06B6D4" />
+              </linearGradient>
+            </defs>
+            <!-- Icon -->
+            <g transform="translate(15, 10)">
+              <path d="M 85 22 C 50 22, 28 44, 28 70 C 28 96, 50 118, 85 118 C 106 118, 120 108, 126 92 L 106 92 C 101 100, 94 104, 84 104 C 62 104, 46 90, 46 70 C 46 50, 62 36, 84 36 C 94 36, 101 40, 106 48 L 126 48 C 120 32, 106 22, 85 22 Z" fill="url(#grad-blue)" />
+              <path d="M 68 70 L 80 82 L 106 54" fill="none" stroke="url(#grad-blue)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <!-- Text -->
+            <text x="160" y="88" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="56" fill="#1E3A8A" letter-spacing="-1.5">
+              Classe<tspan fill="#06B6D4">o</tspan>
+            </text>
+          </svg>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-2 justify-between items-center pt-4 border-t border-slate-700/50">
+        <button onclick="toggleBg('container-logo-1')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700">
+          <i class="fa-solid fa-circle-half-stroke"></i> Fond Sombre/Clair
+        </button>
+        <div class="flex gap-2">
+          <button onclick="downloadPNG('svg-logo-1', 'classeo-logo-principal.png')" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-download"></i> PNG
+          </button>
+          <button onclick="downloadSVG('svg-logo-1', 'classeo-logo-principal.svg')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-code"></i> SVG
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. PORTAIL ELEVE (BLEU / CYAN) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-direction flex-col justify-between shadow-xl">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <span class="px-3 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold rounded-full uppercase tracking-wider">02. Élève</span>
+          <span class="text-xs text-slate-400">Bleu / Cyan</span>
+        </div>
+        <div id="container-logo-2" class="checkerboard rounded-xl p-8 flex items-center justify-center transition-colors duration-300">
+          <svg id="svg-logo-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" class="w-full h-auto max-h-36">
+            <defs>
+              <linearGradient id="grad-eleve" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1E3A8A" />
+                <stop offset="100%" stop-color="#06B6D4" />
+              </linearGradient>
+            </defs>
+            <!-- Icon -->
+            <g transform="translate(15, 10)">
+              <path d="M 85 22 C 50 22, 28 44, 28 70 C 28 96, 50 118, 85 118 C 106 118, 120 108, 126 92 L 106 92 C 101 100, 94 104, 84 104 C 62 104, 46 90, 46 70 C 46 50, 62 36, 84 36 C 94 36, 101 40, 106 48 L 126 48 C 120 32, 106 22, 85 22 Z" fill="url(#grad-eleve)" />
+              <path d="M 68 70 L 80 82 L 106 54" fill="none" stroke="url(#grad-eleve)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <!-- Text -->
+            <text x="160" y="78" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#1E3A8A" letter-spacing="-1.5">
+              Classe<tspan fill="#06B6D4">o</tspan>
+            </text>
+            <text x="162" y="108" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="14" fill="#06B6D4" letter-spacing="3">
+              PORTAIL ÉLÈVE
+            </text>
+          </svg>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-2 justify-between items-center pt-4 border-t border-slate-700/50">
+        <button onclick="toggleBg('container-logo-2')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700">
+          <i class="fa-solid fa-circle-half-stroke"></i> Fond Sombre/Clair
+        </button>
+        <div class="flex gap-2">
+          <button onclick="downloadPNG('svg-logo-2', 'classeo-portail-eleve.png')" class="px-3.5 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-download"></i> PNG
+          </button>
+          <button onclick="downloadSVG('svg-logo-2', 'classeo-portail-eleve.svg')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-code"></i> SVG
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PORTAIL ENSEIGNANT (ROUGE / ROSE) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-direction flex-col justify-between shadow-xl">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <span class="px-3 py-1 bg-rose-500/10 text-rose-400 border border-rose-500/20 text-xs font-semibold rounded-full uppercase tracking-wider">03. Enseignant</span>
+          <span class="text-xs text-slate-400">Rouge / Carmin</span>
+        </div>
+        <div id="container-logo-3" class="checkerboard rounded-xl p-8 flex items-center justify-center transition-colors duration-300">
+          <svg id="svg-logo-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" class="w-full h-auto max-h-36">
+            <defs>
+              <linearGradient id="grad-enseignant" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#991B1B" />
+                <stop offset="100%" stop-color="#F43F5E" />
+              </linearGradient>
+            </defs>
+            <!-- Icon -->
+            <g transform="translate(15, 10)">
+              <path d="M 85 22 C 50 22, 28 44, 28 70 C 28 96, 50 118, 85 118 C 106 118, 120 108, 126 92 L 106 92 C 101 100, 94 104, 84 104 C 62 104, 46 90, 46 70 C 46 50, 62 36, 84 36 C 94 36, 101 40, 106 48 L 126 48 C 120 32, 106 22, 85 22 Z" fill="url(#grad-enseignant)" />
+              <path d="M 68 70 L 80 82 L 106 54" fill="none" stroke="url(#grad-enseignant)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <!-- Text -->
+            <text x="160" y="78" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#881337" letter-spacing="-1.5">
+              Classe<tspan fill="#E11D48">o</tspan>
+            </text>
+            <text x="162" y="108" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="14" fill="#E11D48" letter-spacing="2.5">
+              PORTAIL ENSEIGNANT
+            </text>
+          </svg>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-2 justify-between items-center pt-4 border-t border-slate-700/50">
+        <button onclick="toggleBg('container-logo-3')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700">
+          <i class="fa-solid fa-circle-half-stroke"></i> Fond Sombre/Clair
+        </button>
+        <div class="flex gap-2">
+          <button onclick="downloadPNG('svg-logo-3', 'classeo-portail-enseignant.png')" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-download"></i> PNG
+          </button>
+          <button onclick="downloadSVG('svg-logo-3', 'classeo-portail-enseignant.svg')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-code"></i> SVG
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. PORTAIL ADMINISTRATEUR (NOIR / ANTHRACITE) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-direction flex-col justify-between shadow-xl">
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <span class="px-3 py-1 bg-slate-500/10 text-slate-300 border border-slate-500/20 text-xs font-semibold rounded-full uppercase tracking-wider">04. Administrateur</span>
+          <span class="text-xs text-slate-400">Noir / Anthracite</span>
+        </div>
+        <div id="container-logo-4" class="checkerboard rounded-xl p-8 flex items-center justify-center transition-colors duration-300">
+          <svg id="svg-logo-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" class="w-full h-auto max-h-36">
+            <defs>
+              <linearGradient id="grad-admin" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0F172A" />
+                <stop offset="100%" stop-color="#475569" />
+              </linearGradient>
+            </defs>
+            <!-- Icon -->
+            <g transform="translate(15, 10)">
+              <path d="M 85 22 C 50 22, 28 44, 28 70 C 28 96, 50 118, 85 118 C 106 118, 120 108, 126 92 L 106 92 C 101 100, 94 104, 84 104 C 62 104, 46 90, 46 70 C 46 50, 62 36, 84 36 C 94 36, 101 40, 106 48 L 126 48 C 120 32, 106 22, 85 22 Z" fill="url(#grad-admin)" />
+              <path d="M 68 70 L 80 82 L 106 54" fill="none" stroke="url(#grad-admin)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <!-- Text -->
+            <text x="160" y="78" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="52" fill="#0F172A" letter-spacing="-1.5">
+              Classe<tspan fill="#334155">o</tspan>
+            </text>
+            <text x="162" y="108" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="14" fill="#475569" letter-spacing="2">
+              PORTAIL ADMINISTRATEUR
+            </text>
+          </svg>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-2 justify-between items-center pt-4 border-t border-slate-700/50">
+        <button onclick="toggleBg('container-logo-4')" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-700/50 hover:bg-slate-700">
+          <i class="fa-solid fa-circle-half-stroke"></i> Fond Sombre/Clair
+        </button>
+        <div class="flex gap-2">
+          <button onclick="downloadPNG('svg-logo-4', 'classeo-portail-administrateur.png')" class="px-3.5 py-2 bg-slate-600 hover:bg-slate-500 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-download"></i> PNG
+          </button>
+          <button onclick="downloadSVG('svg-logo-4', 'classeo-portail-administrateur.svg')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white text-xs font-semibold rounded-lg shadow flex items-center gap-2 transition">
+            <i class="fa-solid fa-code"></i> SVG
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Conversion Canvas Logic -->
+<script>
+  function toggleBg(containerId) {
+    const container = document.getElementById(containerId);
+    if (container.classList.contains('checkerboard')) {
+      container.classList.remove('checkerboard');
+      container.classList.add('bg-slate-950');
+    } else if (container.classList.contains('bg-slate-950')) {
+      container.classList.remove('bg-slate-950');
+      container.classList.add('bg-white');
+    } else {
+      container.classList.remove('bg-white');
+      container.classList.add('checkerboard');
+    }
+  }
+
+  function downloadSVG(svgId, filename) {
+    const svgEl = document.getElementById(svgId);
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svgEl);
+
+    if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+      source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
+
+  function downloadPNG(svgId, filename) {
+    const svgEl = document.getElementById(svgId);
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(svgEl);
+
+    const scale = 4; // High definition output
+    const width = 520 * scale;
+    const height = 140 * scale;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+
+    const img = new Image();
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(svgBlob);
+
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+
+      const imgURI = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.href = imgURI;
+      downloadLink.download = filename;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    };
+
+    img.src = url;
+  }
+</script>
+</body>
+</html>

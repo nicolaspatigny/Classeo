@@ -1,0 +1,158 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900">
+        Emploi du temps
+      </h1>
+
+      <p class="text-sm text-slate-500 mt-1">
+        {{ getWeekLabel() }}
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+
+      <button
+        type="button"
+        (click)="previousWeek()"
+        class="px-3 py-2 rounded-lg border border-slate-200
+               text-slate-600 hover:bg-slate-50"
+      >
+        ←
+      </button>
+
+      <button
+        type="button"
+        (click)="today()"
+        class="px-4 py-2 rounded-lg border border-slate-200
+               text-slate-600 hover:bg-slate-50"
+      >
+        Aujourd'hui
+      </button>
+
+      <button
+        type="button"
+        (click)="nextWeek()"
+        class="px-3 py-2 rounded-lg border border-slate-200
+               text-slate-600 hover:bg-slate-50"
+      >
+        →
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Calendrier -->
+  <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
+
+    <!-- Jours -->
+    <div class="calendar-grid border-b border-slate-200">
+
+      <div class="time-header"></div>
+
+      @for (jour of jours; track jour; let i = $index) {
+
+        <div class="day-header">
+
+          <span class="font-medium text-slate-700">
+            {{ jour }}
+          </span>
+
+          <span class="text-xs text-slate-400">
+            {{ formatDay(getDateForDay(i)) }}
+          </span>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- Corps -->
+    <div class="calendar-body">
+
+      <!-- Heures -->
+      <div class="time-column">
+
+        @for (heure of heures; track heure) {
+
+          <div class="time-slot">
+            {{ heure }}:00
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- Colonnes des jours -->
+      @for (jour of jours; track jour; let i = $index) {
+
+        <div class="day-column">
+
+          <!-- Lignes horaires -->
+          @for (heure of heures; track heure) {
+
+            <div class="hour-line"></div>
+
+          }
+
+
+          <!-- Séances -->
+          @for (
+            seance of getSeancesForDay(i);
+            track seance.seance.id
+            ) {
+
+            <div
+              class="seance"
+              [style.top.px]="getTop(seance.seance.heureDebut)"
+              [style.height.px]="getHeight(
+                seance.seance.heureDebut,
+                seance.seance.heureFin
+              )"
+            >
+
+              <div class="font-semibold text-cyan-900">
+                {{ seance.cours.nom }}
+              </div>
+
+              @if (seance.enseignants.length > 0) {
+                <div class="text-xs text-cyan-700 mt-1">
+                  @for (enseignant of seance.enseignants; track enseignant.id) {
+                      <span>
+                        {{ enseignant.prenom }} {{ enseignant.nom }}
+                      </span>
+                  }
+                </div>
+              }
+
+              <div class="text-xs text-cyan-700 mt-1">
+                {{ seance.seance.heureDebut }}
+                -
+                {{ seance.seance.heureFin }}
+              </div>
+
+              <div class="text-xs text-cyan-700 mt-1">
+                Salle {{ seance.seance.salle }}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

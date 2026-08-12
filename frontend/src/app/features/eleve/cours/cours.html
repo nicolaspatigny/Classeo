@@ -1,0 +1,75 @@
+<div class="space-y-6">
+
+  <!-- En-tête -->
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      Mes cours
+    </h1>
+
+    <p class="text-sm text-slate-500 mt-1">
+      Liste des cours auxquels vous êtes inscrit.
+    </p>
+  </div>
+
+
+  <!-- Liste des cours -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    @for (item of cours(); track item.cours.id) {
+
+      <div
+        class="bg-white border border-slate-200
+         border-l-4 border-l-[#06B6D4]
+         rounded-xl p-5
+         hover:shadow-md transition-shadow"
+      >
+
+        <h2 class="font-semibold text-slate-900">
+          {{ item.cours.nom }}
+        </h2>
+
+
+        @if (item.enseignants.length > 0) {
+
+          <div class="mt-3">
+
+            <p class="text-xs text-slate-400 uppercase">
+              Enseignant
+            </p>
+
+            @for (
+              enseignant of item.enseignants;
+              track enseignant.id
+              ) {
+
+              <p class="text-sm text-slate-600">
+                {{ enseignant.prenom }}
+                {{ enseignant.nom }}
+              </p>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- Aucun cours -->
+  @if (cours().length === 0) {
+
+    <div
+      class="bg-white border border-slate-200 rounded-xl
+             p-8 text-center text-slate-500"
+    >
+      Aucun cours trouvé.
+    </div>
+
+  }
+
+</div>

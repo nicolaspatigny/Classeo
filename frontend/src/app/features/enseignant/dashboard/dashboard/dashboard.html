@@ -1,0 +1,64 @@
+<div class="space-y-8">
+
+  <!-- Bienvenue -->
+  <div>
+    <h1 class="text-3xl font-semibold text-[#881337]">
+      Bonjour {{ nomEnseignant() }}
+    </h1>
+
+    <p class="mt-2 text-slate-600">
+      Bienvenue sur votre portail enseignant.
+    </p>
+  </div>
+
+
+  <!-- Statistiques -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Cours -->
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+      <p class="text-sm text-slate-500">
+        Mes cours
+      </p>
+
+      <p class="mt-2 text-3xl font-semibold text-[#881337]">
+        {{ nombreCours() }}
+      </p>
+    </div>
+
+
+    <!-- Calendrier -->
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+      <p class="text-sm text-slate-500">
+        Calendrier
+      </p>
+
+      <p class="mt-2 text-lg font-medium text-slate-700">
+        Consulter mes séances
+      </p>
+    </div>
+
+
+    <!-- Promotions -->
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+      <p class="text-sm text-slate-500">
+        Promotions
+      </p>
+
+      <p class="mt-2 text-lg font-medium text-slate-700">
+        Voir mes promotions
+      </p>
+    </div>
+
+  </div>
+
+</div>

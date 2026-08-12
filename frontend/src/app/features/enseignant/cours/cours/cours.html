@@ -1,0 +1,577 @@
+<div class="space-y-6">
+
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE -->
+  <!-- ========================================================= -->
+
+  <div class="flex items-center justify-between">
+
+    <div>
+      <h1
+        class="text-2xl font-semibold text-[#881337]"
+      >
+        Mes cours
+      </h1>
+
+      <p class="mt-1 text-slate-500">
+        Consultez les cours auxquels vous êtes associé.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      (click)="ouvrirFormulaire()"
+      class="px-4 py-2 rounded-lg
+             bg-[#E11D48]
+             text-white font-medium
+             hover:bg-[#BE123C]
+             transition-colors"
+    >
+      + Créer un cours
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- FORMULAIRE DE CRÉATION D'UN COURS -->
+  <!-- ========================================================= -->
+
+  @if (formulaireOuvert()) {
+
+    <div
+      class="bg-white rounded-xl
+             border border-slate-200
+             shadow-sm p-6"
+    >
+
+      <h2
+        class="text-lg font-semibold
+               text-slate-800 mb-5"
+      >
+        Créer un cours
+      </h2>
+
+
+      <form
+        [formGroup]="coursForm"
+        (ngSubmit)="creerCours()"
+        class="space-y-5"
+      >
+
+        <!-- Nom du cours -->
+        <div>
+
+          <label
+            for="nom"
+            class="block text-sm font-medium
+                   text-slate-700 mb-1"
+          >
+            Nom du cours
+          </label>
+
+          <input
+            id="nom"
+            type="text"
+            formControlName="nom"
+            placeholder="Ex : Architecture Web"
+            class="w-full px-4 py-2
+                   border border-slate-300
+                   rounded-lg
+                   focus:outline-none
+                   focus:ring-2
+                   focus:ring-[#E11D48]"
+          >
+
+          @if (
+            coursForm.controls.nom.touched &&
+            coursForm.controls.nom.hasError('required')
+            ) {
+
+            <p class="mt-1 text-sm text-red-600">
+              Le nom du cours est requis.
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- Promotion -->
+        <div>
+
+          <label
+            for="promotion"
+            class="block text-sm font-medium
+                   text-slate-700 mb-1"
+          >
+            Promotion
+          </label>
+
+          <select
+            id="promotion"
+            formControlName="promotionId"
+            class="w-full px-4 py-2
+                   border border-slate-300
+                   rounded-lg
+                   bg-white
+                   focus:outline-none
+                   focus:ring-2
+                   focus:ring-[#E11D48]"
+          >
+
+            <option [ngValue]="null">
+              Sélectionner une promotion
+            </option>
+
+            @for (
+              promotion of promotions();
+              track promotion.id
+              ) {
+
+              <option
+                [ngValue]="promotion.id"
+              >
+                {{ promotion.nom }}
+              </option>
+
+            }
+
+          </select>
+
+          @if (
+            coursForm.controls.promotionId.touched &&
+            coursForm.controls.promotionId.hasError('required')
+            ) {
+
+            <p class="mt-1 text-sm text-red-600">
+              La promotion est requise.
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- Actions -->
+        <div
+          class="flex justify-end gap-3 pt-2"
+        >
+
+          <button
+            type="button"
+            (click)="fermerFormulaire()"
+            class="px-4 py-2 rounded-lg
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
+          >
+            Annuler
+          </button>
+
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-lg
+                   bg-[#E11D48]
+                   text-white font-medium
+                   hover:bg-[#BE123C]
+                   transition-colors"
+          >
+            Créer
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- LISTE DES COURS -->
+  <!-- ========================================================= -->
+
+  @if (cours().length > 0) {
+
+    <div
+      class="grid gap-4
+             sm:grid-cols-2
+             lg:grid-cols-3"
+    >
+
+      @for (
+        item of cours();
+        track item.cours.id
+        ) {
+
+        <!-- =================================================== -->
+          <!-- CARTE DU COURS -->
+          <!-- =================================================== -->
+
+        <div
+          class="bg-white rounded-xl
+                 border border-slate-200
+                 shadow-sm
+                 p-5
+                 hover:shadow-md
+                 transition-shadow"
+        >
+
+          <!-- Nom du cours -->
+          <h2
+            class="text-lg font-semibold
+                   text-slate-800"
+          >
+            {{ item.cours.nom }}
+          </h2>
+
+
+          <!-- Promotions -->
+          <div class="mt-4">
+
+            <p
+              class="text-sm font-medium
+                     text-slate-500 mb-2"
+            >
+              Promotions
+            </p>
+
+
+            @if (
+              item.promotions.length === 0
+              ) {
+
+              <p
+                class="text-sm text-slate-400"
+              >
+                Aucune promotion associée
+              </p>
+
+            } @else {
+
+              <div
+                class="flex flex-wrap gap-2"
+              >
+
+                @for (
+                  promotion of item.promotions;
+                  track promotion.id
+                  ) {
+
+                  <span
+                    class="inline-flex
+                           items-center
+                           px-3 py-1
+                           rounded-full
+                           text-sm
+                           bg-rose-100
+                           text-[#881337]"
+                  >
+                    {{ promotion.nom }}
+                  </span>
+
+                }
+
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- ACTIONS DU COURS -->
+          <!-- ================================================= -->
+
+          <div
+            class="mt-5 pt-4
+                   border-t border-slate-100"
+          >
+
+            <button
+              type="button"
+              (click)="ouvrirFormulaireSeance(item.cours.id)"
+              class="w-full px-4 py-2
+                     rounded-lg
+                     bg-[#E11D48]
+                     text-white
+                     font-medium
+                     hover:bg-[#BE123C]
+                     transition-colors"
+            >
+              + Ajouter une séance
+            </button>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- FORMULAIRE DE SÉANCE -->
+          <!-- ================================================= -->
+
+          @if (
+            formulaireSeanceOuvert() &&
+            coursSelectionneId() === item.cours.id
+            ) {
+
+            <div
+              class="mt-5 pt-5
+                     border-t border-slate-200"
+            >
+
+              <h3
+                class="text-base font-semibold
+                       text-slate-800 mb-4"
+              >
+                Nouvelle séance
+              </h3>
+
+
+              <form
+                [formGroup]="seanceForm"
+                (ngSubmit)="creerSeance()"
+                class="space-y-4"
+              >
+
+                <!-- Date -->
+                <div>
+
+                  <label
+                    for="date"
+                    class="block text-sm
+                           font-medium
+                           text-slate-700 mb-1"
+                  >
+                    Date
+                  </label>
+
+                  <input
+                    id="date"
+                    type="date"
+                    formControlName="date"
+                    class="w-full px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-[#E11D48]"
+                  >
+
+                  @if (
+                    seanceForm.controls.date.touched &&
+                    seanceForm.controls.date.hasError('required')
+                    ) {
+
+                    <p
+                      class="mt-1 text-sm
+                             text-red-600"
+                    >
+                      La date est requise.
+                    </p>
+
+                  }
+
+                </div>
+
+
+                <!-- Heure de début -->
+                <div>
+
+                  <label
+                    for="heureDebut"
+                    class="block text-sm
+                           font-medium
+                           text-slate-700 mb-1"
+                  >
+                    Heure de début
+                  </label>
+
+                  <input
+                    id="heureDebut"
+                    type="time"
+                    formControlName="heureDebut"
+                    class="w-full px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-[#E11D48]"
+                  >
+
+                  @if (
+                    seanceForm.controls.heureDebut.touched &&
+                    seanceForm.controls.heureDebut.hasError('required')
+                    ) {
+
+                    <p
+                      class="mt-1 text-sm
+                             text-red-600"
+                    >
+                      L'heure de début est requise.
+                    </p>
+
+                  }
+
+                </div>
+
+
+                <!-- Heure de fin -->
+                <div>
+
+                  <label
+                    for="heureFin"
+                    class="block text-sm
+                           font-medium
+                           text-slate-700 mb-1"
+                  >
+                    Heure de fin
+                  </label>
+
+                  <input
+                    id="heureFin"
+                    type="time"
+                    formControlName="heureFin"
+                    class="w-full px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-[#E11D48]"
+                  >
+
+                  @if (
+                    seanceForm.controls.heureFin.touched &&
+                    seanceForm.controls.heureFin.hasError('required')
+                    ) {
+
+                    <p
+                      class="mt-1 text-sm
+                             text-red-600"
+                    >
+                      L'heure de fin est requise.
+                    </p>
+
+                  }
+
+                </div>
+
+
+                <!-- Salle -->
+                <div>
+
+                  <label
+                    for="salle"
+                    class="block text-sm
+                           font-medium
+                           text-slate-700 mb-1"
+                  >
+                    Salle
+                  </label>
+
+                  <input
+                    id="salle"
+                    type="text"
+                    formControlName="salle"
+                    placeholder="Ex : B204"
+                    class="w-full px-3 py-2
+                           border border-slate-300
+                           rounded-lg
+                           focus:outline-none
+                           focus:ring-2
+                           focus:ring-[#E11D48]"
+                  >
+
+                  @if (
+                    seanceForm.controls.salle.touched &&
+                    seanceForm.controls.salle.hasError('required')
+                    ) {
+
+                    <p
+                      class="mt-1 text-sm
+                             text-red-600"
+                    >
+                      La salle est requise.
+                    </p>
+
+                  }
+
+                </div>
+
+
+                <!-- Actions séance -->
+                <div
+                  class="flex justify-end
+                         gap-2 pt-2"
+                >
+                  @if (erreurSeance()) {
+
+                    <p class="text-sm text-red-600">
+                      {{ erreurSeance() }}
+                    </p>
+
+                  }
+                  <button
+                    type="button"
+                    (click)="fermerFormulaireSeance()"
+                    class="px-3 py-2
+                           rounded-lg
+                           text-slate-600
+                           hover:bg-slate-100
+                           transition-colors"
+                  >
+                    Annuler
+                  </button>
+
+                  <button
+                    type="submit"
+                    class="px-3 py-2
+                           rounded-lg
+                           bg-[#E11D48]
+                           text-white
+                           font-medium
+                           hover:bg-[#BE123C]
+                           transition-colors"
+                  >
+                    Créer
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- AUCUN COURS -->
+  <!-- ========================================================= -->
+
+  @if (cours().length === 0) {
+
+    <div
+      class="bg-white rounded-xl
+             border border-slate-200
+             p-8 text-center"
+    >
+
+      <p class="text-slate-500">
+        Aucun cours ne vous est actuellement associé.
+      </p>
+
+    </div>
+
+  }
+
+</div>

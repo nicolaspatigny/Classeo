@@ -19,7 +19,7 @@ public class InscriptionCours {
     private InscriptionCoursPK id = new InscriptionCoursPK();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("eleveId")
+    @MapsId("eleveId")  //la relation utilise eleveId de la clef InscriptionCoursPK
     @JoinColumn(name = "eleve_id")
     private Eleve eleve;
 

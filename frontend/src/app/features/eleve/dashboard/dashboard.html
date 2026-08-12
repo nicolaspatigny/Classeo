@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-slate-50 p-8">
+
+  @if (dashboard(); as data) {
+
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold text-slate-900">
+        Bonjour {{ data.user.prenom }} 👋
+      </h1>
+
+      <p class="mt-2 text-slate-500">
+        Bienvenue sur ton espace élève.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-slate-900">
+          Promotion
+        </h2>
+
+        <p class="mt-2 text-slate-500">
+          {{ data.promotion?.nom ?? 'Inconnue' }}
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-slate-900">
+          Filière
+        </h2>
+
+        <p class="mt-2 text-slate-500">
+          {{ data.filiere?.nom ?? 'Inconnue' }}
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-slate-900">
+          Cursus
+        </h2>
+
+        <p class="mt-2 text-slate-500">
+          {{ data.cursus?.nom ?? 'Inconnu' }}
+        </p>
+      </div>
+
+    </div>
+
+  } @else {
+
+    <p class="text-slate-500">
+      Chargement...
+    </p>
+
+  }
+</div>
