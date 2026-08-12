@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 
 import { NotesEleveService } from '../../../core/services/note-eleve';
 import { NoteCours } from '../../../models/note-cours';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-notes',
@@ -15,21 +16,28 @@ export class Notes {
     NotesEleveService
   );
 
+  private readonly authService = inject(
+    AuthService
+  );
+
   notesCours = signal<NoteCours[]>([]);
 
-  constructor() {
-    this.chargerNotes();
-  }
+  ngOnInit(): void {
 
-  private chargerNotes(): void {
+    const user = this.authService.getCurrentUser();
 
-    const eleveId = 1;
+    if (!user) {
+      return;
+    }
 
     this.notesEleveService
-      .getNotesEleve(eleveId)
+      .getNotesEleve(user.id)
       .subscribe(notesCours => {
 
-        console.log('Notes reçues :', notesCours);
+        console.log(
+          'Notes reçues :',
+          notesCours
+        );
 
         this.notesCours.set(notesCours);
 

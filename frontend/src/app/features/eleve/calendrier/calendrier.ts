@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 
 import { EmploiDuTempsService } from '../../../core/services/emploi-du-temps';
 import { SeanceCalendrier } from '../../../models/seance-calendrier';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-calendrier',
@@ -13,6 +14,10 @@ export class Calendrier {
 
   private readonly emploiDuTempsService = inject(
     EmploiDuTempsService
+  );
+
+  private readonly authService = inject(
+    AuthService
   );
 
   seances = signal<SeanceCalendrier[]>([]);
@@ -32,20 +37,36 @@ export class Calendrier {
     (_, index) => index + 8
   );
 
-  constructor() {
+  ngOnInit(): void {
     this.chargerSeances();
   }
 
   private chargerSeances(): void {
 
-    const eleveId = 1;
-    const promotionId = 2;
+    const user = this.authService.getCurrentUser();
+
+    if (!user) {
+      return;
+    }
+
+    if (user.promotionId === undefined) {
+      console.error(
+        'L\'élève ne possède aucune promotion.'
+      );
+      return;
+    }
 
     this.emploiDuTempsService
-      .getEmploiDuTemps(eleveId, promotionId)
+      .getEmploiDuTemps(
+        user.id,
+        user.promotionId
+      )
       .subscribe(seances => {
 
-        console.log('Séances reçues :', seances);
+        console.log(
+          'Séances reçues :',
+          seances
+        );
 
         this.seances.set(seances);
 
@@ -77,7 +98,9 @@ export class Calendrier {
 
   getDateForDay(index: number): Date {
 
-    const date = new Date(this.semaineActuelle);
+    const date = new Date(
+      this.semaineActuelle
+    );
 
     date.setDate(
       date.getDate() + index
@@ -86,20 +109,27 @@ export class Calendrier {
     return date;
   }
 
-  getSeancesForDay(index: number): SeanceCalendrier[] {
+  getSeancesForDay(
+    index: number
+  ): SeanceCalendrier[] {
 
-    const date = this.getDateForDay(index);
+    const date =
+      this.getDateForDay(index);
 
-    const dateString = this.formatDate(date);
+    const dateString =
+      this.formatDate(date);
 
     return this.seances().filter(
-      item => item.seance.date === dateString
+      item =>
+        item.seance.date === dateString
     );
   }
 
   previousWeek(): void {
 
-    const date = new Date(this.semaineActuelle);
+    const date = new Date(
+      this.semaineActuelle
+    );
 
     date.setDate(
       date.getDate() - 7
@@ -110,7 +140,9 @@ export class Calendrier {
 
   nextWeek(): void {
 
-    const date = new Date(this.semaineActuelle);
+    const date = new Date(
+      this.semaineActuelle
+    );
 
     date.setDate(
       date.getDate() + 7
@@ -127,7 +159,8 @@ export class Calendrier {
 
   private formatDate(date: Date): string {
 
-    const year = date.getFullYear();
+    const year =
+      date.getFullYear();
 
     const month = String(
       date.getMonth() + 1
@@ -153,38 +186,48 @@ export class Calendrier {
 
   getWeekLabel(): string {
 
-    const debut = this.semaineActuelle;
+    const debut =
+      this.semaineActuelle;
 
-    const fin = new Date(debut);
+    const fin =
+      new Date(debut);
 
     fin.setDate(
       fin.getDate() + 4
     );
 
-    const debutLabel = debut.toLocaleDateString(
-      'fr-FR',
-      {
-        day: 'numeric',
-        month: 'long'
-      }
-    );
+    const debutLabel =
+      debut.toLocaleDateString(
+        'fr-FR',
+        {
+          day: 'numeric',
+          month: 'long'
+        }
+      );
 
-    const finLabel = fin.toLocaleDateString(
-      'fr-FR',
-      {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      }
-    );
+    const finLabel =
+      fin.toLocaleDateString(
+        'fr-FR',
+        {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }
+      );
 
     return `${debutLabel} → ${finLabel}`;
   }
 
-  getTop(heureDebut: string): number {
+  getTop(
+    heureDebut: string
+  ): number {
 
-    const [hours, minutes] =
-      heureDebut.split(':').map(Number);
+    const [
+      hours,
+      minutes
+    ] = heureDebut
+      .split(':')
+      .map(Number);
 
     return (
       (hours - 8) * 80
@@ -197,11 +240,19 @@ export class Calendrier {
     heureFin: string
   ): number {
 
-    const [startHour, startMinute] =
-      heureDebut.split(':').map(Number);
+    const [
+      startHour,
+      startMinute
+    ] = heureDebut
+      .split(':')
+      .map(Number);
 
-    const [endHour, endMinute] =
-      heureFin.split(':').map(Number);
+    const [
+      endHour,
+      endMinute
+    ] = heureFin
+      .split(':')
+      .map(Number);
 
     const start =
       startHour * 60 + startMinute;
