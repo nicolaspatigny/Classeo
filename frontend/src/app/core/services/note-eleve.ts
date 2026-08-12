@@ -1,10 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { forkJoin, map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 import { NoteService } from './note';
 import { CoursService } from './cours';
 
 import { NoteCours } from '../../models/note-cours';
+import {API_URL} from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ export class NotesEleveService {
 
   private readonly noteService = inject(NoteService);
   private readonly coursService = inject(CoursService);
+  private readonly http = inject(HttpClient);
 
   getNotesEleve(eleveId: number): Observable<NoteCours[]> {
 
@@ -53,5 +56,18 @@ export class NotesEleveService {
         return result;
       })
     );
+  }
+
+  createNote(request: {
+    eleveId: number;
+    coursId: number;
+    note: number;
+  }): Observable<NoteCours> {
+
+    return this.http.post<NoteCours>(
+      `${API_URL}/api/notes`,
+      request
+    );
+
   }
 }

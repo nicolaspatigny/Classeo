@@ -1,5 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import {forkJoin, map, Observable, of, switchMap} from 'rxjs';
+import {
+  forkJoin,
+  map,
+  Observable,
+  of,
+  switchMap
+} from 'rxjs';
 
 import { UserService } from './user';
 import { PromotionService } from './promotion';
@@ -7,52 +13,113 @@ import { FiliereService } from './filiere';
 import { CursusService } from './cursus';
 
 import { EleveDashboard } from '../../models/eleve-dashboard';
+import { User } from '../../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EleveService {
 
-  private readonly userService = inject(UserService);
-  private readonly promotionService = inject(PromotionService);
-  private readonly filiereService = inject(FiliereService);
-  private readonly cursusService = inject(CursusService);
+  private readonly userService =
+    inject(UserService);
 
-  getDashboard(userId: number): Observable<EleveDashboard | undefined> {
+  private readonly promotionService =
+    inject(PromotionService);
 
-    return this.userService.getUserById(userId).pipe(
+  private readonly filiereService =
+    inject(FiliereService);
 
-      switchMap(user => {
+  private readonly cursusService =
+    inject(CursusService);
 
-        if (!user) {
-          return of(undefined);
-        }
 
-        if (
-          user.promotionId === undefined ||
-          user.filiereId === undefined ||
-          user.cursusId === undefined
-        ) {
-          return of({
-            user
-          });
-        }
+  getDashboard(
+    userId: number
+  ): Observable<EleveDashboard | undefined> {
 
-        return forkJoin({
-          promotion: this.promotionService.getPromotionById(user.promotionId),
-          filiere: this.filiereService.getFiliereById(user.filiereId),
-          cursus: this.cursusService.getCursusById(user.cursusId)
-        }).pipe(
+    return this.userService
+      .getUserById(userId)
+      .pipe(
 
-          map(result => ({
-            user,
-            promotion: result.promotion,
-            filiere: result.filiere,
-            cursus: result.cursus
-          }))
+        switchMap(user => {
 
-        );
-      })
-    );
+          if (!user) {
+            return of(undefined);
+          }
+
+          if (
+            user.promotionId === undefined ||
+            user.filiereId === undefined ||
+            user.cursusId === undefined
+          ) {
+
+            return of({
+              user
+            });
+
+          }
+
+          return forkJoin({
+
+            promotion:
+              this.promotionService
+                .getPromotionById(
+                  user.promotionId
+                ),
+
+            filiere:
+              this.filiereService
+                .getFiliereById(
+                  user.filiereId
+                ),
+
+            cursus:
+              this.cursusService
+                .getCursusById(
+                  user.cursusId
+                )
+
+          }).pipe(
+
+            map(result => ({
+
+              user,
+
+              promotion:
+              result.promotion,
+
+              filiere:
+              result.filiere,
+
+              cursus:
+              result.cursus
+
+            }))
+
+          );
+
+        })
+
+      );
+
   }
+
+
+  getElevesByPromotion(
+    promotionId: number
+  ): Observable<User[]> {
+
+    return this.userService
+      .getUsers()
+      .pipe(
+        map(users =>
+          users.filter(
+            user =>
+              user.promotionId === promotionId
+          )
+        )
+      );
+
+  }
+
 }

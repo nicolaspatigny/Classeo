@@ -18,6 +18,8 @@ import {EnseignantLayout} from './features/enseignant/layout/enseignant-layout/e
 import {EnseignantDashboard} from './features/enseignant/dashboard/dashboard/dashboard';
 import {EnseignantCalendrier} from './features/enseignant/calendrier/calendrier/calendrier';
 import {Promotions} from './features/enseignant/promotion/promotion/promotion';
+import {CoursEnseignants} from './features/enseignant/cours/cours/cours';
+import {NotesEnseignant} from './features/enseignant/notes/notes/notes';
 
 // ---------------- //
 
@@ -92,6 +94,14 @@ export const routes: Routes = [
       {
         path: 'promotion',
         component: Promotions
+      },
+      {
+        path: 'cours',
+        component: CoursEnseignants
+      },
+      {
+        path: 'notes',
+        component: NotesEnseignant
       },
       {
         path: '',

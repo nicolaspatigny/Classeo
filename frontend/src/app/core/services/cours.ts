@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Cours } from '../../models/cours';
+import {API_URL} from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -16,4 +17,17 @@ export class CoursService {
   getCours(): Observable<Cours[]> {
     return this.http.get<Cours[]>(this.url);
   }
+
+  createCours(request: {
+    nom: string;
+    promotionId: number;
+  }): Observable<Cours> {
+
+    return this.http.post<Cours>(
+      `${API_URL}/api/cours`,
+      request
+    );
+
+  }
+
 }
