@@ -1,0 +1,17 @@
+package fr.eni.classeo.dto;
+
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginRequest(
+
+        @NotBlank(message = "Le login est obligatoire")
+        String login,
+
+        @NotBlank(message = "Le mot de passe est obligatoire")
+        String password,
+
+        @NotBlank(message = "Le type d'utilisateur est obligatoire")
+        String userType
+
+) {
+}
