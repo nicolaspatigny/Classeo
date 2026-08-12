@@ -1,0 +1,18 @@
+[
+  {
+    "coursId": 1,
+    "promotionId": 2
+  },
+  {
+    "coursId": 2,
+    "promotionId": 2
+  },
+  {
+    "coursId": 3,
+    "promotionId": 3
+  },
+  {
+    "coursId": 4,
+    "promotionId": 3
+  }
+]

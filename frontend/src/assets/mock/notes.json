@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "eleveId": 1,
+    "coursId": 1,
+    "note": 15.5
+  },
+  {
+    "id": 2,
+    "eleveId": 1,
+    "coursId": 2,
+    "note": 12
+  },
+  {
+    "id": 3,
+    "eleveId": 1,
+    "coursId": 3,
+    "note": 17.5
+  },
+  {
+    "id": 4,
+    "eleveId": 2,
+    "coursId": 3,
+    "note": 14.5
+  },
+  {
+    "id": 5,
+    "eleveId": 2,
+    "coursId": 4,
+    "note": 16
+  },
+  {
+    "id": 6,
+    "eleveId": 2,
+    "coursId": 1,
+    "note": 11
+  }
+]

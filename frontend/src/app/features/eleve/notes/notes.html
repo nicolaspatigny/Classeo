@@ -1,0 +1,80 @@
+<div class="space-y-6">
+
+  <!-- En-tête -->
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900">
+      Mes notes
+    </h1>
+
+    <p class="text-sm text-slate-500 mt-1">
+      Retrouvez l'ensemble de vos notes.
+    </p>
+  </div>
+
+
+  <!-- Liste des cours -->
+  <div class="space-y-4">
+
+    @for (item of notesCours(); track item.cours.id) {
+
+      <div
+        class="bg-white border border-slate-200 rounded-xl overflow-hidden"
+      >
+
+        <!-- En-tête du cours -->
+        <div
+          class="px-5 py-4 bg-slate-50 border-b border-slate-200
+                 flex items-center justify-between"
+        >
+
+          <h2 class="font-semibold text-[#1E3A8A]">
+            {{ item.cours.nom }}
+          </h2>
+
+        </div>
+
+
+        <!-- Liste des notes -->
+        <div>
+
+          @for (note of item.notes; track note.id) {
+
+            <div
+              class="px-5 py-4 flex items-center justify-between
+                     border-b border-slate-100 last:border-b-0"
+            >
+
+              <span class="text-sm text-slate-600">
+                Évaluation {{ note.id }}
+              </span>
+
+              <span class="font-semibold text-slate-900">
+                {{ note.note }} / 20
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- Aucune note -->
+  @if (notesCours().length === 0) {
+
+    <div
+      class="bg-white border border-slate-200 rounded-xl
+             p-8 text-center text-slate-500"
+    >
+      Aucune note disponible.
+    </div>
+
+  }
+
+</div>
