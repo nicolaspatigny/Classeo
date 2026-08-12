@@ -13,11 +13,11 @@
     "id": 2,
     "nom": "Martin",
     "prenom": "Thomas",
-    "dateNaissance": "2001-09-23",
+    "dateNaissance": "2003-09-21",
     "role": "ELEVE",
-    "filiereId": 2,
+    "filiereId": 1,
     "cursusId": 2,
-    "promotionId": 1
+    "promotionId": 2
   },
   {
     "id": 3,

@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "login": "alice.dupont",
+    "password": "password",
+    "userType": "ELEVE"
+  },
+  {
+    "id": 2,
+    "userId": 2,
+    "login": "thomas.martin",
+    "password": "password",
+    "userType": "ELEVE"
+  }
+]

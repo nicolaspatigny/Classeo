@@ -148,6 +148,16 @@
           }
         </div>
 
+        <!-- Erreur -->
+        @if (errorMessage) {
+
+          <p class="text-sm text-red-600 text-center">
+            {{ errorMessage }}
+          </p>
+
+        }
+
+        <!-- Bouton -->
         <button
           type="submit"
           class="w-full py-2.5 rounded-lg text-white font-medium
@@ -157,7 +167,7 @@
          focus:outline-none focus:ring-2 focus:ring-offset-2"
           [style.background-color]="currentTheme.primary"
         >
-          Connexion
+          {{ loading ? 'Connexion...' : 'Connexion' }}
         </button>
 
       </form>

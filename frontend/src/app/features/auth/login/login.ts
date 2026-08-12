@@ -1,5 +1,13 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
+import { AuthService } from '../../../core/services/auth';
 
 type Portal = 'ELEVE' | 'ENSEIGNANT' | 'ADMIN';
 
@@ -19,9 +27,16 @@ interface PortalTheme {
 })
 export class LoginComponent {
 
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
   selectedPortal: Portal = 'ELEVE';
 
+  errorMessage = '';
+  loading = false;
+
   themes: Record<Portal, PortalTheme> = {
+
     ELEVE: {
       name: 'Élève',
       primary: '#06B6D4',
@@ -42,9 +57,11 @@ export class LoginComponent {
       dark: '#0F172A',
       logo: 'assets/images/classeo-portail-administrateur.png'
     }
+
   };
 
   loginForm = new FormGroup({
+
     username: new FormControl('', {
       nonNullable: true,
       validators: [
@@ -58,23 +75,114 @@ export class LoginComponent {
         Validators.required
       ]
     })
+
   });
 
+
   selectPortal(portal: Portal): void {
+
     this.selectedPortal = portal;
+
+    this.errorMessage = '';
   }
+
 
   get currentTheme(): PortalTheme {
     return this.themes[this.selectedPortal];
   }
 
+
   onSubmit(): void {
+
     if (this.loginForm.invalid) {
+
       this.loginForm.markAllAsTouched();
+
       return;
     }
 
-    console.log(this.loginForm.value);
-    console.log('Portail :', this.selectedPortal);
+    this.errorMessage = '';
+    this.loading = true;
+
+    const username =
+      this.loginForm.controls.username.value;
+
+    const password =
+      this.loginForm.controls.password.value;
+
+    const userType = this.getUserType();
+
+
+    this.authService
+      .login(
+        username,
+        password,
+        userType
+      )
+      .subscribe({
+
+        next: response => {
+
+          console.log(
+            'Connexion réussie :',
+            response
+          );
+
+          this.loading = false;
+
+          switch (response.user.role) {
+
+            case 'ELEVE':
+              this.router.navigate(['/eleve']);
+              break;
+
+            case 'ENSEIGNANT':
+              this.router.navigate(['/enseignant']);
+              break;
+
+            case 'ADMIN':
+              this.router.navigate(['/administrateur']);
+              break;
+
+            default:
+              this.errorMessage =
+                'Rôle utilisateur inconnu.';
+          }
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur de connexion :',
+            error
+          );
+
+          this.loading = false;
+
+          this.errorMessage =
+            'Identifiant, mot de passe ou portail incorrect.';
+        }
+
+      });
   }
+
+
+  private getUserType():
+    'ELEVE' |
+    'ENSEIGNANT' |
+    'ADMINISTRATEUR' {
+
+    switch (this.selectedPortal) {
+
+      case 'ELEVE':
+        return 'ELEVE';
+
+      case 'ENSEIGNANT':
+        return 'ENSEIGNANT';
+
+      case 'ADMIN':
+        return 'ADMINISTRATEUR';
+    }
+  }
+
 }
