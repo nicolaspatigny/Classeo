@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -48,4 +50,8 @@ public class CoursPlanifie {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formateur_id", nullable = false)
     private Formateur formateur;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "coursPlanifie", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private  List<InscriptionCours> inscriptionCours = new ArrayList<>();
 }
