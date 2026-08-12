@@ -96,4 +96,64 @@ export class EmploiDuTempsService {
       })
     );
   }
+
+  getEmploiDuTempsEnseignant(
+    enseignantId: number
+  ): Observable<SeanceCalendrier[]> {
+
+    return forkJoin({
+      cours: this.coursService.getCours(),
+      coursEnseignants:
+        this.coursEnseignantService.getCoursEnseignants(),
+      seances: this.seanceService.getSeances()
+    }).pipe(
+
+      map(data => {
+
+        const coursIds = data.coursEnseignants
+          .filter(
+            relation =>
+              relation.enseignantId === enseignantId
+          )
+          .map(
+            relation => relation.coursId
+          );
+
+        const coursEnseignant = data.cours
+          .filter(
+            cours =>
+              coursIds.includes(cours.id)
+          );
+
+        return data.seances
+          .filter(
+            seance =>
+              coursIds.includes(seance.coursId)
+          )
+          .map(seance => {
+
+            const cours =
+              coursEnseignant.find(
+                cours =>
+                  cours.id === seance.coursId
+              );
+
+            if (!cours) {
+              return undefined;
+            }
+
+            return {
+              seance,
+              cours
+            };
+          })
+          .filter(
+            (
+              item
+            ): item is SeanceCalendrier =>
+              item !== undefined
+          );
+      })
+    );
+  }
 }

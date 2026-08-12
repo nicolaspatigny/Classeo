@@ -83,7 +83,7 @@ export class CoursInscritService {
 
 
           /*
-           * Récupération des enseignants du cours.
+           * Récupération des enseignant du cours.
            */
           const enseignants = data.coursEnseignants
             .filter(

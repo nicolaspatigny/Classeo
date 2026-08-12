@@ -14,6 +14,10 @@ import { Dashboard } from './features/eleve/dashboard/dashboard';
 import { Cours } from './features/eleve/cours/cours';
 import { Notes } from './features/eleve/notes/notes';
 import { Calendrier } from './features/eleve/calendrier/calendrier';
+import {EnseignantLayout} from './features/enseignant/layout/enseignant-layout/enseignant-layout';
+import {EnseignantDashboard} from './features/enseignant/dashboard/dashboard/dashboard';
+import {EnseignantCalendrier} from './features/enseignant/calendrier/calendrier/calendrier';
+import {Promotions} from './features/enseignant/promotion/promotion/promotion';
 
 // ---------------- //
 
@@ -29,11 +33,6 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
-  },
-
-  {
-    path: 'test-users',
-    component: TestUsersComponent
   },
 
   {
@@ -71,6 +70,34 @@ export const routes: Routes = [
         pathMatch: 'full'
       }
 
+    ]
+  },
+
+  {
+    path: 'enseignant',
+    component: EnseignantLayout,
+    canActivate: [
+      authGuard,
+      roleGuard('ENSEIGNANT')
+    ],
+    children: [
+      {
+        path: 'accueil',
+        component: EnseignantDashboard
+      },
+      {
+        path: 'calendrier',
+        component: EnseignantCalendrier
+      },
+      {
+        path: 'promotion',
+        component: Promotions
+      },
+      {
+        path: '',
+        redirectTo: 'accueil',
+        pathMatch: 'full'
+      }
     ]
   }
 

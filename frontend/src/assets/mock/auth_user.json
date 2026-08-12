@@ -12,5 +12,13 @@
     "login": "thomas.martin",
     "password": "password",
     "userType": "ELEVE"
+  },
+
+  {
+    "id": 4,
+    "userId": 4,
+    "login": "jean.martin",
+    "password": "motdepasse",
+    "userType": "ENSEIGNANT"
   }
 ]
