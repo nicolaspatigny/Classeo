@@ -4,6 +4,7 @@ import fr.eni.classeo.bo.Eleve;
 import fr.eni.classeo.bo.Promotion;
 import fr.eni.classeo.dal.PromotionRepository;
 import fr.eni.classeo.dal.inscription.InscriptionPromotionRepository;
+import fr.eni.classeo.dto.ElevePromotionDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public List<Eleve> listeElevesParPromotionId(int id) {
-        final List<Eleve> elevesPromo = inscriptionPromotionRepository.findElevesByPromotionId(id);
+    public List<ElevePromotionDto> listeElevesParPromotionId(int id) {
+        final List<ElevePromotionDto> elevesPromo = inscriptionPromotionRepository.findElevesByPromotionId(id);
 
         return elevesPromo;
     }

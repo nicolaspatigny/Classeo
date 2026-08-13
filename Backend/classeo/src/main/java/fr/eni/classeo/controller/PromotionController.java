@@ -2,6 +2,7 @@ package fr.eni.classeo.controller;
 
 import fr.eni.classeo.bll.PromotionService;
 import fr.eni.classeo.bo.Eleve;
+import fr.eni.classeo.dto.ElevePromotionDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class PromotionController {
 
     @GetMapping("/{id}/eleves")
     public ResponseEntity<?> findElevesByPromotionId(@PathVariable Integer id) {
-        List<Eleve> eleves = promotionService.listeElevesParPromotionId(id);
+        List<ElevePromotionDto> eleves = promotionService.listeElevesParPromotionId(id);
         return ResponseEntity.ok(eleves);
     }
 }
