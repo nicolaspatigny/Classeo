@@ -1,7 +1,7 @@
-package fr.eni.classeo.service;
+package fr.eni.classeo.security;
 
-import fr.eni.classeo.bo.Utilisateur;
-import fr.eni.classeo.dal.user.UtilisateurRepository;
+import fr.eni.classeo.bo.Auth;
+import fr.eni.classeo.dal.user.AuthRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,18 +14,17 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UtilisateurRepository utilisateurRepository;
+    private final AuthRepository authRepository;
 
-    public CustomUserDetailsService(UtilisateurRepository utilisateurRepository) {
-        this.utilisateurRepository = utilisateurRepository;
+    public CustomUserDetailsService(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String login)
             throws UsernameNotFoundException {
 
-        Utilisateur utilisateur = utilisateurRepository
-                .findById(login)
+        Auth auth = authRepository.findByLogin(login)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
                                 "Utilisateur non trouvé : " + login
@@ -33,12 +32,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 );
 
         return new User(
-                utilisateur.getLogin(),
-                utilisateur.getPassword(),
+                auth.getLogin(),
+                auth.getPassword(),
                 List.of(
-                        new SimpleGrantedAuthority(
-                                utilisateur.getAuthority()
-                        )
+                        new SimpleGrantedAuthority(auth.getAuthority())
                 )
         );
     }

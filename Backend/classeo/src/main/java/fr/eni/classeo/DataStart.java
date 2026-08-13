@@ -1,7 +1,8 @@
 package fr.eni.classeo;
 
+import fr.eni.classeo.bo.Auth;
 import fr.eni.classeo.bo.Utilisateur;
-import fr.eni.classeo.dal.user.UtilisateurRepository;
+import fr.eni.classeo.dal.user.AuthRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,19 +13,24 @@ public class DataStart {
 
     @Bean
     CommandLineRunner initDatabase(
-            UtilisateurRepository utilisateurRepository,
+            AuthRepository authRepository,
             PasswordEncoder passwordEncoder
     ) {
         return args -> {
+
             Utilisateur user = Utilisateur.builder()
-                    .login("test")
-                    .password(passwordEncoder.encode("password"))
                     .nom("Test")
                     .prenom("User")
+                    .build();
+
+            Auth auth = Auth.builder()
+                    .userId(user)
+                    .login("test")
+                    .password(passwordEncoder.encode("password"))
                     .authority("ROLE_USER")
                     .build();
 
-            utilisateurRepository.save(user);
+            authRepository.save(auth);
         };
     }
 }

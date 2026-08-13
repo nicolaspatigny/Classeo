@@ -17,7 +17,11 @@ public class Auth {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private Utilisateur userId;
 
@@ -27,7 +31,4 @@ public class Auth {
 
     @Column(length = 50)
     private String authority;
-
-
-
 }
