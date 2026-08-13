@@ -24,6 +24,7 @@ import {UtilisateursAdministrateur} from './features/administrateur/utilisateurs
 import {AdministrateurLayout} from './features/administrateur/layout/layout';
 import {PromotionsAdministrateur} from './features/administrateur/promotions/promotions';
 import {FilieresAdministrateur} from './features/administrateur/filieres/filieres';
+import {CursusAdministrateur} from './features/administrateur/cursus/cursus';
 
 // ---------------- //
 
@@ -130,6 +131,10 @@ export const routes: Routes = [
       {
         path: 'filieres',
         component: FilieresAdministrateur
+      },
+      {
+        path: 'cursus',
+        component: CursusAdministrateur
       },
       {
         path: '',
