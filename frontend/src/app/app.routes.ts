@@ -23,6 +23,7 @@ import {NotesEnseignant} from './features/enseignant/notes/notes/notes';
 import {UtilisateursAdministrateur} from './features/administrateur/utilisateurs/utilisateurs';
 import {AdministrateurLayout} from './features/administrateur/layout/layout';
 import {PromotionsAdministrateur} from './features/administrateur/promotions/promotions';
+import {FilieresAdministrateur} from './features/administrateur/filieres/filieres';
 
 // ---------------- //
 
@@ -125,6 +126,10 @@ export const routes: Routes = [
       {
         path: 'promotions',
         component: PromotionsAdministrateur
+      },
+      {
+        path: 'filieres',
+        component: FilieresAdministrateur
       },
       {
         path: '',
