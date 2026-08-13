@@ -1,19 +1,25 @@
 package fr.eni.classeo.controller;
 
 import fr.eni.classeo.dto.LoginRequest;
+import fr.eni.classeo.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(
+            AuthenticationManager authenticationManager,
+            JwtService jwtService) {
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
@@ -27,6 +33,8 @@ public class AuthController {
                         )
                 );
 
-        return "Authentication successful";
+        return jwtService.generateToken(
+                (UserDetails) authentication.getPrincipal()
+        );
     }
 }
