@@ -21,7 +21,7 @@ public class InscriptionCoursPK implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "eleve_id")
-    private String eleveId;
+    private Integer eleveId;
 
     @Column(name = "cours_planifie_id")
     private Integer coursPlanifieId;

@@ -24,6 +24,6 @@ public class InscriptionPromotionPK implements Serializable {
     private Integer promotionId;
 
     @Column(name = "eleve_id")
-    private String eleveId;
+    private Integer eleveId;
 
 }
