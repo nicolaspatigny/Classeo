@@ -20,6 +20,8 @@ import {EnseignantCalendrier} from './features/enseignant/calendrier/calendrier/
 import {Promotions} from './features/enseignant/promotion/promotion/promotion';
 import {CoursEnseignants} from './features/enseignant/cours/cours/cours';
 import {NotesEnseignant} from './features/enseignant/notes/notes/notes';
+import {UtilisateursAdministrateur} from './features/administrateur/utilisateurs/utilisateurs';
+import {AdministrateurLayout} from './features/administrateur/layout/layout';
 
 // ---------------- //
 
@@ -106,6 +108,22 @@ export const routes: Routes = [
       {
         path: '',
         redirectTo: 'accueil',
+        pathMatch: 'full'
+      }
+    ]
+  },
+
+  {
+    path: 'administrateur',
+    component: AdministrateurLayout,
+    children: [
+      {
+        path: 'utilisateurs',
+        component: UtilisateursAdministrateur
+      },
+      {
+        path: '',
+        redirectTo: 'utilisateurs',
         pathMatch: 'full'
       }
     ]
