@@ -6,28 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Promotion {
+public class Salle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 250)
+    @Column(unique = true,  nullable = false)
     private String nom;
-
-    @Column
-    private LocalDate dateDebut;
-
-    private LocalDate dateFin;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cursus_id")
-    private Cursus cursus;
 }

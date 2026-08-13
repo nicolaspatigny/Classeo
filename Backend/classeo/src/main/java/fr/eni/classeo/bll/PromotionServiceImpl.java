@@ -5,6 +5,7 @@ import fr.eni.classeo.bo.Promotion;
 import fr.eni.classeo.dal.PromotionRepository;
 import fr.eni.classeo.dal.inscription.InscriptionPromotionRepository;
 import fr.eni.classeo.dto.ElevePromotionDto;
+import fr.eni.classeo.dto.PromotionDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,14 @@ public class PromotionServiceImpl implements PromotionService {
     private InscriptionPromotionRepository inscriptionPromotionRepository;
 
     @Override
-    public List<Promotion> listePromotions() {
-        return promotionRepository.findAll();
+    public List<PromotionDto> listePromotions() {
+        return promotionRepository.findAllPromotion();
     }
 
     @Override
-    public Promotion getPromotionById(int id) {
-        return null;
+    public PromotionDto getPromotionById(int id) {
+
+        return promotionRepository.getPromotionById(id);
     }
 
     @Override
