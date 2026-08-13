@@ -26,6 +26,7 @@ import {PromotionsAdministrateur} from './features/administrateur/promotions/pro
 import {FilieresAdministrateur} from './features/administrateur/filieres/filieres';
 import {CursusAdministrateur} from './features/administrateur/cursus/cursus';
 import {CoursAdministrateur} from './features/administrateur/cours/cours';
+import {SeancesAdministrateur} from './features/administrateur/seances/seances';
 
 // ---------------- //
 
@@ -140,6 +141,10 @@ export const routes: Routes = [
       {
         path: 'cours',
         component: CoursAdministrateur
+      },
+      {
+        path: 'seances',
+        component: SeancesAdministrateur
       },
       {
         path: '',

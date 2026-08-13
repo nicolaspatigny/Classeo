@@ -1,0 +1,745 @@
+<div class="space-y-6">
+
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE                                                    -->
+  <!-- ========================================================= -->
+
+  <div class="flex items-center justify-between">
+
+    <div>
+
+      <h1 class="text-2xl font-bold text-slate-800">
+        Gestion des séances
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Gérez les séances, leurs horaires, leurs salles
+        et leurs cours.
+      </p>
+
+    </div>
+
+
+    <!-- Ajouter -->
+
+    @if (modeFormulaire() === null) {
+
+      <button
+        type="button"
+        (click)="ajouterSeance()"
+        class="px-4 py-2 rounded-lg
+               bg-[#334155] text-white
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+        + Ajouter une séance
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- FORMULAIRE                                                  -->
+  <!-- ========================================================= -->
+
+  @if (modeFormulaire() !== null) {
+
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+
+      <!-- Titre -->
+
+      <div class="mb-6">
+
+        @if (modeFormulaire() === 'ajout') {
+
+          <h2
+            class="text-lg font-semibold text-slate-800"
+          >
+            Ajouter une séance
+          </h2>
+
+          <p
+            class="mt-1 text-sm text-slate-500"
+          >
+            Créez une nouvelle séance.
+          </p>
+
+        } @else {
+
+          <h2
+            class="text-lg font-semibold text-slate-800"
+          >
+            Modifier la séance
+          </h2>
+
+          <p
+            class="mt-1 text-sm text-slate-500"
+          >
+            Modifiez les informations de la séance.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Formulaire -->
+
+      <form
+        [formGroup]="seanceForm"
+        (ngSubmit)="enregistrerSeance()"
+      >
+
+        <div
+          class="grid grid-cols-1
+                 md:grid-cols-2
+                 gap-6"
+        >
+
+
+          <!-- ================================================= -->
+          <!-- COURS                                               -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="seanceCours"
+              class="block mb-2
+                     text-sm font-medium
+                     text-slate-700"
+            >
+              Cours
+            </label>
+
+
+            <select
+              id="seanceCours"
+              formControlName="coursId"
+              class="w-full px-4 py-2.5
+                     rounded-lg
+                     border border-slate-300
+                     bg-white
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+              <option [ngValue]="0">
+                Sélectionnez un cours
+              </option>
+
+
+              @for (
+                coursItem of cours();
+                track coursItem.id
+                ) {
+
+                <option
+                  [ngValue]="coursItem.id"
+                >
+                  {{ coursItem.nom }}
+                </option>
+
+              }
+
+            </select>
+
+
+            @if (
+              seanceForm.controls.coursId.touched &&
+              seanceForm.controls.coursId.invalid
+              ) {
+
+              <p
+                class="mt-1 text-sm text-red-600"
+              >
+                Veuillez sélectionner un cours.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- DATE                                                 -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="seanceDate"
+              class="block mb-2
+                     text-sm font-medium
+                     text-slate-700"
+            >
+              Date
+            </label>
+
+
+            <input
+              id="seanceDate"
+              type="date"
+              formControlName="date"
+              class="w-full px-4 py-2.5
+                     rounded-lg
+                     border border-slate-300
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-[#334155]
+                     focus:border-transparent"
+            />
+
+
+            @if (
+              seanceForm.controls.date.touched &&
+              seanceForm.controls.date.invalid
+              ) {
+
+              <p
+                class="mt-1 text-sm text-red-600"
+              >
+                La date est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- HEURE DÉBUT                                         -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="heureDebut"
+              class="block mb-2
+                     text-sm font-medium
+                     text-slate-700"
+            >
+              Heure de début
+            </label>
+
+
+            <input
+              id="heureDebut"
+              type="time"
+              formControlName="heureDebut"
+              class="w-full px-4 py-2.5
+                     rounded-lg
+                     border border-slate-300
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-[#334155]
+                     focus:border-transparent"
+            />
+
+
+            @if (
+              seanceForm.controls.heureDebut.touched &&
+              seanceForm.controls.heureDebut.invalid
+              ) {
+
+              <p
+                class="mt-1 text-sm text-red-600"
+              >
+                L'heure de début est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- HEURE FIN                                           -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="heureFin"
+              class="block mb-2
+                     text-sm font-medium
+                     text-slate-700"
+            >
+              Heure de fin
+            </label>
+
+
+            <input
+              id="heureFin"
+              type="time"
+              formControlName="heureFin"
+              class="w-full px-4 py-2.5
+                     rounded-lg
+                     border border-slate-300
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-[#334155]
+                     focus:border-transparent"
+            />
+
+
+            @if (
+              seanceForm.controls.heureFin.touched &&
+              seanceForm.controls.heureFin.invalid
+              ) {
+
+              <p
+                class="mt-1 text-sm text-red-600"
+              >
+                L'heure de fin est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- SALLE                                                -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="seanceSalle"
+              class="block mb-2
+                     text-sm font-medium
+                     text-slate-700"
+            >
+              Salle
+            </label>
+
+
+            <input
+              id="seanceSalle"
+              type="text"
+              formControlName="salle"
+              placeholder="Ex : B204"
+              class="w-full px-4 py-2.5
+                     rounded-lg
+                     border border-slate-300
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-[#334155]
+                     focus:border-transparent"
+            />
+
+
+            @if (
+              seanceForm.controls.salle.touched &&
+              seanceForm.controls.salle.invalid
+              ) {
+
+              <p
+                class="mt-1 text-sm text-red-600"
+              >
+                La salle est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================== -->
+        <!-- INFORMATIONS PROMOTIONS                                -->
+        <!-- ===================================================== -->
+
+        @if (
+          seanceForm.controls.coursId.value > 0
+          ) {
+
+          <div
+            class="mt-6 p-4
+                   rounded-lg
+                   bg-slate-50
+                   border border-slate-200"
+          >
+
+            <p
+              class="text-sm font-medium
+                     text-slate-700"
+            >
+              Promotions concernées
+            </p>
+
+
+            <p
+              class="mt-1 text-sm
+                     text-slate-500"
+            >
+              Les promotions sont déterminées
+              automatiquement par le cours sélectionné.
+            </p>
+
+          </div>
+
+        }
+
+
+        <!-- ===================================================== -->
+        <!-- BOUTONS                                                 -->
+        <!-- ===================================================== -->
+
+        <div
+          class="flex justify-end gap-3
+                 mt-6 pt-6
+                 border-t border-slate-200"
+        >
+
+          <!-- Annuler -->
+
+          <button
+            type="button"
+            (click)="annulerFormulaire()"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Enregistrer -->
+
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   bg-[#334155] text-white
+                   hover:bg-[#1e293b]
+                   transition-colors"
+          >
+
+            @if (
+              modeFormulaire() === 'ajout'
+              ) {
+
+              Ajouter
+
+            } @else {
+
+              Enregistrer
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- TABLEAU                                                     -->
+  <!-- ========================================================= -->
+
+  <div
+    class="bg-white rounded-xl shadow-sm
+           border border-slate-200
+           overflow-hidden"
+  >
+
+    <table class="w-full">
+
+      <!-- En-tête -->
+
+      <thead
+        class="bg-slate-50
+               border-b border-slate-200"
+      >
+
+      <tr>
+
+        <th
+          class="px-6 py-4
+                   text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Cours
+        </th>
+
+
+        <th
+          class="px-6 py-4
+                   text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Promotions
+        </th>
+
+
+        <th
+          class="px-6 py-4
+                   text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Date
+        </th>
+
+
+        <th
+          class="px-6 py-4
+                   text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Horaire
+        </th>
+
+
+        <th
+          class="px-6 py-4
+                   text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Salle
+        </th>
+
+
+        <th
+          class="px-6 py-4
+                   text-right
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Actions
+        </th>
+
+      </tr>
+
+      </thead>
+
+
+      <!-- Corps -->
+
+      <tbody
+        class="divide-y divide-slate-100"
+      >
+
+        @for (
+          item of seances();
+          track item.seance.id
+          ) {
+
+          <tr
+            class="hover:bg-slate-50
+                   transition-colors"
+          >
+
+
+            <!-- ============================================== -->
+            <!-- COURS                                            -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4
+                     text-sm font-medium
+                     text-slate-800"
+            >
+
+              {{ item.cours?.nom ?? 'Cours inconnu' }}
+
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- PROMOTIONS                                       -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4"
+            >
+
+              @if (
+                item.promotions.length > 0
+                ) {
+
+                <div
+                  class="flex flex-wrap gap-2"
+                >
+
+                  @for (
+                    promotion of item.promotions;
+                    track promotion.id
+                    ) {
+
+                    <span
+                      class="inline-flex
+                             px-2.5 py-1
+                             rounded-full
+                             bg-slate-100
+                             text-slate-700
+                             text-xs
+                             font-medium"
+                    >
+                      {{ promotion.nom }}
+                    </span>
+
+                  }
+
+                </div>
+
+              } @else {
+
+                <span
+                  class="text-sm
+                         text-slate-400"
+                >
+                  Aucune promotion
+                </span>
+
+              }
+
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- DATE                                             -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+              {{ item.seance.date }}
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- HORAIRE                                          -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+
+              {{ item.seance.heureDebut }}
+              -
+              {{ item.seance.heureFin }}
+
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- SALLE                                            -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+              {{ item.seance.salle }}
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- ACTIONS                                          -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4"
+            >
+
+              <div
+                class="flex justify-end gap-2"
+              >
+
+                <!-- Modifier -->
+
+                <button
+                  type="button"
+                  (click)="modifierSeance(item)"
+                  class="px-3 py-2
+                         rounded-lg
+                         text-sm
+                         text-[#334155]
+                         hover:bg-slate-100
+                         transition-colors"
+                >
+                  Modifier
+                </button>
+
+
+                <!-- Supprimer -->
+
+                <button
+                  type="button"
+                  (click)="supprimerSeance(
+                    item.seance.id
+                  )"
+                  class="px-3 py-2
+                         rounded-lg
+                         text-sm
+                         text-red-600
+                         hover:bg-red-50
+                         transition-colors"
+                >
+                  Supprimer
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+
+      <!-- ================================================= -->
+      <!-- AUCUNE SÉANCE                                      -->
+      <!-- ================================================= -->
+
+        @if (
+          seances().length === 0
+          ) {
+
+          <tr>
+
+            <td
+              colspan="6"
+              class="px-6 py-10
+                     text-center
+                     text-sm
+                     text-slate-500"
+            >
+              Aucune séance trouvée.
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
