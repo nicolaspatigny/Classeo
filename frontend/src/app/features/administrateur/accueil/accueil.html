@@ -1,0 +1,365 @@
+<div class="space-y-8">
+
+  <!-- ========================================================= -->
+  <!-- BIENVENUE                                                   -->
+  <!-- ========================================================= -->
+
+  <section>
+
+    <h1 class="text-2xl font-bold text-slate-800">
+      Tableau de bord
+    </h1>
+
+    <p class="mt-1 text-slate-500">
+      Bienvenue dans l'espace d'administration de Classeo.
+    </p>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- STATISTIQUES                                                -->
+  <!-- ========================================================= -->
+
+  <section>
+
+    <h2
+      class="mb-4 text-lg font-semibold text-slate-800"
+    >
+      Vue d'ensemble
+    </h2>
+
+
+    <div
+      class="grid grid-cols-1
+             sm:grid-cols-2
+             lg:grid-cols-3
+             gap-5"
+    >
+
+
+      <!-- ===================================================== -->
+      <!-- UTILISATEURS                                            -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/utilisateurs"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Utilisateurs
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombreUtilisateurs() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          {{ nombreEleves() }} élèves ·
+          {{ nombreEnseignants() }} enseignants
+        </p>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- FILIÈRES                                               -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/filieres"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Filières
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombreFilieres() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          Filières disponibles
+        </p>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- CURSUS                                                  -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/cursus"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Cursus
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombreCursus() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          Cursus disponibles
+        </p>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- PROMOTIONS                                              -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/promotions"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Promotions
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombrePromotions() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          Promotions disponibles
+        </p>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- COURS                                                   -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/cours"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Cours
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombreCours() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          Cours disponibles
+        </p>
+
+      </a>
+
+
+      <!-- ===================================================== -->
+      <!-- SÉANCES                                                 -->
+      <!-- ===================================================== -->
+
+      <a
+        routerLink="/administrateur/seances"
+        class="bg-white rounded-xl
+               border border-slate-200
+               p-5
+               hover:shadow-md
+               hover:border-slate-300
+               transition-all"
+      >
+
+        <p
+          class="text-sm font-medium
+                 text-slate-500"
+        >
+          Séances
+        </p>
+
+        <p
+          class="mt-2 text-3xl
+                 font-bold text-slate-800"
+        >
+          {{ nombreSeances() }}
+        </p>
+
+        <p
+          class="mt-2 text-xs
+                 text-slate-400"
+        >
+          Séances programmées
+        </p>
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- ACCÈS RAPIDES                                              -->
+  <!-- ========================================================= -->
+
+  <section>
+
+    <h2
+      class="mb-4 text-lg font-semibold text-slate-800"
+    >
+      Accès rapides
+    </h2>
+
+
+    <div
+      class="grid grid-cols-1
+             md:grid-cols-3
+             gap-4"
+    >
+
+      <a
+        routerLink="/administrateur/utilisateurs"
+        class="flex items-center
+               justify-between
+               bg-[#334155]
+               text-white
+               rounded-xl
+               px-5 py-4
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+
+        <span class="font-medium">
+          Gérer les utilisateurs
+        </span>
+
+        <span>
+          →
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/administrateur/cours"
+        class="flex items-center
+               justify-between
+               bg-[#334155]
+               text-white
+               rounded-xl
+               px-5 py-4
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+
+        <span class="font-medium">
+          Gérer les cours
+        </span>
+
+        <span>
+          →
+        </span>
+
+      </a>
+
+
+      <a
+        routerLink="/administrateur/seances"
+        class="flex items-center
+               justify-between
+               bg-[#334155]
+               text-white
+               rounded-xl
+               px-5 py-4
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+
+        <span class="font-medium">
+          Gérer les séances
+        </span>
+
+        <span>
+          →
+        </span>
+
+      </a>
+
+    </div>
+
+  </section>
+
+</div>

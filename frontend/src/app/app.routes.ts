@@ -27,6 +27,7 @@ import {FilieresAdministrateur} from './features/administrateur/filieres/filiere
 import {CursusAdministrateur} from './features/administrateur/cursus/cursus';
 import {CoursAdministrateur} from './features/administrateur/cours/cours';
 import {SeancesAdministrateur} from './features/administrateur/seances/seances';
+import {AccueilAdministrateur} from './features/administrateur/accueil/accueil';
 
 // ---------------- //
 
@@ -121,7 +122,14 @@ export const routes: Routes = [
   {
     path: 'administrateur',
     component: AdministrateurLayout,
+    canActivate: [
+      roleGuard('ADMIN')
+    ],
     children: [
+      {
+        path: 'accueil',
+        component: AccueilAdministrateur
+      },
       {
         path: 'utilisateurs',
         component: UtilisateursAdministrateur
@@ -148,7 +156,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'utilisateurs',
+        redirectTo: 'accueil',
         pathMatch: 'full'
       }
     ]
