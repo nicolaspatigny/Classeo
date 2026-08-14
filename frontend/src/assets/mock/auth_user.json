@@ -20,5 +20,13 @@
     "login": "jean.martin",
     "password": "motdepasse",
     "userType": "ENSEIGNANT"
+  },
+
+  {
+    "id": 5,
+    "userId": 5,
+    "login": "admin",
+    "password": "admin",
+    "userType": "ADMIN"
   }
 ]

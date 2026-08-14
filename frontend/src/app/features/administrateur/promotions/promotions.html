@@ -1,0 +1,471 @@
+<div class="space-y-6">
+
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE                                                    -->
+  <!-- ========================================================= -->
+
+  <div class="flex items-center justify-between">
+
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Gestion des promotions
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Gérez les promotions de l'établissement.
+      </p>
+    </div>
+
+    <!-- Bouton Ajouter -->
+    @if (modeFormulaire() === null) {
+
+      <button
+        type="button"
+        (click)="ajouterPromotion()"
+        class="px-4 py-2 rounded-lg
+               bg-[#334155] text-white
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+        + Ajouter une promotion
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- FORMULAIRE                                                  -->
+  <!-- ========================================================= -->
+
+  @if (modeFormulaire() !== null) {
+
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+
+      <!-- Titre -->
+      <div class="mb-6">
+
+        @if (modeFormulaire() === 'ajout') {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Ajouter une promotion
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Créez une nouvelle promotion.
+          </p>
+
+        } @else {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Modifier la promotion
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Modifiez les informations de la promotion.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Formulaire -->
+      <form
+        [formGroup]="promotionForm"
+        (ngSubmit)="enregistrerPromotion()"
+      >
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+
+          <!-- ================================================= -->
+          <!-- NOM                                                -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="promotionNom"
+              class="block mb-2
+                     text-sm font-medium text-slate-700"
+            >
+              Nom de la promotion
+            </label>
+
+            <input
+              id="promotionNom"
+              type="text"
+              formControlName="nom"
+              placeholder="Ex : 2026-2027"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+            @if (
+              promotionForm.controls.nom.touched &&
+              promotionForm.controls.nom.invalid
+              ) {
+
+              <p class="mt-1 text-sm text-red-600">
+                Le nom de la promotion est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- FILIÈRE                                            -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="promotionFiliere"
+              class="block mb-2
+                     text-sm font-medium text-slate-700"
+            >
+              Filière
+            </label>
+
+            <select
+              id="promotionFiliere"
+              formControlName="filiereId"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     bg-white
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+              <option [ngValue]="0">
+                Sélectionnez une filière
+              </option>
+
+              @for (filiere of filieres(); track filiere.id) {
+
+                <option [ngValue]="filiere.id">
+                  {{ filiere.nom }}
+                </option>
+
+              }
+
+            </select>
+
+            @if (
+              promotionForm.controls.filiereId.touched &&
+              promotionForm.controls.filiereId.invalid
+              ) {
+
+              <p class="mt-1 text-sm text-red-600">
+                Veuillez sélectionner une filière.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- DATE DE DÉBUT                                      -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="promotionDateDebut"
+              class="block mb-2
+                     text-sm font-medium text-slate-700"
+            >
+              Date de début
+            </label>
+
+            <input
+              id="promotionDateDebut"
+              type="date"
+              formControlName="dateDebut"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+            @if (
+              promotionForm.controls.dateDebut.touched &&
+              promotionForm.controls.dateDebut.invalid
+              ) {
+
+              <p class="mt-1 text-sm text-red-600">
+                La date de début est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- DATE DE FIN                                        -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="promotionDateFin"
+              class="block mb-2
+                     text-sm font-medium text-slate-700"
+            >
+              Date de fin
+            </label>
+
+            <input
+              id="promotionDateFin"
+              type="date"
+              formControlName="dateFin"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+            @if (
+              promotionForm.controls.dateFin.touched &&
+              promotionForm.controls.dateFin.invalid
+              ) {
+
+              <p class="mt-1 text-sm text-red-600">
+                La date de fin est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================== -->
+        <!-- BOUTONS                                               -->
+        <!-- =================================================== -->
+
+        <div
+          class="flex justify-end gap-3
+                 mt-6 pt-6
+                 border-t border-slate-200"
+        >
+
+          <!-- Annuler -->
+          <button
+            type="button"
+            (click)="annulerFormulaire()"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Enregistrer -->
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   bg-[#334155] text-white
+                   hover:bg-[#1e293b]
+                   transition-colors"
+          >
+
+            @if (modeFormulaire() === 'ajout') {
+              Ajouter
+            } @else {
+              Enregistrer
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- TABLEAU                                                     -->
+  <!-- ========================================================= -->
+
+  <div
+    class="bg-white rounded-xl shadow-sm
+           border border-slate-200 overflow-hidden"
+  >
+
+    <table class="w-full">
+
+      <!-- En-tête -->
+      <thead class="bg-slate-50 border-b border-slate-200">
+
+      <tr>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold text-slate-600"
+        >
+          Promotion
+        </th>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold text-slate-600"
+        >
+          Filière
+        </th>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold text-slate-600"
+        >
+          Date de début
+        </th>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold text-slate-600"
+        >
+          Date de fin
+        </th>
+
+        <th
+          class="px-6 py-4 text-right
+                   text-sm font-semibold text-slate-600"
+        >
+          Actions
+        </th>
+
+      </tr>
+
+      </thead>
+
+
+      <!-- Corps -->
+      <tbody class="divide-y divide-slate-100">
+
+        @for (item of promotions(); track item.promotion.id) {
+
+          <tr class="hover:bg-slate-50 transition-colors">
+
+            <!-- Promotion -->
+            <td
+              class="px-6 py-4
+                     text-sm font-medium text-slate-800"
+            >
+              {{ item.promotion.nom }}
+            </td>
+
+
+            <!-- Filière -->
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+              {{ item.filiereNom }}
+            </td>
+
+
+            <!-- Date de début -->
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+              {{ item.promotion.dateDebut }}
+            </td>
+
+
+            <!-- Date de fin -->
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
+              {{ item.promotion.dateFin }}
+            </td>
+
+
+            <!-- Actions -->
+            <td class="px-6 py-4">
+
+              <div class="flex justify-end gap-2">
+
+                <!-- Modifier -->
+                <button
+                  type="button"
+                  (click)="modifierPromotion(item)"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-[#334155]
+                         hover:bg-slate-100
+                         transition-colors"
+                >
+                  Modifier
+                </button>
+
+
+                <!-- Supprimer -->
+                <button
+                  type="button"
+                  (click)="supprimerPromotion(item.promotion.id)"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-red-600
+                         hover:bg-red-50
+                         transition-colors"
+                >
+                  Supprimer
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+
+      <!-- Aucun résultat -->
+        @if (promotions().length === 0) {
+
+          <tr>
+
+            <td
+              colspan="5"
+              class="px-6 py-10
+                     text-center text-sm text-slate-500"
+            >
+              Aucune promotion trouvée.
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

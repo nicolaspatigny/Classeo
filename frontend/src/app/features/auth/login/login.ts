@@ -166,7 +166,7 @@ export class LoginComponent {
   private getUserType():
     'ELEVE' |
     'ENSEIGNANT' |
-    'ADMINISTRATEUR' {
+    'ADMIN' {
 
     switch (this.selectedPortal) {
 
@@ -177,7 +177,7 @@ export class LoginComponent {
         return 'ENSEIGNANT';
 
       case 'ADMIN':
-        return 'ADMINISTRATEUR';
+        return 'ADMIN';
     }
   }
 

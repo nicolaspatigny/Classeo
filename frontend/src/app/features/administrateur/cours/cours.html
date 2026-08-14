@@ -1,0 +1,469 @@
+<div class="space-y-6">
+
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE                                                    -->
+  <!-- ========================================================= -->
+
+  <div class="flex items-center justify-between">
+
+    <div>
+
+      <h1 class="text-2xl font-bold text-slate-800">
+        Gestion des cours
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Gérez les cours et leurs promotions.
+      </p>
+
+    </div>
+
+
+    <!-- Ajouter -->
+
+    @if (modeFormulaire() === null) {
+
+      <button
+        type="button"
+        (click)="ajouterCours()"
+        class="px-4 py-2 rounded-lg
+               bg-[#334155] text-white
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+        + Ajouter un cours
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- FORMULAIRE                                                  -->
+  <!-- ========================================================= -->
+
+  @if (modeFormulaire() !== null) {
+
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+
+      <!-- Titre -->
+
+      <div class="mb-6">
+
+        @if (modeFormulaire() === 'ajout') {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Ajouter un cours
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Créez un nouveau cours et associez-le
+            à une ou plusieurs promotions.
+          </p>
+
+        } @else {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Modifier le cours
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Modifiez le cours et ses promotions.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Formulaire -->
+
+      <form
+        [formGroup]="coursForm"
+        (ngSubmit)="enregistrerCours()"
+      >
+
+        <div class="space-y-6">
+
+
+          <!-- ================================================= -->
+          <!-- NOM                                                 -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              for="coursNom"
+              class="block mb-2
+                     text-sm font-medium text-slate-700"
+            >
+              Nom du cours
+            </label>
+
+            <input
+              id="coursNom"
+              type="text"
+              formControlName="nom"
+              placeholder="Ex : Programmation Java"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
+            >
+
+            @if (
+              coursForm.controls.nom.touched &&
+              coursForm.controls.nom.invalid
+              ) {
+
+              <p class="mt-1 text-sm text-red-600">
+                Le nom du cours est obligatoire.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- PROMOTIONS                                          -->
+          <!-- ================================================= -->
+
+          <div>
+
+            <label
+              class="block mb-3
+                     text-sm font-medium text-slate-700"
+            >
+              Promotions associées
+            </label>
+
+
+            <div
+              class="border border-slate-300
+                     rounded-lg divide-y
+                     divide-slate-200"
+            >
+
+              @for (
+                promotion of promotions();
+                track promotion.id
+                ) {
+
+                <label
+                  class="flex items-center gap-3
+                         px-4 py-3
+                         cursor-pointer
+                         hover:bg-slate-50
+                         transition-colors"
+                >
+
+                  <input
+                    type="checkbox"
+                    [checked]="promotionSelectionnee(promotion.id)"
+                    (change)="togglePromotion(
+                      promotion.id,
+                      $event
+                    )"
+                    class="h-4 w-4"
+                  >
+
+                  <div>
+
+                    <p
+                      class="text-sm font-medium
+                             text-slate-800"
+                    >
+                      {{ promotion.nom }}
+                    </p>
+
+                    <p
+                      class="text-xs text-slate-500"
+                    >
+                      Du {{ promotion.dateDebut }}
+                      au {{ promotion.dateFin }}
+                    </p>
+
+                  </div>
+
+                </label>
+
+              }
+
+
+              @if (promotions().length === 0) {
+
+                <p
+                  class="px-4 py-4
+                         text-sm text-slate-500"
+                >
+                  Aucune promotion disponible.
+                </p>
+
+              }
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================== -->
+        <!-- BOUTONS                                               -->
+        <!-- =================================================== -->
+
+        <div
+          class="flex justify-end gap-3
+                 mt-6 pt-6
+                 border-t border-slate-200"
+        >
+
+          <!-- Annuler -->
+
+          <button
+            type="button"
+            (click)="annulerFormulaire()"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Enregistrer -->
+
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   bg-[#334155] text-white
+                   hover:bg-[#1e293b]
+                   transition-colors"
+          >
+
+            @if (modeFormulaire() === 'ajout') {
+
+              Ajouter
+
+            } @else {
+
+              Enregistrer
+
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- TABLEAU                                                     -->
+  <!-- ========================================================= -->
+
+  <div
+    class="bg-white rounded-xl shadow-sm
+           border border-slate-200 overflow-hidden"
+  >
+
+    <table class="w-full">
+
+      <!-- En-tête -->
+
+      <thead
+        class="bg-slate-50
+               border-b border-slate-200"
+      >
+
+      <tr>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Cours
+        </th>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Promotions
+        </th>
+
+        <th
+          class="px-6 py-4 text-right
+                   text-sm font-semibold
+                   text-slate-600"
+        >
+          Actions
+        </th>
+
+      </tr>
+
+      </thead>
+
+
+      <!-- Corps -->
+
+      <tbody class="divide-y divide-slate-100">
+
+        @for (
+          item of cours();
+          track item.cours.id
+          ) {
+
+          <tr
+            class="hover:bg-slate-50
+                   transition-colors"
+          >
+
+
+            <!-- ============================================== -->
+            <!-- COURS                                            -->
+            <!-- ============================================== -->
+
+            <td
+              class="px-6 py-4
+                     text-sm font-medium
+                     text-slate-800"
+            >
+              {{ item.cours.nom }}
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- PROMOTIONS                                       -->
+            <!-- ============================================== -->
+
+            <td class="px-6 py-4">
+
+              @if (item.promotions.length > 0) {
+
+                <div class="flex flex-wrap gap-2">
+
+                  @for (
+                    promotion of item.promotions;
+                    track promotion.id
+                    ) {
+
+                    <span
+                      class="inline-flex
+                             px-2.5 py-1
+                             rounded-full
+                             bg-slate-100
+                             text-slate-700
+                             text-xs font-medium"
+                    >
+                      {{ promotion.nom }}
+                    </span>
+
+                  }
+
+                </div>
+
+              } @else {
+
+                <span
+                  class="text-sm text-slate-400"
+                >
+                  Aucune promotion
+                </span>
+
+              }
+
+            </td>
+
+
+            <!-- ============================================== -->
+            <!-- ACTIONS                                          -->
+            <!-- ============================================== -->
+
+            <td class="px-6 py-4">
+
+              <div
+                class="flex justify-end gap-2"
+              >
+
+                <!-- Modifier -->
+
+                <button
+                  type="button"
+                  (click)="modifierCours(item)"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-[#334155]
+                         hover:bg-slate-100
+                         transition-colors"
+                >
+                  Modifier
+                </button>
+
+
+                <!-- Supprimer -->
+
+                <button
+                  type="button"
+                  (click)="supprimerCours(
+                    item.cours.id
+                  )"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-red-600
+                         hover:bg-red-50
+                         transition-colors"
+                >
+                  Supprimer
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+
+      <!-- ================================================= -->
+      <!-- AUCUN COURS                                         -->
+      <!-- ================================================= -->
+
+        @if (cours().length === 0) {
+
+          <tr>
+
+            <td
+              colspan="3"
+              class="px-6 py-10
+                     text-center
+                     text-sm text-slate-500"
+            >
+              Aucun cours trouvé.
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

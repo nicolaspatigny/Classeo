@@ -1,0 +1,282 @@
+<div class="space-y-6">
+
+  <!-- ========================================================= -->
+  <!-- EN-TÊTE                                                    -->
+  <!-- ========================================================= -->
+
+  <div class="flex items-center justify-between">
+
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Gestion des filières
+      </h1>
+
+      <p class="mt-1 text-sm text-slate-500">
+        Gérez les filières de l'établissement.
+      </p>
+    </div>
+
+
+    <!-- Bouton Ajouter -->
+    @if (modeFormulaire() === null) {
+
+      <button
+        type="button"
+        (click)="ajouterFiliere()"
+        class="px-4 py-2 rounded-lg
+               bg-[#334155] text-white
+               hover:bg-[#1e293b]
+               transition-colors"
+      >
+        + Ajouter une filière
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- FORMULAIRE                                                  -->
+  <!-- ========================================================= -->
+
+  @if (modeFormulaire() !== null) {
+
+    <div
+      class="bg-white rounded-xl shadow-sm
+             border border-slate-200 p-6"
+    >
+
+      <!-- Titre -->
+      <div class="mb-6">
+
+        @if (modeFormulaire() === 'ajout') {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Ajouter une filière
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Créez une nouvelle filière.
+          </p>
+
+        } @else {
+
+          <h2 class="text-lg font-semibold text-slate-800">
+            Modifier la filière
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Modifiez le nom de la filière.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Formulaire -->
+      <form
+        [formGroup]="filiereForm"
+        (ngSubmit)="enregistrerFiliere()"
+      >
+
+        <!-- Nom -->
+        <div>
+
+          <label
+            for="filiereNom"
+            class="block mb-2
+                   text-sm font-medium text-slate-700"
+          >
+            Nom de la filière
+          </label>
+
+          <input
+            id="filiereNom"
+            type="text"
+            formControlName="nom"
+            placeholder="Ex : Informatique"
+            class="w-full px-4 py-2.5
+                   rounded-lg border border-slate-300
+                   focus:outline-none
+                   focus:ring-2 focus:ring-[#334155]
+                   focus:border-transparent"
+          >
+
+          @if (
+            filiereForm.controls.nom.touched &&
+            filiereForm.controls.nom.invalid
+            ) {
+
+            <p class="mt-1 text-sm text-red-600">
+              Le nom de la filière est obligatoire.
+            </p>
+
+          }
+
+        </div>
+
+
+        <!-- Boutons -->
+        <div
+          class="flex justify-end gap-3
+                 mt-6 pt-6
+                 border-t border-slate-200"
+        >
+
+          <!-- Annuler -->
+          <button
+            type="button"
+            (click)="annulerFormulaire()"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
+          >
+            Annuler
+          </button>
+
+
+          <!-- Enregistrer -->
+          <button
+            type="submit"
+            class="px-4 py-2 rounded-lg
+                   text-sm font-medium
+                   bg-[#334155] text-white
+                   hover:bg-[#1e293b]
+                   transition-colors"
+          >
+
+            @if (modeFormulaire() === 'ajout') {
+              Ajouter
+            } @else {
+              Enregistrer
+            }
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- ========================================================= -->
+  <!-- TABLEAU                                                     -->
+  <!-- ========================================================= -->
+
+  <div
+    class="bg-white rounded-xl shadow-sm
+           border border-slate-200 overflow-hidden"
+  >
+
+    <table class="w-full">
+
+      <!-- En-tête -->
+      <thead class="bg-slate-50 border-b border-slate-200">
+
+      <tr>
+
+        <th
+          class="px-6 py-4 text-left
+                   text-sm font-semibold text-slate-600"
+        >
+          Nom
+        </th>
+
+        <th
+          class="px-6 py-4 text-right
+                   text-sm font-semibold text-slate-600"
+        >
+          Actions
+        </th>
+
+      </tr>
+
+      </thead>
+
+
+      <!-- Corps -->
+      <tbody class="divide-y divide-slate-100">
+
+        @for (filiere of filieres(); track filiere.id) {
+
+          <tr class="hover:bg-slate-50 transition-colors">
+
+            <!-- Nom -->
+            <td
+              class="px-6 py-4
+                     text-sm font-medium text-slate-800"
+            >
+              {{ filiere.nom }}
+            </td>
+
+
+            <!-- Actions -->
+            <td class="px-6 py-4">
+
+              <div class="flex justify-end gap-2">
+
+                <!-- Modifier -->
+                <button
+                  type="button"
+                  (click)="modifierFiliere(filiere)"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-[#334155]
+                         hover:bg-slate-100
+                         transition-colors"
+                >
+                  Modifier
+                </button>
+
+
+                <!-- Supprimer -->
+                <button
+                  type="button"
+                  (click)="supprimerFiliere(filiere.id)"
+                  class="px-3 py-2 rounded-lg
+                         text-sm text-red-600
+                         hover:bg-red-50
+                         transition-colors"
+                >
+                  Supprimer
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+
+      <!-- Aucune filière -->
+        @if (filieres().length === 0) {
+
+          <tr>
+
+            <td
+              colspan="2"
+              class="px-6 py-10
+                     text-center text-sm text-slate-500"
+            >
+              Aucune filière trouvée.
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
