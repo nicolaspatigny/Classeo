@@ -16,4 +16,6 @@ public interface CoursPlanifieService {
     List<CoursDto>  listeCoursParFormateur(int formateurId);
 
     List<CoursPlanifieDto> listeCoursPlanifie();
+
+    CoursPlanifieDto getCoursPlanifieById(int id);
 }

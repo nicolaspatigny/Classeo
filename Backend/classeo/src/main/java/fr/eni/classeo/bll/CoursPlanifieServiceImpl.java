@@ -36,4 +36,9 @@ public class CoursPlanifieServiceImpl implements CoursPlanifieService{
     public List<CoursPlanifieDto> listeCoursPlanifie() {
         return coursPlanifieRepository.findAllCoursPlanifie();
     }
+
+    @Override
+    public CoursPlanifieDto getCoursPlanifieById(int id) {
+        return coursPlanifieRepository.findCoursPlanifieById(id);
+    }
 }

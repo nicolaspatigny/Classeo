@@ -62,4 +62,18 @@ SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
     FROM CoursPlanifie cp
 """)
     List<CoursPlanifieDto> findAllCoursPlanifie();
+
+    @Query("""
+SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
+        cp.id,
+        cp.cursusCours.id.coursId,
+        cp.date,
+        cp.heureDebut,
+        cp.heureFin,
+        cp.salle.nom
+    )
+    FROM CoursPlanifie cp
+    WHERE cp.id = :id
+""")
+    CoursPlanifieDto findCoursPlanifieById(int id);
 }

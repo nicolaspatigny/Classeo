@@ -34,4 +34,9 @@ public class CoursController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("/{coursId}/seances")
+    public ResponseEntity<?> getSeancesByCoursId(@PathVariable Integer coursId){
+        return ResponseEntity.ok(coursService.listeCoursPlanifieParCoursId(coursId));
+    }
 }

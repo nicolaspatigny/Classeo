@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +22,7 @@ public class Salle {
 
     @Column(unique = true,  nullable = false)
     private String nom;
+
+    @OneToMany(mappedBy = "salle")
+    private List<CoursPlanifie> coursPlanifies = new ArrayList<>();
 }

@@ -4,6 +4,7 @@ package fr.eni.classeo.bll;
 import fr.eni.classeo.bo.Cours;
 import fr.eni.classeo.bo.Cursus;
 import fr.eni.classeo.dal.CoursRepository;
+import fr.eni.classeo.dto.CoursPlanifieDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class CoursServiceImpl implements CoursService {
 
     private CoursRepository coursRepository;
+
 
     @Override
     public List<Cours> listeCours() {
@@ -31,5 +33,10 @@ public class CoursServiceImpl implements CoursService {
             return cours.get();
         }
         throw new RuntimeException("Aucun cursus ne correspond");
+    }
+
+    @Override
+    public List<CoursPlanifieDto> listeCoursPlanifieParCoursId(int coursId) {
+        return coursRepository.findCoursPlanifieByCoursId(coursId);
     }
 }
