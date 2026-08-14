@@ -6,8 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -33,8 +34,9 @@ public class CoursPlanifie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Date dateDebut;
-    private Date dateFin;
+    private LocalDate date;
+    private LocalTime heureDebut;
+    private LocalTime heureFin;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promotion_id",  nullable = false)
@@ -54,4 +56,8 @@ public class CoursPlanifie {
     @Builder.Default
     @OneToMany(mappedBy = "coursPlanifie", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private  List<InscriptionCours> inscriptionCours = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "salle_id")
+    private Salle salle;
 }
