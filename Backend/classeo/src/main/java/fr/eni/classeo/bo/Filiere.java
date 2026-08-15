@@ -1,6 +1,7 @@
 package fr.eni.classeo.bo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,6 @@ public class Filiere {
 
     @Column(length = 250, nullable = false)
     @Size(max = 250, message = "max 250")
+    @NotBlank
     private String nom;
 }

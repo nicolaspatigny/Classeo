@@ -32,11 +32,10 @@ public class TestManyToOneCoursPlanifie {
 
         //Formateur
        formateur = Formateur.builder()
-                .login("gg@mail.com")
-                .password("Pass")
+
                 .nom("Magax")
                 .prenom("Gerard")
-                .authority("FORMATEUR")
+
                 .build();
         testEntityManager.persist(formateur);
 
@@ -88,7 +87,7 @@ public class TestManyToOneCoursPlanifie {
         CoursPlanifie result = coursPlanifieRepository.findById(cpDb.getId()).orElseThrow();
 
         assertThat(result.getFormateur()).isNotNull();
-        assertThat(result.getFormateur().getLogin()).isEqualTo("gg@mail.com");
+        assertThat(result.getFormateur().getNom()).isEqualTo("Magax");
         assertThat(result.getPromotion()).isNotNull();
         assertThat(result.getPromotion().getNom()).isEqualTo("Mai26");
         assertThat(result.getCursusCours()).isNotNull();

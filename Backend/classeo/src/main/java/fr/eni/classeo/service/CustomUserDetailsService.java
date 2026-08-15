@@ -1,4 +1,4 @@
-package fr.eni.classeo.security;
+package fr.eni.classeo.service;
 
 import fr.eni.classeo.bo.Auth;
 import fr.eni.classeo.dal.user.AuthRepository;
