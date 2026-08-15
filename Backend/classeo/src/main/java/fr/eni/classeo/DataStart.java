@@ -18,19 +18,48 @@ public class DataStart {
     ) {
         return args -> {
 
-            Utilisateur user = Utilisateur.builder()
-                    .nom("Test")
-                    .prenom("User")
+            Utilisateur student = Utilisateur.builder()
+                    .nom("Student")
+                    .prenom("Test")
                     .build();
 
-            Auth auth = Auth.builder()
-                    .userId(user)
-                    .login("test")
+            Auth studentAuth = Auth.builder()
+                    .userId(student)
+                    .login("student")
                     .password(passwordEncoder.encode("password"))
-                    .authority("ROLE_USER")
+                    .authority("ROLE_STUDENT")
                     .build();
 
-            authRepository.save(auth);
+
+            Utilisateur teacher = Utilisateur.builder()
+                    .nom("Teacher")
+                    .prenom("Test")
+                    .build();
+
+            Auth teacherAuth = Auth.builder()
+                    .userId(teacher)
+                    .login("teacher")
+                    .password(passwordEncoder.encode("password"))
+                    .authority("ROLE_TEACHER")
+                    .build();
+
+
+            Utilisateur admin = Utilisateur.builder()
+                    .nom("Admin")
+                    .prenom("Test")
+                    .build();
+
+            Auth adminAuth = Auth.builder()
+                    .userId(admin)
+                    .login("admin")
+                    .password(passwordEncoder.encode("password"))
+                    .authority("ROLE_ADMIN")
+                    .build();
+
+
+            authRepository.save(studentAuth);
+            authRepository.save(teacherAuth);
+            authRepository.save(adminAuth);
         };
     }
 }
