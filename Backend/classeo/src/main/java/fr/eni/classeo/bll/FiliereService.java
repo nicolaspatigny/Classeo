@@ -10,5 +10,7 @@ public interface FiliereService {
 
     Filiere filiereById(int id);
 
+    void addFiliere(Filiere filiere);
+
 
 }

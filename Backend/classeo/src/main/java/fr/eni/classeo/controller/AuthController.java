@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

@@ -30,4 +30,16 @@ public class FiliereServiceImpl implements FiliereService {
         }
         throw new RuntimeException("Aucune filiere ne correspond");
     }
+
+    @Override
+    public void addFiliere(Filiere filiere) {
+        if(filiere == null){
+            throw new RuntimeException("Filiere n'est pas renseignée'");
+        }
+        try {
+            filiereRepository.save(filiere);
+        }catch(RuntimeException e){
+            throw  new RuntimeException("impossible de sauver"+ filiere);
+        }
+    }
 }
