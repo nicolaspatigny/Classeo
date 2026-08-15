@@ -6,13 +6,12 @@ import fr.eni.classeo.bo.Eleve;
 import fr.eni.classeo.bo.Promotion;
 import fr.eni.classeo.dto.ElevePromotionDto;
 import fr.eni.classeo.dto.PromotionDto;
+import fr.eni.classeo.dto.PromotionPostDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,5 +45,15 @@ public class PromotionController {
     @GetMapping("/{promotionId}/cours")
     public ResponseEntity<?> findCoursByPromotionId(@PathVariable Integer promotionId) {
         return ResponseEntity.ok(coursPlanifieService.listeCoursParPromotion(promotionId));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addPromotion(@Valid @RequestBody PromotionPostDto promotion) {
+        try {
+            promotionService.addPromotion(promotion);
+            return ResponseEntity.ok(promotion);
+        }catch(RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
     }
 }

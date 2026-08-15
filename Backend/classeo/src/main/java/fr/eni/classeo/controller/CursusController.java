@@ -4,6 +4,7 @@ import fr.eni.classeo.bll.CursusService;
 import fr.eni.classeo.bo.Cursus;
 
 import fr.eni.classeo.dto.CursusPostDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,9 +42,8 @@ public class CursusController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addCursus(@RequestBody CursusPostDto cursus) {
+    public ResponseEntity<?> addCursus(@Valid @RequestBody CursusPostDto cursus) {
         try {
-
             cursusService.addCursus(cursus);
             return ResponseEntity.ok(cursus);
         }catch(RuntimeException e) {

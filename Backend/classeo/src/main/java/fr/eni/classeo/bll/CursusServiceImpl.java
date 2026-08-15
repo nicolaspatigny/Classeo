@@ -44,16 +44,15 @@ public class CursusServiceImpl implements CursusService {
         if(cursus.getFiliereId() == null){
             throw new RuntimeException("Filiere n'est pas renseigné'");
         }
-        Optional<Filiere> filiere = filiereRepository.findById(cursus.getFiliereId());
+        Filiere filiere = filiereRepository.findById(cursus.getFiliereId())
+                .orElseThrow(() -> new RuntimeException("Filiere n'existe pas"));
 
-        if(filiere.isPresent()){
+
             Cursus cursusToSave = Cursus.builder()
                     .nom(cursus.getNom())
-                    .filiere(filiere.get())
+                    .filiere(filiere)
                     .build();
             cursusRepository.save(cursusToSave);
-        }else{
-            throw new RuntimeException("la filiere n'existe pas");
-        }
+
     }
 }

@@ -20,7 +20,5 @@ public class PromotionPostDto {
     private String nom;
 
     @NotNull
-    private Integer filiereId;
-
     private Integer cursusId;
 }
