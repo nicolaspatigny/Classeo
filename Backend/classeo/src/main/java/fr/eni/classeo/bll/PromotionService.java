@@ -4,6 +4,7 @@ import fr.eni.classeo.bo.Eleve;
 import fr.eni.classeo.bo.Promotion;
 import fr.eni.classeo.dto.ElevePromotionDto;
 import fr.eni.classeo.dto.PromotionDto;
+import fr.eni.classeo.dto.PromotionPostDto;
 
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface PromotionService {
     PromotionDto getPromotionById(int id);
 
     List<ElevePromotionDto> listeElevesParPromotionId(int id);
+
+    void addPromotion(PromotionPostDto promotion);
 
 }
