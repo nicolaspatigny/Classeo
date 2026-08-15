@@ -1,5 +1,6 @@
 package fr.eni.classeo.security;
 
+import fr.eni.classeo.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,7 +53,23 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+
+                        // Login
+                        .requestMatchers("/api/auth/**").permitAll()
+
+                        // Admin only
+                        .requestMatchers("/api/admin/**")
+                        .hasRole("ADMIN")
+
+                        // Teacher + Admin
+                        .requestMatchers("/api/teacher/**")
+                        .hasAnyRole("TEACHER", "ADMIN")
+
+                        // Student + Teacher + Admin
+                        .requestMatchers("/api/student/**")
+                        .hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+
+                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
