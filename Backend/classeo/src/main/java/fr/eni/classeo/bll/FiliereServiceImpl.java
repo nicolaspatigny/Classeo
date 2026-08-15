@@ -39,7 +39,7 @@ public class FiliereServiceImpl implements FiliereService {
         try {
             filiereRepository.save(filiere);
         }catch(RuntimeException e){
-            throw  new RuntimeException("impossible de sauver"+ filiere.toString());
+            throw  new RuntimeException("impossible de sauver"+ filiere);
         }
     }
 }

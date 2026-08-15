@@ -2,7 +2,7 @@ package fr.eni.classeo.controller;
 
 import fr.eni.classeo.bll.CursusService;
 import fr.eni.classeo.bo.Cursus;
-import fr.eni.classeo.bo.Filiere;
+
 import fr.eni.classeo.dto.CursusPostDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
