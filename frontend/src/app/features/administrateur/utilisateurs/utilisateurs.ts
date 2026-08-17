@@ -237,7 +237,7 @@ export class UtilisateursAdministrateur {
       nom: user.nom,
       prenom: user.prenom,
       dateNaissance: user.dateNaissance,
-      role: user.role === 'ADMIN'
+      role: user.role === 'ADMINISTRATEUR'
         ? 'ELEVE'
         : user.role,
       promotionId:

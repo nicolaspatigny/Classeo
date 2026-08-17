@@ -9,7 +9,7 @@ import {
 
 import { AuthService } from '../../../core/services/auth';
 
-type Portal = 'ELEVE' | 'ENSEIGNANT' | 'ADMIN';
+type Portal = 'ELEVE' | 'ENSEIGNANT' | 'ADMINISTRATEUR';
 
 interface PortalTheme {
   name: string;
@@ -30,10 +30,13 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+
   selectedPortal: Portal = 'ELEVE';
 
   errorMessage = '';
+
   loading = false;
+
 
   themes: Record<Portal, PortalTheme> = {
 
@@ -51,7 +54,7 @@ export class LoginComponent {
       logo: 'assets/images/classeo-portail-enseignant.png'
     },
 
-    ADMIN: {
+    ADMINISTRATEUR: {
       name: 'Administrateur',
       primary: '#334155',
       dark: '#0F172A',
@@ -59,6 +62,7 @@ export class LoginComponent {
     }
 
   };
+
 
   loginForm = new FormGroup({
 
@@ -79,19 +83,31 @@ export class LoginComponent {
   });
 
 
+  /**
+   * Change le portail de connexion.
+   */
   selectPortal(portal: Portal): void {
 
     this.selectedPortal = portal;
 
     this.errorMessage = '';
+
   }
 
 
+  /**
+   * Thème correspondant au portail sélectionné.
+   */
   get currentTheme(): PortalTheme {
+
     return this.themes[this.selectedPortal];
+
   }
 
 
+  /**
+   * Envoie le formulaire de connexion.
+   */
   onSubmit(): void {
 
     if (this.loginForm.invalid) {
@@ -101,21 +117,25 @@ export class LoginComponent {
       return;
     }
 
+
     this.errorMessage = '';
+
     this.loading = true;
 
-    const username =
+
+    const login =
       this.loginForm.controls.username.value;
 
     const password =
       this.loginForm.controls.password.value;
 
-    const userType = this.getUserType();
+    const userType =
+      this.getUserType();
 
 
     this.authService
       .login(
-        username,
+        login,
         password,
         userType
       )
@@ -123,28 +143,41 @@ export class LoginComponent {
 
         next: response => {
 
-
           this.loading = false;
+
 
           switch (response.user.role) {
 
             case 'ELEVE':
+
               this.router.navigate(['/eleve']);
+
               break;
+
 
             case 'ENSEIGNANT':
+
               this.router.navigate(['/enseignant']);
+
               break;
 
-            case 'ADMIN':
+
+            case 'ADMINISTRATEUR':
+
               this.router.navigate(['/administrateur']);
+
               break;
+
 
             default:
+
               this.errorMessage =
                 'Rôle utilisateur inconnu.';
+
           }
+
         },
+
 
         error: error => {
 
@@ -153,32 +186,47 @@ export class LoginComponent {
             error
           );
 
+
           this.loading = false;
+
 
           this.errorMessage =
             'Identifiant, mot de passe ou portail incorrect.';
+
         }
 
       });
+
   }
 
 
+  /**
+   * Convertit le portail sélectionné
+   * en type attendu par le backend.
+   */
   private getUserType():
     'ELEVE' |
     'ENSEIGNANT' |
-    'ADMIN' {
+    'ADMINISTRATEUR' {
 
     switch (this.selectedPortal) {
 
       case 'ELEVE':
+
         return 'ELEVE';
 
+
       case 'ENSEIGNANT':
+
         return 'ENSEIGNANT';
 
-      case 'ADMIN':
-        return 'ADMIN';
+
+      case 'ADMINISTRATEUR':
+
+        return 'ADMINISTRATEUR';
+
     }
+
   }
 
 }

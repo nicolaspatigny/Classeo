@@ -1,21 +1,18 @@
 import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
-import { AuthUserService } from './auth-user';
-import { UserService } from './user';
-
-import { AuthUser } from '../../models/auth-user';
 import { AuthResponse } from '../../models/auth-response';
 import { User } from '../../models/user';
+import { API_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly authUserService = inject(AuthUserService);
-  private readonly userService = inject(UserService);
+  private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
   private readonly tokenKey = 'classeo_token';
@@ -24,68 +21,34 @@ export class AuthService {
   login(
     login: string,
     password: string,
-    userType: AuthUser['userType']
+    userType: User['role']
   ): Observable<AuthResponse> {
 
-    return this.authUserService.getAuthUsers().pipe(
-
-      map(authUsers => {
-
-        const authUser = authUsers.find(
-          user =>
-            user.login === login &&
-            user.password === password &&
-            user.userType === userType
-        );
-
-        if (!authUser) {
-          throw new Error('Identifiants incorrects');
+    return this.http
+      .post<AuthResponse>(
+        `${API_URL}/api/auth/login`,
+        {
+          login,
+          password,
+          userType
         }
+      )
+      .pipe(
 
-        return authUser;
-      }),
+        tap(response => {
 
-      switchMap(authUser =>
-        this.userService.getUsers().pipe(
+          sessionStorage.setItem(
+            this.tokenKey,
+            response.token
+          );
 
-          map(users => {
+          sessionStorage.setItem(
+            this.userKey,
+            JSON.stringify(response.user)
+          );
 
-            const user = users.find(
-              user => user.id === authUser.userId
-            );
-
-            if (!user) {
-              throw new Error(
-                'Utilisateur introuvable'
-              );
-            }
-
-            return {
-              token: `mock-jwt-${authUser.userId}-${Date.now()}`,
-              user
-            };
-
-            //return this.http.post<AuthResponse>(
-            //   '/api/auth/login',
-            //   { login, password }
-            // );
-          })
-        )
-      ),
-
-      tap(response => {
-
-        sessionStorage.setItem(
-          this.tokenKey,
-          response.token
-        );
-
-        sessionStorage.setItem(
-          this.userKey,
-          JSON.stringify(response.user)
-        );
-      })
-    );
+        })
+      );
   }
 
   logout(): void {

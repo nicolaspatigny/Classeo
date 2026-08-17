@@ -1,11 +1,12 @@
 package fr.eni.classeo.dto;
 
 public record UserResponse(
-        String id,
+        Integer id,
         String nom,
         String prenom,
+        String role,
         Integer promotionId,
-        Integer filiereId,
-        Integer cursusId
+        Integer cursusId,
+        Integer filiereId
 ) {
 }

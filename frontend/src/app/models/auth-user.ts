@@ -3,5 +3,5 @@ export interface AuthUser {
   userId: number;
   login: string;
   password: string;
-  userType: 'ELEVE' | 'ENSEIGNANT' | 'ADMIN';
+  userType: 'ELEVE' | 'ENSEIGNANT' | 'ADMINISTRATEUR';
 }

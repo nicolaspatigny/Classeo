@@ -43,11 +43,11 @@ INSERT INTO utilisateur (nom, prenom, date_naissance) VALUES
 
 -- 7. AUTH (user_id)
 INSERT INTO auth (user_id, login, password, authority) VALUES 
-(2, 'jdupont@classeo.fr', '$2a$10$e8...hash1', 'ROLE_FORMATEUR'), --saut de id pour etre compatible avec le user dartstart
-(3, 'mcurie@classeo.fr', '$2a$10$e8...hash2', 'ROLE_FORMATEUR'),
-(4, 'alice.martin@student.fr', '$2a$10$e8...hash3', 'ROLE_ELEVE'),
-(5, 'bob.legrand@student.fr', '$2a$10$e8...hash4', 'ROLE_ELEVE'),
-(6, 'chloe.dubois@student.fr', '$2a$10$e8...hash5', 'ROLE_ELEVE');
+(2, 'jdupont@classeo.fr', '$2a$10$COaeIJBJz1ztOSbaGkM8J.tUx0gAtlSihMHymlINDyp6e7XpbGuFS', 'ROLE_FORMATEUR'), --saut de id pour etre compatible avec le user dartstart
+(3, 'mcurie@classeo.fr', '$2a$10$COaeIJBJz1ztOSbaGkM8J.tUx0gAtlSihMHymlINDyp6e7XpbGuFS', 'ROLE_FORMATEUR'),
+(4, 'alice.martin@student.fr', '$2a$10$COaeIJBJz1ztOSbaGkM8J.tUx0gAtlSihMHymlINDyp6e7XpbGuFS', 'ROLE_ELEVE'),
+(5, 'bob.legrand@student.fr', '$2a$10$COaeIJBJz1ztOSbaGkM8J.tUx0gAtlSihMHymlINDyp6e7XpbGuFS', 'ROLE_ELEVE'),
+(6, 'chloe.dubois@student.fr', '$2a$10$COaeIJBJz1ztOSbaGkM8J.tUx0gAtlSihMHymlINDyp6e7XpbGuFS', 'ROLE_ELEVE');
 
 -- 8. FORMATEURS (id -> utilisateur.id)
 INSERT INTO formateur (id) VALUES 

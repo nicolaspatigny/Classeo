@@ -123,7 +123,7 @@ export const routes: Routes = [
     path: 'administrateur',
     component: AdministrateurLayout,
     canActivate: [
-      roleGuard('ADMIN')
+      roleGuard('ADMINISTRATEUR')
     ],
     children: [
       {

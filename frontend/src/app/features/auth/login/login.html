@@ -60,15 +60,15 @@
 
         <button
           type="button"
-          (click)="selectPortal('ADMIN')"
+          (click)="selectPortal('ADMINISTRATEUR')"
           class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
           [style.background-color]="
-            selectedPortal === 'ADMIN'
-              ? themes.ADMIN.primary
+            selectedPortal === 'ADMINISTRATEUR'
+              ? themes.ADMINISTRATEUR.primary
               : '#E2E8F0'
           "
           [style.color]="
-            selectedPortal === 'ADMIN'
+            selectedPortal === 'ADMINISTRATEUR'
               ? 'white'
               : '#334155'
           "
