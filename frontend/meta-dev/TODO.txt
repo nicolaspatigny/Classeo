@@ -10,3 +10,6 @@
 
 ----
 
+Lors d'un enregistrement d'une promotion, plutot mettre un champs cursus que filliere .
+
+Cree un champs,
