@@ -1,6 +1,7 @@
 package fr.eni.classeo.controller;
 
 import fr.eni.classeo.bll.CoursService;
+import fr.eni.classeo.bll.NoteService;
 import fr.eni.classeo.bo.Cours;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class CoursController {
 
     private CoursService coursService;
+
+    private NoteService noteService;
 
     @GetMapping
     public ResponseEntity<?> listeCours(){
@@ -37,5 +40,9 @@ public class CoursController {
         return ResponseEntity.ok(coursService.listeCoursPlanifieParCoursId(coursId));
     }
 
+    @GetMapping("/{coursId}/notes")
+    public ResponseEntity<?> getNotesByCoursId(@PathVariable Integer coursId){
+        return ResponseEntity.ok(noteService.findAllByCourseId(coursId));
+    }
 
 }
