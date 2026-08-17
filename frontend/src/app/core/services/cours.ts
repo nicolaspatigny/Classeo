@@ -14,14 +14,18 @@ export class CoursService {
 
   private readonly url = `${API_URL}/api/cours`;
 
+
   /**
    * Récupère tous les cours.
    */
   getCours(): Observable<Cours[]> {
 
-    return this.http.get<Cours[]>(this.url);
+    return this.http.get<Cours[]>(
+      this.url
+    );
 
   }
+
 
   /**
    * Récupère un cours grâce à son identifiant.
@@ -34,6 +38,7 @@ export class CoursService {
 
   }
 
+
   /**
    * Crée un nouveau cours.
    */
@@ -45,6 +50,37 @@ export class CoursService {
     return this.http.post<Cours>(
       this.url,
       request
+    );
+
+  }
+
+
+  /**
+   * Modifie un cours existant.
+   */
+  updateCours(
+    id: number,
+    request: {
+      nom: string;
+      promotionId: number;
+    }
+  ): Observable<Cours> {
+
+    return this.http.put<Cours>(
+      `${this.url}/${id}`,
+      request
+    );
+
+  }
+
+
+  /**
+   * Supprime un cours.
+   */
+  deleteCours(id: number): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.url}/${id}`
     );
 
   }
