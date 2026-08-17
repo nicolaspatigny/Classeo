@@ -154,7 +154,7 @@ public class AuthController {
             case "ROLE_FORMATEUR" ->
                     "ENSEIGNANT";
 
-            case "ROLE_ADMIN" ->
+            case "ROLE_ADMINISTRATEUR" ->
                     "ADMINISTRATEUR";
 
             default ->

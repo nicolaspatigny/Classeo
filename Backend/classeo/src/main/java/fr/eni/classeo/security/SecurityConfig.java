@@ -70,15 +70,15 @@ public class SecurityConfig {
 
                         // Admin only
                         .requestMatchers("/api/admin/**")
-                        .hasRole("ADMIN")
+                        .hasRole("ADMINISTRATEUR")
 
                         // Teacher + Admin
                         .requestMatchers("/api/teacher/**")
-                        .hasAnyRole("TEACHER", "ADMIN")
+                        .hasAnyRole("TEACHER", "ADMINISTRATEUR")
 
                         // Student + Teacher + Admin
                         .requestMatchers("/api/student/**")
-                        .hasAnyRole("STUDENT", "TEACHER", "ADMIN")
+                        .hasAnyRole("STUDENT", "TEACHER", "ADMINISTRATEUR")
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()
