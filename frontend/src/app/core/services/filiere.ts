@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Filiere } from '../../models/filiere';
+import { API_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,75 @@ export class FiliereService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly filieresUrl = 'assets/mock/filieres.json';
+  private readonly url = `${API_URL}/api/filieres`;
 
+
+  /**
+   * Récupère toutes les filières.
+   */
   getFilieres(): Observable<Filiere[]> {
-    return this.http.get<Filiere[]>(this.filieresUrl);
+
+    return this.http.get<Filiere[]>(
+      this.url
+    );
+
   }
 
-  getFiliereById(id: number): Observable<Filiere | undefined> {
-    return this.getFilieres().pipe(
-      map(filieres => filieres.find(filiere => filiere.id === id))
+
+  /**
+   * Récupère une filière grâce à son identifiant.
+   */
+  getFiliereById(id: number): Observable<Filiere> {
+
+    return this.http.get<Filiere>(
+      `${this.url}/${id}`
     );
+
   }
+
+
+  /**
+   * Crée une nouvelle filière.
+   */
+  createFiliere(request: {
+    nom: string;
+  }): Observable<Filiere> {
+
+    return this.http.post<Filiere>(
+      this.url,
+      request
+    );
+
+  }
+
+
+  /**
+   * Modifie une filière existante.
+   */
+  updateFiliere(
+    id: number,
+    request: {
+      nom: string;
+    }
+  ): Observable<Filiere> {
+
+    return this.http.put<Filiere>(
+      `${this.url}/${id}`,
+      request
+    );
+
+  }
+
+
+  /**
+   * Supprime une filière.
+   */
+  deleteFiliere(id: number): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.url}/${id}`
+    );
+
+  }
+
 }
