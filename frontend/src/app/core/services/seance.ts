@@ -13,9 +13,12 @@ export class SeanceService {
   private readonly http = inject(HttpClient);
 
   private readonly url =
-    'assets/mock/seances.json';
+    `${API_URL}/api/seances`;
 
 
+  /**
+   * Récupère toutes les séances.
+   */
   getSeances(): Observable<Seance[]> {
 
     return this.http.get<Seance[]>(
@@ -25,6 +28,37 @@ export class SeanceService {
   }
 
 
+  /**
+   * Récupère une séance grâce à son identifiant.
+   */
+  getSeanceById(
+    id: number
+  ): Observable<Seance> {
+
+    return this.http.get<Seance>(
+      `${this.url}/${id}`
+    );
+
+  }
+
+
+  /**
+   * Récupère toutes les séances d'un cours.
+   */
+  getSeancesByCoursId(
+    coursId: number
+  ): Observable<Seance[]> {
+
+    return this.http.get<Seance[]>(
+      `${API_URL}/api/cours/${coursId}/seances`
+    );
+
+  }
+
+
+  /**
+   * Crée une nouvelle séance.
+   */
   createSeance(request: {
     coursId: number;
     date: string;
@@ -34,8 +68,44 @@ export class SeanceService {
   }): Observable<Seance> {
 
     return this.http.post<Seance>(
-      `${API_URL}/api/seances`,
+      this.url,
       request
+    );
+
+  }
+
+
+  /**
+   * Modifie une séance existante.
+   */
+  updateSeance(
+    id: number,
+    request: {
+      coursId: number;
+      date: string;
+      heureDebut: string;
+      heureFin: string;
+      salle: string;
+    }
+  ): Observable<Seance> {
+
+    return this.http.put<Seance>(
+      `${this.url}/${id}`,
+      request
+    );
+
+  }
+
+
+  /**
+   * Supprime une séance.
+   */
+  deleteSeance(
+    id: number
+  ): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.url}/${id}`
     );
 
   }
