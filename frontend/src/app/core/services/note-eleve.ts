@@ -20,29 +20,20 @@ export class NotesEleveService {
   getNotesEleve(eleveId: number): Observable<NoteCours[]> {
 
     return forkJoin({
-      notes: this.noteService.getNotes(),
+      notes: this.noteService.getNotesByEleveId(eleveId),
       cours: this.coursService.getCours()
     }).pipe(
 
       map(data => {
 
-
-        // On récupère uniquement les notes de cet élève
-        const notesEleve = data.notes.filter(
-          note => note.eleveId === eleveId
-        );
-
         const result: NoteCours[] = [];
 
-        // Pour chaque cours
         for (const cours of data.cours) {
 
-          // On cherche les notes de cet élève pour ce cours
-          const notes = notesEleve.filter(
+          const notes = data.notes.filter(
             note => note.coursId === cours.id
           );
 
-          // Aucun note pour ce cours
           if (notes.length === 0) {
             continue;
           }
@@ -51,6 +42,7 @@ export class NotesEleveService {
             cours,
             notes
           });
+
         }
 
         return result;

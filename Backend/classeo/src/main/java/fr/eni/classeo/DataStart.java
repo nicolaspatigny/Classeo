@@ -53,7 +53,7 @@ public class DataStart {
                     .userId(admin)
                     .login("admin")
                     .password(passwordEncoder.encode("password"))
-                    .authority("ROLE_ADMIN")
+                    .authority("ROLE_ADMINISTRATEUR")
                     .build();
 
 

@@ -1,5 +1,4 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-
 import { inject } from '@angular/core';
 
 import { AuthService } from '../services/auth';
@@ -10,7 +9,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = authService.getToken();
 
-  if (!token) {
+  if (
+    !token ||
+    req.url.includes('/api/auth/login')
+  ) {
     return next(req);
   }
 
