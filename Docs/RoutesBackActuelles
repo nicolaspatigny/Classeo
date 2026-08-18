@@ -1,0 +1,35 @@
+
+
+GET /api/promotions/{promotionId}/eleves
+GET /api/promotions
+POST /api/promotions
+GET /api/promotions/{id}
+GET /api/promotions/{promotionId}/cours
+GET /api/promotions/{promotionId}/eleves
+
+GET /api/filieres
+POST /api/filieres
+GET /api/filieres/{id}
+
+GET /api/cursus
+POST /api/cursus
+GET /api/cursus/{id}
+
+GET /api/cours
+GET /api/cours/{id}
+POST /api/cours
+GET /api/cours-promotions
+GET /api/cours/{coursId}/seances
+
+GET /api/seances
+GET /api/seances/{id}
+
+GET /api/enseignants/{enseignantId}/cours
+
+GET /api/notes
+GET /api/eleves/{eleveId}/notes
+GET /api/cours/{coursId}/notes
+POST /api/notes
+
+GET /api/users
+post /api/users
