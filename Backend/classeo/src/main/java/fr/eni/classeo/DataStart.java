@@ -57,8 +57,7 @@ public class DataStart {
                     .build();
 
 
-            authRepository.save(studentAuth);
-            authRepository.save(teacherAuth);
+
             authRepository.save(adminAuth);
         };
     }
