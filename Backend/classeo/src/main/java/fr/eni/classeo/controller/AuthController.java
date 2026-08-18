@@ -151,7 +151,7 @@ public class AuthController {
             case "ROLE_ELEVE" ->
                     "ELEVE";
 
-            case "ROLE_FORMATEUR" ->
+            case "ROLE_ENSEIGNANT" ->
                     "ENSEIGNANT";
 
             case "ROLE_ADMINISTRATEUR" ->

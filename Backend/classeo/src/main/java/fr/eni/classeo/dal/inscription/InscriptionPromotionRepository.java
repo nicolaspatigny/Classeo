@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface InscriptionPromotionRepository
         extends JpaRepository<InscriptionPromotion, InscriptionPromotionPK> {
@@ -29,7 +30,6 @@ public interface InscriptionPromotionRepository
     """)
     List<ElevePromotionDto> findElevesByPromotionId(Integer promotionId);
 
-
     @Query("""
         SELECT ip
         FROM InscriptionPromotion ip
@@ -39,4 +39,17 @@ public interface InscriptionPromotionRepository
         WHERE ip.eleve.id = :eleveId
     """)
     List<InscriptionPromotion> findByEleveIdWithDetails(Integer eleveId);
+
+
+    @Query("""
+    SELECT ip
+    FROM InscriptionPromotion ip
+    JOIN FETCH ip.promotion p
+    JOIN FETCH p.cursus c
+    JOIN FETCH c.filiere f
+    WHERE ip.eleve.id = :eleveId
+    ORDER BY ip.dateInscription DESC
+    LIMIT 1
+""")
+    Optional<InscriptionPromotion> findFirstByEleveIdOrderByDateInscriptionDesc(Integer eleveId);
 }

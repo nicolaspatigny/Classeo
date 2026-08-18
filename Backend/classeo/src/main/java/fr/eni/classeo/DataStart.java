@@ -27,7 +27,7 @@ public class DataStart {
                     .userId(student)
                     .login("student")
                     .password(passwordEncoder.encode("password"))
-                    .authority("ROLE_STUDENT")
+                    .authority("ROLE_ELEVE")
                     .build();
 
 
@@ -40,7 +40,7 @@ public class DataStart {
                     .userId(teacher)
                     .login("teacher")
                     .password(passwordEncoder.encode("password"))
-                    .authority("ROLE_TEACHER")
+                    .authority("ROLE_ENSEIGNANT")
                     .build();
 
 
@@ -57,9 +57,10 @@ public class DataStart {
                     .build();
 
 
-            authRepository.save(studentAuth);
-            authRepository.save(teacherAuth);
+
             authRepository.save(adminAuth);
+            authRepository.save(teacherAuth);
+            authRepository.save(studentAuth);
         };
     }
 }
