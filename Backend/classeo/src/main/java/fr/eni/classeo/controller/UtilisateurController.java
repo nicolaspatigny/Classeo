@@ -21,7 +21,7 @@ public class UtilisateurController {
 
     @GetMapping
     public ResponseEntity<?> getUtilisateurs(){
-        List<UtilisateurDto> utilisateurs =  utilisateurService.findAll();
+        List<UtilisateurDto> utilisateurs = utilisateurService.findAll();
         return ResponseEntity.ok(utilisateurs);
     }
 
@@ -31,8 +31,21 @@ public class UtilisateurController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addUtilisateur(@Valid @RequestBody UtilisateurPostDto utilisateur){
+    public ResponseEntity<?> addUtilisateur(
+            @Valid @RequestBody UtilisateurPostDto utilisateur){
+
         utilisateurService.addUtilisateur(utilisateur);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUtilisateur(
+            @PathVariable Integer id,
+            @Valid @RequestBody UtilisateurPostDto utilisateur){
+
+        utilisateurService.updateUtilisateur(id, utilisateur);
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -15,4 +15,6 @@ public interface AuthRepository extends JpaRepository<Auth, Integer> {
         WHERE a.login = :login
     """)
     Optional<Auth> findByLoginWithUser(String login);
+
+    Optional<Auth> findByUserId_Id(Integer userId);
 }

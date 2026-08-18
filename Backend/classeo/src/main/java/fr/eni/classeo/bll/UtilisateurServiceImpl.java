@@ -145,5 +145,44 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         authRepository.save(authToSave);
 
+
+
+    }
+
+    @Override
+    @Transactional
+    public void updateUtilisateur(Integer id, UtilisateurPostDto utilisateur) {
+
+        Utilisateur existingUser = utilisateurRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Utilisateur introuvable : " + id
+                        )
+                );
+
+        existingUser.setNom(utilisateur.getNom());
+        existingUser.setPrenom(utilisateur.getPrenom());
+        existingUser.setDateNaissance(utilisateur.getDateNaissance());
+
+        utilisateurRepository.save(existingUser);
+
+        Auth existingAuth = authRepository.findByUserId_Id(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Auth introuvable pour l'utilisateur : " + id
+                        )
+                );
+
+        existingAuth.setLogin(utilisateur.getLogin());
+
+        existingAuth.setPassword(
+                passwordEncoder.encode(utilisateur.getPassword())
+        );
+
+        existingAuth.setAuthority(
+                "ROLE_" + utilisateur.getRole()
+        );
+
+        authRepository.save(existingAuth);
     }
 }
