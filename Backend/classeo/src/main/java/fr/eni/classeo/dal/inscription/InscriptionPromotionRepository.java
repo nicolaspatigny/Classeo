@@ -30,7 +30,6 @@ public interface InscriptionPromotionRepository
     """)
     List<ElevePromotionDto> findElevesByPromotionId(Integer promotionId);
 
-
     @Query("""
         SELECT ip
         FROM InscriptionPromotion ip
@@ -41,23 +40,16 @@ public interface InscriptionPromotionRepository
     """)
     List<InscriptionPromotion> findByEleveIdWithDetails(Integer eleveId);
 
+
     @Query("""
-    SELECT new fr.eni.classeo.dto.ElevePromotionDto(
-        e.id,
-        e.nom,
-        e.prenom,
-        p.id,
-        f.id,
-        c.id
-    )
+    SELECT ip
     FROM InscriptionPromotion ip
-    JOIN ip.eleve e
-    JOIN ip.promotion p
-    JOIN p.cursus c
-    JOIN c.filiere f
-    WHERE p.id = :promotionId
+    JOIN FETCH ip.promotion p
+    JOIN FETCH p.cursus c
+    JOIN FETCH c.filiere f
+    WHERE ip.eleve.id = :eleveId
+    ORDER BY ip.dateInscription DESC
+    LIMIT 1
 """)
-
-
     Optional<InscriptionPromotion> findFirstByEleveIdOrderByDateInscriptionDesc(Integer eleveId);
 }

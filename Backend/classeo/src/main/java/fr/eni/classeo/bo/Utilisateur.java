@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -26,7 +27,7 @@ public class Utilisateur {
     @Column(nullable = false, length = 150)
     private String prenom;
 
-    private Date dateNaissance;
+    private LocalDate dateNaissance;
 
 
 }

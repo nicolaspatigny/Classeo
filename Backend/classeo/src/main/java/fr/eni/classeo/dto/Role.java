@@ -1,13 +1,13 @@
 package fr.eni.classeo.dto;
 
 public enum Role {
-    ADMIN,
+    ADMINISTRATEUR,
     ENSEIGNANT,
     ELEVE;
 
     public static Role fromAuthority(String authority) {
         return switch (authority) {
-            case "ROLE_ADMIN" -> ADMIN;
+            case "ROLE_ADMINISTRATEUR" -> ADMINISTRATEUR;
             case "ROLE_ENSEIGNANT" -> ENSEIGNANT;
             case "ROLE_ELEVE" -> ELEVE;
             default -> throw new IllegalArgumentException(

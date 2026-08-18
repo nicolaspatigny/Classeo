@@ -59,4 +59,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                     );
                 }).toList();
     }
+
+    @Override
+    public Utilisateur getUserById(Integer id) {
+        return utilisateurRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Utilisateur introuvable : " + id
+                        )
+                );
+    }
 }
