@@ -184,5 +184,48 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         );
 
         authRepository.save(existingAuth);
+        if (existingUser instanceof Eleve eleve) {
+
+            InscriptionPromotion inscription =
+                    inscriptionPromotionRepository
+                            .findFirstByEleveIdOrderByDateInscriptionDesc(eleve.getId())
+                            .orElse(null);
+
+            if (utilisateur.getPromotionId() != null) {
+
+                Promotion promotion = promotionRepository
+                        .findById(utilisateur.getPromotionId())
+                        .orElseThrow(() ->
+                                new IllegalArgumentException(
+                                        "Promotion non trouvée : "
+                                                + utilisateur.getPromotionId()
+                                )
+                        );
+
+                if (inscription != null) {
+                    inscription.setPromotion(promotion);
+                    inscription.setDateInscription(LocalDate.now());
+
+                    inscriptionPromotionRepository.save(inscription);
+
+                } else {
+                    InscriptionPromotionPK inscriptionId =
+                            new InscriptionPromotionPK(
+                                    eleve.getId(),
+                                    promotion.getId()
+                            );
+
+                    InscriptionPromotion newInscription =
+                            new InscriptionPromotion();
+
+                    newInscription.setId(inscriptionId);
+                    newInscription.setEleve(eleve);
+                    newInscription.setPromotion(promotion);
+                    newInscription.setDateInscription(LocalDate.now());
+
+                    inscriptionPromotionRepository.save(newInscription);
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package fr.eni.classeo;
 
 import fr.eni.classeo.bo.Auth;
+import fr.eni.classeo.bo.Eleve;
 import fr.eni.classeo.bo.Utilisateur;
 import fr.eni.classeo.dal.user.AuthRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +19,7 @@ public class DataStart {
     ) {
         return args -> {
 
-            Utilisateur student = Utilisateur.builder()
+            Eleve student = Eleve.builder()
                     .nom("Student")
                     .prenom("Test")
                     .build();
