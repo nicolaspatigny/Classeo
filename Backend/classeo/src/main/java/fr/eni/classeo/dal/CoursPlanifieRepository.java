@@ -2,9 +2,7 @@ package fr.eni.classeo.dal;
 
 
 import fr.eni.classeo.bo.CoursPlanifie;
-import fr.eni.classeo.dto.CoursDto;
-import fr.eni.classeo.dto.CoursPlanifieDto;
-import fr.eni.classeo.dto.CoursPromotionDto;
+import fr.eni.classeo.dto.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -76,4 +74,32 @@ SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
     WHERE cp.id = :id
 """)
     CoursPlanifieDto findCoursPlanifieById(int id);
+
+    @Query("""
+    SELECT DISTINCT new fr.eni.classeo.dto.CoursElevesDto(
+        cp.cursusCours.cours.id,
+        ic.eleve.id
+    )
+    FROM CoursPlanifie cp
+    JOIN InscriptionCours ic ON ic.coursPlanifie.id = cp.id
+    
+    UNION
+    
+    SELECT DISTINCT new fr.eni.classeo.dto.CoursElevesDto(
+        cp.cursusCours.cours.id,
+        ip.eleve.id
+    )
+    FROM CoursPlanifie cp
+    JOIN InscriptionPromotion ip ON ip.promotion.id = cp.promotion.id
+""")
+    List<CoursElevesDto> listeCoursEleves();
+
+    @Query("""
+    SELECT DISTINCT new fr.eni.classeo.dto.CoursFormateurDto(
+        cp.cursusCours.cours.id,
+        cp.formateur.id
+    )
+    FROM CoursPlanifie cp
+""")
+    List<CoursFormateurDto> listeCoursFormateur();
 }
