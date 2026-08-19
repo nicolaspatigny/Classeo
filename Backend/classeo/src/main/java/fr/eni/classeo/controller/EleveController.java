@@ -19,4 +19,6 @@ public class EleveController {
     public ResponseEntity<?> getNotes(@PathVariable("eleveId") Integer eleveId){
         return ResponseEntity.ok(noteService.findAllByEleveId(eleveId));
     }
+
+
 }

@@ -1,9 +1,7 @@
 package fr.eni.classeo.bll;
 
 import fr.eni.classeo.bo.Cours;
-import fr.eni.classeo.dto.CoursDto;
-import fr.eni.classeo.dto.CoursPlanifieDto;
-import fr.eni.classeo.dto.CoursPromotionDto;
+import fr.eni.classeo.dto.*;
 
 import java.util.List;
 
@@ -18,4 +16,8 @@ public interface CoursPlanifieService {
     List<CoursPlanifieDto> listeCoursPlanifie();
 
     CoursPlanifieDto getCoursPlanifieById(int id);
+
+    List<CoursElevesDto> listeCoursEleves();
+
+    List<CoursFormateurDto>  listeCoursFormateur();
 }

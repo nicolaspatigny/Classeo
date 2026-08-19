@@ -34,4 +34,15 @@ public class CoursPlanifieController {
         return ResponseEntity.ok(coursPlanifieService.getCoursPlanifieById(id));
     }
 
+    @GetMapping("/cours-eleves")
+    public ResponseEntity<?> listeCoursEleves() {
+        return ResponseEntity.ok(coursPlanifieService.listeCoursEleves());
+    }
+
+    @GetMapping("/cours-enseignants")
+    public ResponseEntity<?> listeCoursEnseignant() {
+        return ResponseEntity.ok(coursPlanifieService.listeCoursFormateur());
+    }
+
+    //TODO cours-enseignant
 }

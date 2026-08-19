@@ -2,9 +2,7 @@ package fr.eni.classeo.bll;
 
 import fr.eni.classeo.bo.Cours;
 import fr.eni.classeo.dal.CoursPlanifieRepository;
-import fr.eni.classeo.dto.CoursDto;
-import fr.eni.classeo.dto.CoursPlanifieDto;
-import fr.eni.classeo.dto.CoursPromotionDto;
+import fr.eni.classeo.dto.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +38,15 @@ public class CoursPlanifieServiceImpl implements CoursPlanifieService{
     @Override
     public CoursPlanifieDto getCoursPlanifieById(int id) {
         return coursPlanifieRepository.findCoursPlanifieById(id);
+    }
+
+    @Override
+    public List<CoursElevesDto> listeCoursEleves() {
+        return coursPlanifieRepository.listeCoursEleves();
+    }
+
+    @Override
+    public List<CoursFormateurDto> listeCoursFormateur() {
+        return coursPlanifieRepository.listeCoursFormateur();
     }
 }
