@@ -2,12 +2,14 @@ package fr.eni.classeo.dto;
 
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class UtilisateurDto {
 
     private Integer id;

@@ -52,4 +52,6 @@ public interface InscriptionPromotionRepository
     LIMIT 1
 """)
     Optional<InscriptionPromotion> findFirstByEleveIdOrderByDateInscriptionDesc(Integer eleveId);
+
+
 }

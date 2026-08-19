@@ -10,7 +10,7 @@ public interface UtilisateurService {
 
     List<UtilisateurDto> findAll();
 
-    Utilisateur getUserById(Integer id);
+    UtilisateurDto getUserById(Integer id);
 
     void addUtilisateur(UtilisateurPostDto utilisateur);
 
