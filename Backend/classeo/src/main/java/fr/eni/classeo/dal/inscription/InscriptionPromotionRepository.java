@@ -53,5 +53,6 @@ public interface InscriptionPromotionRepository
 """)
     Optional<InscriptionPromotion> findFirstByEleveIdOrderByDateInscriptionDesc(Integer eleveId);
 
+    void deleteByEleveId(Integer eleveId);
 
 }

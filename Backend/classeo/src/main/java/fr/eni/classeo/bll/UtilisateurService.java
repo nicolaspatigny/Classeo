@@ -15,4 +15,6 @@ public interface UtilisateurService {
     void addUtilisateur(UtilisateurPostDto utilisateur);
 
     void updateUtilisateur(Integer id, UtilisateurPostDto utilisateur);
+
+    void deleteUtilisateur(Integer id);
 }

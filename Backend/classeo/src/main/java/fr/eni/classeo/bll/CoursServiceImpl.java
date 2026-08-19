@@ -39,4 +39,29 @@ public class CoursServiceImpl implements CoursService {
     public List<CoursPlanifieDto> listeCoursPlanifieParCoursId(int coursId) {
         return coursRepository.findCoursPlanifieByCoursId(coursId);
     }
+
+    @Override
+    public void updateCours(Integer id, Cours cours) {
+
+        Cours existingCours = coursRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cours introuvable : " + id)
+                );
+
+        existingCours.setNom(cours.getNom());
+        existingCours.setDuree(cours.getDuree());
+
+        coursRepository.save(existingCours);
+    }
+
+    @Override
+    public void deleteCours(Integer id) {
+
+        Cours cours = coursRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cours introuvable : " + id)
+                );
+
+        coursRepository.delete(cours);
+    }
 }

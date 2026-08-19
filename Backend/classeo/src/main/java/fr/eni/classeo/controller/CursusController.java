@@ -50,4 +50,32 @@ public class CursusController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCursus(
+            @PathVariable Integer id,
+            @Valid @RequestBody CursusPostDto cursus) {
+
+        try {
+            cursusService.updateCursus(id, cursus);
+            return ResponseEntity.ok(cursus);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_ACCEPTABLE)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCursus(@PathVariable Integer id) {
+
+        try {
+            cursusService.deleteCursus(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
 }

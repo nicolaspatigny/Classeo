@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -42,6 +44,20 @@ public class CoursPlanifieController {
     @GetMapping("/cours-enseignants")
     public ResponseEntity<?> listeCoursEnseignant() {
         return ResponseEntity.ok(coursPlanifieService.listeCoursFormateur());
+    }
+
+    @DeleteMapping("/seances/{id}")
+    public ResponseEntity<?> deleteCoursPlanifie(@PathVariable int id) {
+
+        try {
+            coursPlanifieService.deleteCoursPlanifie(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
     }
 
     //TODO cours-enseignant

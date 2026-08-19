@@ -56,4 +56,34 @@ public class PromotionController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePromotion(
+            @PathVariable Integer id,
+            @Valid @RequestBody PromotionPostDto promotion) {
+
+        try {
+            promotionService.updatePromotion(id, promotion);
+            return ResponseEntity.ok(promotion);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_ACCEPTABLE)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePromotion(@PathVariable Integer id) {
+
+        try {
+            promotionService.deletePromotion(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
 }

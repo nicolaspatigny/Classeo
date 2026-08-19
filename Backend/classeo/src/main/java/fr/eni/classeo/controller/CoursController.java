@@ -45,4 +45,34 @@ public class CoursController {
         return ResponseEntity.ok(noteService.findAllByCourseId(coursId));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCours(
+            @PathVariable Integer id,
+            @RequestBody Cours cours) {
+
+        try {
+            coursService.updateCours(id, cours);
+            return ResponseEntity.ok(cours);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCours(@PathVariable Integer id) {
+
+        try {
+            coursService.deleteCours(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
 }

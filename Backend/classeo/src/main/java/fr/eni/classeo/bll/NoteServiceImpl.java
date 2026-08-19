@@ -75,4 +75,53 @@ public class NoteServiceImpl implements NoteService {
                 .build();
         noteRepository.save(noteToSave);
     }
+
+    @Override
+    public void updateNote(Integer id, NotePostDto note) {
+
+        Note existingNote = noteRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Note introuvable : " + id)
+                );
+
+        if (note == null) {
+            throw new RuntimeException("Aucune note n'est renseignée");
+        }
+
+        if (note.getCoursId() == null) {
+            throw new RuntimeException("Cours n'est pas renseigné");
+        }
+
+        Cours cours = coursRepository.findById(note.getCoursId())
+                .orElseThrow(() ->
+                        new RuntimeException("Cours n'existe pas")
+                );
+
+        if (note.getEleveId() == null) {
+            throw new RuntimeException("Eleve n'est pas renseigné");
+        }
+
+        Eleve eleve = eleveRepository.findById(note.getEleveId())
+                .orElseThrow(() ->
+                        new RuntimeException("Eleve n'existe pas")
+                );
+
+        existingNote.setNote(note.getNote());
+        existingNote.setCours(cours);
+        existingNote.setEleve(eleve);
+
+        noteRepository.save(existingNote);
+    }
+
+    @Override
+    public void deleteNote(Integer id) {
+
+        Note note = noteRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Note introuvable : " + id)
+                );
+
+        noteRepository.delete(note);
+    }
+
 }

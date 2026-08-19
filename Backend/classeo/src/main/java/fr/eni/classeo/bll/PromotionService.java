@@ -18,4 +18,8 @@ public interface PromotionService {
 
     void addPromotion(PromotionPostDto promotion);
 
+    void updatePromotion(Integer id, PromotionPostDto promotion);
+
+    void deletePromotion(Integer id);
+
 }

@@ -12,4 +12,8 @@ public interface CoursService {
     Cours getCoursById(int id);
 
     List<CoursPlanifieDto> listeCoursPlanifieParCoursId(int coursId);
+
+    void updateCours(Integer id, Cours cours);
+
+    void deleteCours(Integer id);
 }

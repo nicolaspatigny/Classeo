@@ -55,4 +55,40 @@ public class CursusServiceImpl implements CursusService {
             cursusRepository.save(cursusToSave);
 
     }
+
+    @Override
+    public void updateCursus(Integer id, CursusPostDto cursus) {
+
+        Cursus existingCursus = cursusRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cursus introuvable : " + id)
+                );
+
+        if (cursus.getFiliereId() == null) {
+            throw new RuntimeException("Filiere n'est pas renseigné");
+        }
+
+        Filiere filiere = filiereRepository.findById(cursus.getFiliereId())
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Filiere introuvable : " + cursus.getFiliereId()
+                        )
+                );
+
+        existingCursus.setNom(cursus.getNom());
+        existingCursus.setFiliere(filiere);
+
+        cursusRepository.save(existingCursus);
+    }
+
+    @Override
+    public void deleteCursus(Integer id) {
+
+        Cursus cursus = cursusRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Cursus introuvable : " + id)
+                );
+
+        cursusRepository.delete(cursus);
+    }
 }

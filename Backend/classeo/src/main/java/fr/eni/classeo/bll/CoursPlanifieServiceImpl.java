@@ -49,4 +49,14 @@ public class CoursPlanifieServiceImpl implements CoursPlanifieService{
     public List<CoursFormateurDto> listeCoursFormateur() {
         return coursPlanifieRepository.listeCoursFormateur();
     }
+
+    @Override
+    public void deleteCoursPlanifie(int id) {
+
+        if (!coursPlanifieRepository.existsById(id)) {
+            throw new RuntimeException("Séance introuvable");
+        }
+
+        coursPlanifieRepository.deleteById(id);
+    }
 }

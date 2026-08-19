@@ -15,4 +15,8 @@ public interface NoteService {
     List<NoteDto> findAllByCourseId(Integer courseId);
 
     void addNote(NotePostDto notePostDto);
+
+    void updateNote(Integer id, NotePostDto note);
+
+    void deleteNote(Integer id);
 }

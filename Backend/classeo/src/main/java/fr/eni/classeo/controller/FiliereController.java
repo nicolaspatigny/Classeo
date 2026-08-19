@@ -48,4 +48,32 @@ public class FiliereController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateFiliere(
+            @PathVariable Integer id,
+            @Valid @RequestBody Filiere filiere) {
+
+        try {
+            filiereService.updateFiliere(id, filiere);
+            return ResponseEntity.ok(filiere);
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_ACCEPTABLE)
+                    .body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteFiliere(@PathVariable Integer id) {
+
+        try {
+            filiereService.deleteFiliere(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
 }

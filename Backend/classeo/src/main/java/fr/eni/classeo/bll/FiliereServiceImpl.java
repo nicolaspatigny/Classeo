@@ -42,4 +42,32 @@ public class FiliereServiceImpl implements FiliereService {
             throw  new RuntimeException("impossible de sauver"+ filiere);
         }
     }
+
+    @Override
+    public void updateFiliere(Integer id, Filiere filiere) {
+
+        Filiere existingFiliere = filiereRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Filiere introuvable : " + id)
+                );
+
+        if (filiere == null) {
+            throw new RuntimeException("Filiere n'est pas renseignée");
+        }
+
+        existingFiliere.setNom(filiere.getNom());
+
+        filiereRepository.save(existingFiliere);
+    }
+
+    @Override
+    public void deleteFiliere(Integer id) {
+
+        Filiere filiere = filiereRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Filiere introuvable : " + id)
+                );
+
+        filiereRepository.delete(filiere);
+    }
 }

@@ -12,5 +12,8 @@ public interface FiliereService {
 
     void addFiliere(Filiere filiere);
 
+    void updateFiliere(Integer id, Filiere filiere);
+
+    void deleteFiliere(Integer id);
 
 }

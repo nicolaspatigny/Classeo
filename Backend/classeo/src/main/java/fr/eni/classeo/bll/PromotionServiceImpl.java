@@ -71,4 +71,40 @@ public class PromotionServiceImpl implements PromotionService {
 
         promotionRepository.save(promotionToSave);
     }
+
+    @Override
+    public void updatePromotion(Integer id, PromotionPostDto promotion) {
+
+        Promotion existingPromotion = promotionRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Promotion introuvable : " + id)
+                );
+
+        if (promotion.getCursusId() == null) {
+            throw new RuntimeException("cursusId is null");
+        }
+
+        Cursus cursus = cursusRepository.findById(promotion.getCursusId())
+                .orElseThrow(() ->
+                        new RuntimeException("Le cursus n'existe pas")
+                );
+
+        existingPromotion.setNom(promotion.getNom());
+        existingPromotion.setDateDebut(promotion.getDateDebut());
+        existingPromotion.setDateFin(promotion.getDateFin());
+        existingPromotion.setCursus(cursus);
+
+        promotionRepository.save(existingPromotion);
+    }
+
+    @Override
+    public void deletePromotion(Integer id) {
+
+        Promotion promotion = promotionRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Promotion introuvable : " + id)
+                );
+
+        promotionRepository.delete(promotion);
+    }
 }

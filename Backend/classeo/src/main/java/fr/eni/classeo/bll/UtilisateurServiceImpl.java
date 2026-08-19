@@ -282,4 +282,26 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             }
         }
     }
+    @Override
+    @Transactional
+    public void deleteUtilisateur(Integer id) {
+
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Utilisateur introuvable : " + id)
+                );
+
+        // Delete the authentication account first
+        authRepository.findByUserId_Id(id)
+                .ifPresent(authRepository::delete);
+
+        // If the user is a student, remove their promotion registration
+        if (utilisateur instanceof Eleve eleve) {
+            inscriptionPromotionRepository
+                    .deleteByEleveId(eleve.getId());
+        }
+
+        // Finally delete the user
+        utilisateurRepository.delete(utilisateur);
+    }
 }

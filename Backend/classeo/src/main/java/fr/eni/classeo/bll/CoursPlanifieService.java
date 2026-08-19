@@ -11,7 +11,7 @@ public interface CoursPlanifieService {
 
     List<CoursDto> listeCoursParPromotion(int promotionId);
 
-    List<CoursDto>  listeCoursParFormateur(int formateurId);
+    List<CoursDto> listeCoursParFormateur(int formateurId);
 
     List<CoursPlanifieDto> listeCoursPlanifie();
 
@@ -19,5 +19,7 @@ public interface CoursPlanifieService {
 
     List<CoursElevesDto> listeCoursEleves();
 
-    List<CoursFormateurDto>  listeCoursFormateur();
+    List<CoursFormateurDto> listeCoursFormateur();
+
+    void deleteCoursPlanifie(int id);
 }

@@ -12,4 +12,8 @@ public interface CursusService {
     Cursus getCursusById(int id);
 
     void addCursus(CursusPostDto cursus);
+
+    void updateCursus(Integer id, CursusPostDto cursus);
+
+    void deleteCursus(Integer id);
 }
