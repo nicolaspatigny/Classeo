@@ -20,4 +20,6 @@ public interface CoursPlanifieService {
     List<CoursElevesDto> listeCoursEleves();
 
     List<CoursFormateurDto>  listeCoursFormateur();
+
+    CoursPlanifieDto addCoursPlanifie(CoursPlanifiePostDto coursPlanifiePostDto);
 }

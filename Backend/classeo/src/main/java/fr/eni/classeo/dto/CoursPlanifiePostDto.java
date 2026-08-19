@@ -9,10 +9,8 @@ import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
-@Builder
-public class CoursPlanifieDto {
+public class CoursPlanifiePostDto {
 
-    private Integer id;
     private Integer coursId;
     private LocalDate date;
     private Integer formateurId;
