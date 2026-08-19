@@ -32,4 +32,5 @@ GET /api/cours/{coursId}/notes
 POST /api/notes
 
 GET /api/users
+GET /api/users/{id}
 POST /api/users

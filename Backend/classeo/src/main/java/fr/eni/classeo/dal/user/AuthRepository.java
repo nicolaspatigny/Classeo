@@ -1,6 +1,7 @@
 package fr.eni.classeo.dal.user;
 
 import fr.eni.classeo.bo.Auth;
+import fr.eni.classeo.bo.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,4 +16,6 @@ public interface AuthRepository extends JpaRepository<Auth, Integer> {
         WHERE a.login = :login
     """)
     Optional<Auth> findByLoginWithUser(String login);
+
+    Optional<Auth> findByUserId(Utilisateur userId);
 }

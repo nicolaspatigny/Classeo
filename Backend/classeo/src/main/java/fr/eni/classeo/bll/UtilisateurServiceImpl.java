@@ -5,8 +5,6 @@ import fr.eni.classeo.bo.pk.InscriptionPromotionPK;
 import fr.eni.classeo.dal.PromotionRepository;
 import fr.eni.classeo.dal.inscription.InscriptionPromotionRepository;
 import fr.eni.classeo.dal.user.AuthRepository;
-import fr.eni.classeo.dal.user.EleveRepository;
-import fr.eni.classeo.dal.user.FormateurRepository;
 import fr.eni.classeo.dal.user.UtilisateurRepository;
 import fr.eni.classeo.dto.Role;
 import fr.eni.classeo.dto.UtilisateurDto;
@@ -18,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -76,13 +72,71 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     @Override
-    public Utilisateur getUserById(Integer id) {
-        return utilisateurRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Utilisateur introuvable : " + id
-                        )
-                );
+    public UtilisateurDto getUserById(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("L'identifiant est invalide : " + id);
+        }
+
+        Utilisateur utilisateurBd = utilisateurRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable : " + id));
+
+        Auth auth = authRepository.findByUserId(utilisateurBd)
+                .orElseThrow(() -> new RuntimeException("Authentification introuvable : " + id));
+
+        return switch (auth.getAuthority()) {
+            case "ROLE_ADMINISTRATEUR" -> UtilisateurDto.builder()
+                    .id(utilisateurBd.getId())
+                    .nom(utilisateurBd.getNom())
+                    .prenom(utilisateurBd.getPrenom())
+                    .dateNaissance(utilisateurBd.getDateNaissance())
+                    .role(Role.ADMINISTRATEUR)
+                    .build();
+
+            case "ROLE_ENSEIGNANT" -> UtilisateurDto.builder()
+                    .id(utilisateurBd.getId())
+                    .nom(utilisateurBd.getNom())
+                    .prenom(utilisateurBd.getPrenom())
+                    .dateNaissance(utilisateurBd.getDateNaissance())
+                    .role(Role.ENSEIGNANT)
+                    .build();
+
+            case "ROLE_ELEVE" -> {
+                // Récupération de la dernière inscription (si elle existe)
+                InscriptionPromotion inscription = inscriptionPromotionRepository
+                        .findFirstByEleveIdOrderByDateInscriptionDesc(utilisateurBd.getId())
+                        .orElse(null);
+
+                Integer promotionId = null;
+                Integer cursusId = null;
+                Integer filiereId = null;
+
+                // Extraire les IDs si l'inscription existe
+                if (inscription != null && inscription.getPromotion() != null) {
+                    Promotion promo = inscription.getPromotion();
+                    promotionId = promo.getId();
+
+                    if (promo.getCursus() != null) {
+                        cursusId = promo.getCursus().getId();
+                        if (promo.getCursus().getFiliere() != null) {
+                            filiereId = promo.getCursus().getFiliere().getId();
+                        }
+                    }
+                }
+                // 'yield' obligatoire pour retourner la valeur depuis un bloc de switch { }
+                yield UtilisateurDto.builder()
+                        .id(utilisateurBd.getId())
+                        .nom(utilisateurBd.getNom())
+                        .prenom(utilisateurBd.getPrenom())
+                        .dateNaissance(utilisateurBd.getDateNaissance())
+                        .role(Role.ELEVE)
+                        .filiereId(filiereId)
+                        .cursusId(cursusId)
+                        .promotionId(promotionId)
+                        .build();
+            }
+
+            default -> throw new IllegalArgumentException("Rôle inconnu : " + auth.getAuthority());
+        };
     }
 
     @Transactional
