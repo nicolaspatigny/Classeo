@@ -9,16 +9,16 @@ import { forkJoin } from 'rxjs';
 
 import { Cours } from '../../../models/cours';
 import { Promotion } from '../../../models/promotion';
-import { CoursPromotion } from '../../../models/cours-promotion';
 
 import { CoursService } from '../../../core/services/cours';
 import { PromotionService } from '../../../core/services/promotion';
-import { CoursPromotionService } from '../../../core/services/cours-promotion';
+
 
 interface CoursView {
   cours: Cours;
-  promotions: Promotion[];
+  promotion: Promotion | null;
 }
+
 
 @Component({
   selector: 'app-administrateur-cours',
@@ -31,29 +31,57 @@ interface CoursView {
 })
 export class CoursAdministrateur implements OnInit {
 
-  private readonly coursService = inject(CoursService);
-  private readonly promotionService = inject(PromotionService);
-  private readonly coursPromotionService =
-    inject(CoursPromotionService);
+  // ============================================================
+  // SERVICES
+  // ============================================================
+
+  private readonly coursService =
+    inject(CoursService);
+
+  private readonly promotionService =
+    inject(PromotionService);
+
 
   // ============================================================
   // DONNÉES
   // ============================================================
 
-  cours = signal<CoursView[]>([]);
+  /**
+   * Liste des cours affichés.
+   */
+  cours =
+    signal<CoursView[]>([]);
 
-  promotions = signal<Promotion[]>([]);
+
+  /**
+   * Liste des promotions disponibles
+   * dans le formulaire.
+   */
+  promotions =
+    signal<Promotion[]>([]);
+
 
   // ============================================================
   // FORMULAIRE
   // ============================================================
 
+  /**
+   * Mode actuel du formulaire.
+   */
   modeFormulaire =
     signal<'ajout' | 'modification' | null>(null);
 
+
+  /**
+   * ID du cours actuellement modifié.
+   */
   coursEnModification =
     signal<number | null>(null);
 
+
+  /**
+   * Formulaire de création / modification.
+   */
   coursForm = new FormGroup({
 
     nom: new FormControl('', {
@@ -63,8 +91,12 @@ export class CoursAdministrateur implements OnInit {
       ]
     }),
 
-    promotionsIds: new FormControl<number[]>([], {
-      nonNullable: true
+    promotionId: new FormControl<number>(0, {
+      nonNullable: true,
+      validators: [
+        Validators.required,
+        Validators.min(1)
+      ]
     })
 
   });
@@ -75,7 +107,9 @@ export class CoursAdministrateur implements OnInit {
   // ============================================================
 
   ngOnInit(): void {
+
     this.loadData();
+
   }
 
 
@@ -83,55 +117,61 @@ export class CoursAdministrateur implements OnInit {
   // CHARGEMENT DES DONNÉES
   // ============================================================
 
+  /**
+   * Charge les cours et les promotions.
+   */
   private loadData(): void {
 
     forkJoin({
-      cours: this.coursService.getCours(),
-      promotions: this.promotionService.getPromotions(),
-      coursPromotions:
-        this.coursPromotionService.getCoursPromotions()
+
+      cours:
+        this.coursService.getCours(),
+
+      promotions:
+        this.promotionService.getPromotions()
 
     }).subscribe({
 
       next: ({
                cours,
-               promotions,
-               coursPromotions
+               promotions
              }) => {
 
-        this.promotions.set(promotions);
+        this.promotions.set(
+          promotions
+        );
 
+
+        /*
+         * Associe chaque cours
+         * à sa promotion.
+         */
         const coursViews: CoursView[] =
           cours.map(coursItem => {
 
-            const relations =
-              coursPromotions.filter(
-                relation =>
-                  relation.coursId === coursItem.id
-              );
+            const promotion =
+              promotions.find(
+                promotion =>
+                  promotion.id ===
+                  coursItem.promotionId
+              ) ?? null;
 
-            const promotionsAssociees =
-              relations
-                .map(
-                  relation =>
-                    promotions.find(
-                      promotion =>
-                        promotion.id ===
-                        relation.promotionId
-                    )
-                )
-                .filter(
-                  promotion =>
-                    promotion !== undefined
-                ) as Promotion[];
 
             return {
+
               cours: coursItem,
-              promotions: promotionsAssociees
+
+              promotion
+
             };
+
           });
 
-        this.cours.set(coursViews);
+
+        this.cours.set(
+          coursViews
+        );
+
 
         console.log(
           'Cours :',
@@ -143,10 +183,6 @@ export class CoursAdministrateur implements OnInit {
           this.promotions()
         );
 
-        console.log(
-          'Cours / Promotions :',
-          coursPromotions
-        );
       },
 
       error: error => {
@@ -159,6 +195,7 @@ export class CoursAdministrateur implements OnInit {
       }
 
     });
+
   }
 
 
@@ -166,16 +203,28 @@ export class CoursAdministrateur implements OnInit {
   // AJOUT
   // ============================================================
 
+  /**
+   * Ouvre le formulaire pour ajouter un cours.
+   */
   ajouterCours(): void {
 
-    this.modeFormulaire.set('ajout');
+    this.modeFormulaire.set(
+      'ajout'
+    );
 
-    this.coursEnModification.set(null);
+    this.coursEnModification.set(
+      null
+    );
+
 
     this.coursForm.reset({
+
       nom: '',
-      promotionsIds: []
+
+      promotionId: 0
+
     });
+
   }
 
 
@@ -183,22 +232,34 @@ export class CoursAdministrateur implements OnInit {
   // MODIFICATION
   // ============================================================
 
-  modifierCours(item: CoursView): void {
+  /**
+   * Ouvre le formulaire pour modifier
+   * un cours existant.
+   */
+  modifierCours(
+    item: CoursView
+  ): void {
 
-    this.modeFormulaire.set('modification');
+    this.modeFormulaire.set(
+      'modification'
+    );
+
 
     this.coursEnModification.set(
       item.cours.id
     );
 
-    this.coursForm.setValue({
-      nom: item.cours.nom,
 
-      promotionsIds:
-        item.promotions.map(
-          promotion => promotion.id
-        )
+    this.coursForm.setValue({
+
+      nom:
+      item.cours.nom,
+
+      promotionId:
+      item.cours.promotionId
+
     });
+
   }
 
 
@@ -206,69 +267,29 @@ export class CoursAdministrateur implements OnInit {
   // ANNULATION
   // ============================================================
 
+  /**
+   * Ferme le formulaire et réinitialise
+   * ses valeurs.
+   */
   annulerFormulaire(): void {
 
-    this.modeFormulaire.set(null);
+    this.modeFormulaire.set(
+      null
+    );
 
-    this.coursEnModification.set(null);
+    this.coursEnModification.set(
+      null
+    );
+
 
     this.coursForm.reset({
+
       nom: '',
-      promotionsIds: []
+
+      promotionId: 0
+
     });
-  }
 
-
-  // ============================================================
-  // GESTION DES PROMOTIONS
-  // ============================================================
-
-  togglePromotion(
-    promotionId: number,
-    event: Event
-  ): void {
-
-    const checkbox =
-      event.target as HTMLInputElement;
-
-    const promotionsActuelles =
-      this.coursForm.controls.promotionsIds.value;
-
-    if (checkbox.checked) {
-
-      if (
-        !promotionsActuelles.includes(
-          promotionId
-        )
-      ) {
-
-        this.coursForm.controls.promotionsIds.setValue([
-          ...promotionsActuelles,
-          promotionId
-        ]);
-      }
-
-    } else {
-
-      this.coursForm.controls.promotionsIds.setValue(
-        promotionsActuelles.filter(
-          id => id !== promotionId
-        )
-      );
-    }
-  }
-
-
-  // ============================================================
-  // VÉRIFICATION PROMOTION
-  // ============================================================
-
-  promotionSelectionnee(
-    promotionId: number
-  ): boolean {
-
-    return this.coursForm.controls.promotionsIds.value
-      .includes(promotionId);
   }
 
 
@@ -276,79 +297,145 @@ export class CoursAdministrateur implements OnInit {
   // ENREGISTREMENT
   // ============================================================
 
+  /**
+   * Enregistre un cours.
+   *
+   * POST pour un ajout.
+   * PUT pour une modification.
+   */
   enregistrerCours(): void {
 
-    if (this.coursForm.invalid) {
+    console.log(
+      '>>> enregistrerCours() appelé'
+    );
+
+
+    // ----------------------------------------------------------
+    // VALIDATION
+    // ----------------------------------------------------------
+
+    if (
+      this.coursForm.invalid
+    ) {
+
+      console.log(
+        '>>> Formulaire invalide :',
+        this.coursForm.getRawValue()
+      );
+
 
       this.coursForm.markAllAsTouched();
 
       return;
+
     }
+
 
     const formValue =
       this.coursForm.getRawValue();
 
 
     // ==========================================================
-    // AJOUT
+    // POST
     // ==========================================================
 
-    if (this.modeFormulaire() === 'ajout') {
+    if (
+      this.modeFormulaire() ===
+      'ajout'
+    ) {
 
-      const ids = this.cours().map(
-        item => item.cours.id
-      );
+      const request = {
 
-      const nouvelId =
-        ids.length > 0
-          ? Math.max(...ids) + 1
-          : 1;
+        nom:
+        formValue.nom,
 
-      const nouveauCours: Cours = {
-
-        id: nouvelId,
-
-        nom: formValue.nom
+        promotionId:
+        formValue.promotionId
 
       };
 
-      const promotionsAssociees =
-        this.promotions().filter(
-          promotion =>
-            formValue.promotionsIds.includes(
-              promotion.id
-            )
-        );
-
-      const nouveauCoursView: CoursView = {
-
-        cours: nouveauCours,
-
-        promotions: promotionsAssociees
-
-      };
-
-      this.cours.update(
-        cours => [
-          ...cours,
-          nouveauCoursView
-        ]
-      );
 
       console.log(
-        'Cours ajouté :',
-        nouveauCours
+        'POST /api/cours :',
+        request
       );
 
-      console.log(
-        'Promotions associées :',
-        promotionsAssociees
-      );
+
+      this.coursService
+        .createCours(
+          request
+        )
+        .subscribe({
+
+          next: cours => {
+
+            console.log(
+              'Cours créé :',
+              cours
+            );
+
+
+            /*
+             * Recherche la promotion
+             * associée au cours créé.
+             */
+            const promotion =
+              this.promotions().find(
+                promotion =>
+                  promotion.id ===
+                  cours.promotionId
+              ) ?? null;
+
+
+            const nouveauCoursView:
+              CoursView = {
+
+              cours,
+
+              promotion
+
+            };
+
+
+            /*
+             * Ajoute le cours retourné
+             * par le backend à l'affichage.
+             */
+            this.cours.update(
+              coursList => [
+                ...coursList,
+                nouveauCoursView
+              ]
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la création du cours :',
+              error
+            );
+
+          }
+
+        });
+
+
+      /*
+       * Empêche de continuer
+       * vers le bloc PUT.
+       */
+      return;
+
     }
 
 
     // ==========================================================
-    // MODIFICATION
+    // PUT
     // ==========================================================
 
     if (
@@ -359,55 +446,102 @@ export class CoursAdministrateur implements OnInit {
       const id =
         this.coursEnModification();
 
-      if (id === null) {
+
+      if (
+        id === null
+      ) {
+
         return;
+
       }
 
-      const coursModifie: Cours = {
 
-        id,
+      const request = {
 
-        nom: formValue.nom
+        nom:
+        formValue.nom,
 
-      };
-
-      const promotionsAssociees =
-        this.promotions().filter(
-          promotion =>
-            formValue.promotionsIds.includes(
-              promotion.id
-            )
-        );
-
-      const coursViewModifie: CoursView = {
-
-        cours: coursModifie,
-
-        promotions: promotionsAssociees
+        promotionId:
+        formValue.promotionId
 
       };
 
-      this.cours.update(
-        cours =>
-          cours.map(item =>
-            item.cours.id === id
-              ? coursViewModifie
-              : item
-          )
-      );
 
       console.log(
-        'Cours modifié :',
-        coursModifie
+        `PUT /api/cours/${id} :`,
+        request
       );
 
-      console.log(
-        'Nouvelles promotions associées :',
-        promotionsAssociees
-      );
+
+      this.coursService
+        .updateCours(
+          id,
+          request
+        )
+        .subscribe({
+
+          next: cours => {
+
+            console.log(
+              'Cours modifié :',
+              cours
+            );
+
+
+            /*
+             * Recherche la nouvelle promotion
+             * associée au cours.
+             */
+            const promotion =
+              this.promotions().find(
+                promotion =>
+                  promotion.id ===
+                  cours.promotionId
+              ) ?? null;
+
+
+            const coursViewModifie:
+              CoursView = {
+
+              cours,
+
+              promotion
+
+            };
+
+
+            /*
+             * Remplace uniquement
+             * le cours modifié.
+             */
+            this.cours.update(
+              coursList =>
+                coursList.map(
+                  item =>
+                    item.cours.id === id
+                      ? coursViewModifie
+                      : item
+                )
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la modification du cours :',
+              error
+            );
+
+          }
+
+        });
+
     }
 
-    this.annulerFormulaire();
   }
 
 
@@ -415,27 +549,73 @@ export class CoursAdministrateur implements OnInit {
   // SUPPRESSION
   // ============================================================
 
-  supprimerCours(id: number): void {
+  /**
+   * Supprime un cours.
+   */
+  supprimerCours(
+    id: number
+  ): void {
 
-    const confirmation = confirm(
-      'Voulez-vous vraiment supprimer ce cours ?'
-    );
+    const confirmation =
+      confirm(
+        'Voulez-vous vraiment supprimer ce cours ?'
+      );
 
-    if (!confirmation) {
+
+    if (
+      !confirmation
+    ) {
+
       return;
+
     }
 
-    this.cours.update(
-      cours =>
-        cours.filter(
-          item => item.cours.id !== id
-        )
-    );
 
     console.log(
-      'Cours supprimé :',
-      id
+      `DELETE /api/cours/${id}`
     );
+
+
+    this.coursService
+      .deleteCours(
+        id
+      )
+      .subscribe({
+
+        next: () => {
+
+          /*
+           * Retire le cours de l'affichage
+           * uniquement après confirmation
+           * du backend.
+           */
+          this.cours.update(
+            coursList =>
+              coursList.filter(
+                item =>
+                  item.cours.id !== id
+              )
+          );
+
+
+          console.log(
+            'Cours supprimé :',
+            id
+          );
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de la suppression du cours :',
+            error
+          );
+
+        }
+
+      });
+
   }
 
 }

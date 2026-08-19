@@ -2,6 +2,9 @@
 -- JEU DE DONNÉES COMPLET - CLASSEO (SQL SERVER)
 -- ============================================================================
 
+USE classeo;
+GO
+
 -- 1. FILIÈRES
 INSERT INTO filiere (nom) VALUES
 ('Développement & Génie Logiciel'),

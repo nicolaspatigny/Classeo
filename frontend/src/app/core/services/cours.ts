@@ -12,7 +12,8 @@ export class CoursService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly url = `${API_URL}/api/cours`;
+  private readonly url =
+    `${API_URL}/api/cours`;
 
 
   /**
@@ -30,7 +31,9 @@ export class CoursService {
   /**
    * Récupère un cours grâce à son identifiant.
    */
-  getCoursById(id: number): Observable<Cours> {
+  getCoursById(
+    id: number
+  ): Observable<Cours> {
 
     return this.http.get<Cours>(
       `${this.url}/${id}`
@@ -77,7 +80,9 @@ export class CoursService {
   /**
    * Supprime un cours.
    */
-  deleteCours(id: number): Observable<void> {
+  deleteCours(
+    id: number
+  ): Observable<void> {
 
     return this.http.delete<void>(
       `${this.url}/${id}`

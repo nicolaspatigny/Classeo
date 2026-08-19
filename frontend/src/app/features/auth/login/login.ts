@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormControl,
@@ -30,12 +30,11 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
-
   selectedPortal: Portal = 'ELEVE';
 
-  errorMessage = '';
-
-  loading = false;
+  // État de l'interface
+  errorMessage = signal('');
+  loading = signal(false);
 
 
   themes: Record<Portal, PortalTheme> = {
@@ -90,7 +89,7 @@ export class LoginComponent {
 
     this.selectedPortal = portal;
 
-    this.errorMessage = '';
+    this.closeError();
 
   }
 
@@ -118,9 +117,10 @@ export class LoginComponent {
     }
 
 
-    this.errorMessage = '';
+    // Réinitialisation de l'état
+    this.closeError();
 
-    this.loading = true;
+    this.loading.set(true);
 
 
     const login =
@@ -143,7 +143,7 @@ export class LoginComponent {
 
         next: response => {
 
-          this.loading = false;
+          this.loading.set(false);
 
 
           switch (response.user.role) {
@@ -171,8 +171,9 @@ export class LoginComponent {
 
             default:
 
-              this.errorMessage =
-                'Rôle utilisateur inconnu.';
+              this.errorMessage.set(
+                'Rôle utilisateur inconnu.'
+              );
 
           }
 
@@ -187,15 +188,28 @@ export class LoginComponent {
           );
 
 
-          this.loading = false;
+          // Très important :
+          // on arrête le chargement même en cas d'erreur
+          this.loading.set(false);
 
 
-          this.errorMessage =
-            'Identifiant, mot de passe ou portail incorrect.';
+          this.errorMessage.set(
+            'Identifiant, mot de passe ou portail incorrect.'
+          );
 
         }
 
       });
+
+  }
+
+
+  /**
+   * Ferme le popup d'erreur.
+   */
+  closeError(): void {
+
+    this.errorMessage.set('');
 
   }
 
@@ -212,17 +226,12 @@ export class LoginComponent {
     switch (this.selectedPortal) {
 
       case 'ELEVE':
-
         return 'ELEVE';
 
-
       case 'ENSEIGNANT':
-
         return 'ENSEIGNANT';
 
-
       case 'ADMINISTRATEUR':
-
         return 'ADMINISTRATEUR';
 
     }

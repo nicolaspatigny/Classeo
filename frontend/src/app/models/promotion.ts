@@ -3,5 +3,5 @@ export interface Promotion {
   nom: string;
   dateDebut: string;
   dateFin: string;
-  filiereId: number;
+  cursusId: number;
 }

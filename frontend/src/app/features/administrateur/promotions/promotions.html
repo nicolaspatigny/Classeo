@@ -16,6 +16,7 @@
       </p>
     </div>
 
+
     <!-- Bouton Ajouter -->
     @if (modeFormulaire() === null) {
 
@@ -101,7 +102,7 @@
               id="promotionNom"
               type="text"
               formControlName="nom"
-              placeholder="Ex : 2026-2027"
+              placeholder="Ex : CDA 2026-2027"
               class="w-full px-4 py-2.5
                      rounded-lg border border-slate-300
                      focus:outline-none
@@ -124,22 +125,22 @@
 
 
           <!-- ================================================= -->
-          <!-- FILIÈRE                                            -->
+          <!-- CURSUS                                             -->
           <!-- ================================================= -->
 
           <div>
 
             <label
-              for="promotionFiliere"
+              for="promotionCursus"
               class="block mb-2
                      text-sm font-medium text-slate-700"
             >
-              Filière
+              Cursus
             </label>
 
             <select
-              id="promotionFiliere"
-              formControlName="filiereId"
+              id="promotionCursus"
+              formControlName="cursusId"
               class="w-full px-4 py-2.5
                      rounded-lg border border-slate-300
                      bg-white
@@ -149,13 +150,18 @@
             >
 
               <option [ngValue]="0">
-                Sélectionnez une filière
+                Sélectionnez un cursus
               </option>
 
-              @for (filiere of filieres(); track filiere.id) {
+              @for (
+                cursusItem of cursus();
+                track cursusItem.id
+                ) {
 
-                <option [ngValue]="filiere.id">
-                  {{ filiere.nom }}
+                <option
+                  [ngValue]="cursusItem.id"
+                >
+                  {{ cursusItem.nom }}
                 </option>
 
               }
@@ -163,12 +169,12 @@
             </select>
 
             @if (
-              promotionForm.controls.filiereId.touched &&
-              promotionForm.controls.filiereId.invalid
+              promotionForm.controls.cursusId.touched &&
+              promotionForm.controls.cursusId.invalid
               ) {
 
               <p class="mt-1 text-sm text-red-600">
-                Veuillez sélectionner une filière.
+                Veuillez sélectionner un cursus.
               </p>
 
             }
@@ -319,7 +325,10 @@
     <table class="w-full">
 
       <!-- En-tête -->
-      <thead class="bg-slate-50 border-b border-slate-200">
+      <thead
+        class="bg-slate-50
+               border-b border-slate-200"
+      >
 
       <tr>
 
@@ -334,7 +343,7 @@
           class="px-6 py-4 text-left
                    text-sm font-semibold text-slate-600"
         >
-          Filière
+          Cursus
         </th>
 
         <th
@@ -364,27 +373,36 @@
 
 
       <!-- Corps -->
-      <tbody class="divide-y divide-slate-100">
+      <tbody
+        class="divide-y divide-slate-100"
+      >
 
-        @for (item of promotions(); track item.promotion.id) {
+        @for (
+          item of promotions();
+          track item.promotion.id
+          ) {
 
-          <tr class="hover:bg-slate-50 transition-colors">
+          <tr
+            class="hover:bg-slate-50
+                   transition-colors"
+          >
 
             <!-- Promotion -->
             <td
               class="px-6 py-4
-                     text-sm font-medium text-slate-800"
+                     text-sm font-medium
+                     text-slate-800"
             >
               {{ item.promotion.nom }}
             </td>
 
 
-            <!-- Filière -->
+            <!-- Cursus -->
             <td
               class="px-6 py-4
                      text-sm text-slate-600"
             >
-              {{ item.filiereNom }}
+              {{ item.cursusNom }}
             </td>
 
 
@@ -407,16 +425,21 @@
 
 
             <!-- Actions -->
-            <td class="px-6 py-4">
+            <td
+              class="px-6 py-4"
+            >
 
-              <div class="flex justify-end gap-2">
+              <div
+                class="flex justify-end gap-2"
+              >
 
                 <!-- Modifier -->
                 <button
                   type="button"
                   (click)="modifierPromotion(item)"
                   class="px-3 py-2 rounded-lg
-                         text-sm text-[#334155]
+                         text-sm
+                         text-[#334155]
                          hover:bg-slate-100
                          transition-colors"
                 >
@@ -427,9 +450,14 @@
                 <!-- Supprimer -->
                 <button
                   type="button"
-                  (click)="supprimerPromotion(item.promotion.id)"
+                  (click)="
+                    supprimerPromotion(
+                      item.promotion.id
+                    )
+                  "
                   class="px-3 py-2 rounded-lg
-                         text-sm text-red-600
+                         text-sm
+                         text-red-600
                          hover:bg-red-50
                          transition-colors"
                 >
@@ -453,7 +481,9 @@
             <td
               colspan="5"
               class="px-6 py-10
-                     text-center text-sm text-slate-500"
+                     text-center
+                     text-sm
+                     text-slate-500"
             >
               Aucune promotion trouvée.
             </td>

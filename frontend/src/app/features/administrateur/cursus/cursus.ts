@@ -29,22 +29,35 @@ interface CursusView {
 })
 export class CursusAdministrateur implements OnInit {
 
-  private readonly cursusService = inject(CursusService);
-  private readonly filiereService = inject(FiliereService);
+  private readonly cursusService =
+    inject(CursusService);
 
-  // Liste des cursus affichés
-  cursus = signal<CursusView[]>([]);
+  private readonly filiereService =
+    inject(FiliereService);
 
-  // Liste des filières disponibles
-  filieres = signal<Filiere[]>([]);
 
-  // Mode du formulaire
-  modeFormulaire = signal<'ajout' | 'modification' | null>(null);
+  // =========================================================
+  // DONNÉES
+  // =========================================================
 
-  // ID du cursus actuellement modifié
-  cursusEnModification = signal<number | null>(null);
+  cursus =
+    signal<CursusView[]>([]);
 
-  // Formulaire
+  filieres =
+    signal<Filiere[]>([]);
+
+
+  // =========================================================
+  // FORMULAIRE
+  // =========================================================
+
+  modeFormulaire =
+    signal<'ajout' | 'modification' | null>(null);
+
+  cursusEnModification =
+    signal<number | null>(null);
+
+
   cursusForm = new FormGroup({
 
     nom: new FormControl('', {
@@ -65,10 +78,20 @@ export class CursusAdministrateur implements OnInit {
   });
 
 
+  // =========================================================
+  // INITIALISATION
+  // =========================================================
+
   ngOnInit(): void {
+
     this.loadData();
+
   }
 
+
+  // =========================================================
+  // CHARGEMENT DES DONNÉES
+  // =========================================================
 
   /**
    * Charge les cursus et les filières.
@@ -76,32 +99,51 @@ export class CursusAdministrateur implements OnInit {
   private loadData(): void {
 
     forkJoin({
-      cursus: this.cursusService.getCursus(),
-      filieres: this.filiereService.getFilieres()
+
+      cursus:
+        this.cursusService.getCursus(),
+
+      filieres:
+        this.filiereService.getFilieres()
+
     }).subscribe({
 
       next: ({ cursus, filieres }) => {
 
         this.filieres.set(filieres);
 
+
         const cursusViews: CursusView[] =
           cursus.map(item => {
 
-            const filiere = filieres.find(
-              filiere => filiere.id === item.filiereId
-            );
+            const filiere =
+              filieres.find(
+                filiere =>
+                  filiere.id === item.filiereId
+              );
 
             return {
+
               cursus: item,
-              filiereNom: filiere?.nom ?? 'Inconnue'
+
+              filiereNom:
+                filiere?.nom ?? 'Inconnue'
+
             };
+
           });
+
 
         this.cursus.set(cursusViews);
 
-        console.log('Cursus :', this.cursus());
-        console.log('Filières :', this.filieres());
+
+        console.log(
+          'Cursus chargés :',
+          this.cursus()
+        );
+
       },
+
 
       error: error => {
 
@@ -113,8 +155,13 @@ export class CursusAdministrateur implements OnInit {
       }
 
     });
+
   }
 
+
+  // =========================================================
+  // OUVERTURE DU FORMULAIRE
+  // =========================================================
 
   /**
    * Ouvre le formulaire en mode ajout.
@@ -122,32 +169,54 @@ export class CursusAdministrateur implements OnInit {
   ajouterCursus(): void {
 
     this.modeFormulaire.set('ajout');
+
     this.cursusEnModification.set(null);
 
+
     this.cursusForm.reset({
+
       nom: '',
+
       filiereId: 0
+
     });
+
   }
 
 
   /**
    * Ouvre le formulaire en mode modification.
    */
-  modifierCursus(item: CursusView): void {
+  modifierCursus(
+    item: CursusView
+  ): void {
 
-    this.modeFormulaire.set('modification');
+    this.modeFormulaire.set(
+      'modification'
+    );
+
 
     this.cursusEnModification.set(
       item.cursus.id
     );
 
+
     this.cursusForm.setValue({
-      nom: item.cursus.nom,
-      filiereId: item.cursus.filiereId
+
+      nom:
+      item.cursus.nom,
+
+      filiereId:
+      item.cursus.filiereId
+
     });
+
   }
 
+
+  // =========================================================
+  // FERMETURE DU FORMULAIRE
+  // =========================================================
 
   /**
    * Ferme le formulaire.
@@ -155,17 +224,31 @@ export class CursusAdministrateur implements OnInit {
   annulerFormulaire(): void {
 
     this.modeFormulaire.set(null);
+
     this.cursusEnModification.set(null);
 
+
     this.cursusForm.reset({
+
       nom: '',
+
       filiereId: 0
+
     });
+
   }
 
 
+  // =========================================================
+  // ENREGISTREMENT
+  // =========================================================
+
   /**
-   * Ajoute ou modifie un cursus.
+   * Crée ou modifie un cursus.
+   *
+   * POST /api/cursus
+   *
+   * PUT /api/cursus/{id}
    */
   enregistrerCursus(): void {
 
@@ -174,138 +257,283 @@ export class CursusAdministrateur implements OnInit {
       this.cursusForm.markAllAsTouched();
 
       return;
+
     }
 
-    const formValue = this.cursusForm.getRawValue();
+
+    const formValue =
+      this.cursusForm.getRawValue();
 
 
-    // =========================================================
+    // =======================================================
     // AJOUT
-    // =========================================================
+    // =======================================================
 
-    if (this.modeFormulaire() === 'ajout') {
+    if (
+      this.modeFormulaire() === 'ajout'
+    ) {
 
-      const ids = this.cursus().map(
-        item => item.cursus.id
-      );
+      const request = {
 
-      const nouvelId =
-        ids.length > 0
-          ? Math.max(...ids) + 1
-          : 1;
+        nom:
+        formValue.nom,
 
-      const nouveauCursus: Cursus = {
-
-        id: nouvelId,
-
-        nom: formValue.nom,
-
-        filiereId: formValue.filiereId
+        filiereId:
+        formValue.filiereId
 
       };
 
-      const filiere = this.filieres().find(
-        filiere => filiere.id === nouveauCursus.filiereId
-      );
-
-      const nouveauCursusView: CursusView = {
-
-        cursus: nouveauCursus,
-
-        filiereNom: filiere?.nom ?? 'Inconnue'
-
-      };
-
-      this.cursus.update(
-        cursus => [
-          ...cursus,
-          nouveauCursusView
-        ]
-      );
 
       console.log(
-        'Cursus ajouté :',
-        nouveauCursus
+        'POST /api/cursus :',
+        request
       );
+
+
+      this.cursusService
+        .createCursus(request)
+        .subscribe({
+
+          next: nouveauCursus => {
+
+            console.log(
+              'Cursus créé :',
+              nouveauCursus
+            );
+
+
+            const filiere =
+              this.filieres().find(
+                filiere =>
+                  filiere.id ===
+                  nouveauCursus.filiereId
+              );
+
+
+            const nouveauCursusView:
+              CursusView = {
+
+              cursus:
+              nouveauCursus,
+
+              filiereNom:
+                filiere?.nom ??
+                'Inconnue'
+
+            };
+
+
+            /*
+             * On ajoute le cursus retourné
+             * par le backend.
+             */
+            this.cursus.update(
+              cursus => [
+                ...cursus,
+                nouveauCursusView
+              ]
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la création du cursus :',
+              error
+            );
+
+          }
+
+        });
+
+
+      return;
+
     }
 
 
-    // =========================================================
+    // =======================================================
     // MODIFICATION
-    // =========================================================
+    // =======================================================
 
-    if (this.modeFormulaire() === 'modification') {
+    if (
+      this.modeFormulaire() ===
+      'modification'
+    ) {
 
-      const id = this.cursusEnModification();
+      const id =
+        this.cursusEnModification();
+
 
       if (id === null) {
+
         return;
+
       }
 
-      const cursusModifie: Cursus = {
 
-        id,
+      const request = {
 
-        nom: formValue.nom,
+        nom:
+        formValue.nom,
 
-        filiereId: formValue.filiereId
-
-      };
-
-      const filiere = this.filieres().find(
-        filiere => filiere.id === cursusModifie.filiereId
-      );
-
-      const cursusViewModifie: CursusView = {
-
-        cursus: cursusModifie,
-
-        filiereNom: filiere?.nom ?? 'Inconnue'
+        filiereId:
+        formValue.filiereId
 
       };
 
-      this.cursus.update(
-        cursus =>
-          cursus.map(item =>
-            item.cursus.id === id
-              ? cursusViewModifie
-              : item
-          )
-      );
 
       console.log(
-        'Cursus modifié :',
-        cursusModifie
+        `PUT /api/cursus/${id} :`,
+        request
       );
+
+
+      this.cursusService
+        .updateCursus(
+          id,
+          request
+        )
+        .subscribe({
+
+          next: cursusModifie => {
+
+            console.log(
+              'Cursus modifié :',
+              cursusModifie
+            );
+
+
+            const filiere =
+              this.filieres().find(
+                filiere =>
+                  filiere.id ===
+                  cursusModifie.filiereId
+              );
+
+
+            const cursusViewModifie:
+              CursusView = {
+
+              cursus:
+              cursusModifie,
+
+              filiereNom:
+                filiere?.nom ??
+                'Inconnue'
+
+            };
+
+
+            /*
+             * Remplace uniquement
+             * le cursus modifié.
+             */
+            this.cursus.update(
+              cursus =>
+                cursus.map(item =>
+                  item.cursus.id === id
+                    ? cursusViewModifie
+                    : item
+                )
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la modification du cursus :',
+              error
+            );
+
+          }
+
+        });
+
     }
 
-    this.annulerFormulaire();
   }
 
+
+  // =========================================================
+  // SUPPRESSION
+  // =========================================================
 
   /**
    * Supprime un cursus.
+   *
+   * DELETE /api/cursus/{id}
    */
-  supprimerCursus(id: number): void {
+  supprimerCursus(
+    id: number
+  ): void {
 
-    const confirmation = confirm(
-      'Voulez-vous vraiment supprimer ce cursus ?'
-    );
+    const confirmation =
+      confirm(
+        'Voulez-vous vraiment supprimer ce cursus ?'
+      );
+
 
     if (!confirmation) {
+
       return;
+
     }
 
-    this.cursus.update(
-      cursus =>
-        cursus.filter(
-          item => item.cursus.id !== id
-        )
-    );
 
     console.log(
-      'Cursus supprimé :',
-      id
+      `DELETE /api/cursus/${id}`
     );
+
+
+    this.cursusService
+      .deleteCursus(id)
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Cursus supprimé :',
+            id
+          );
+
+
+          /*
+           * On retire le cursus de l'affichage
+           * uniquement après confirmation du backend.
+           */
+          this.cursus.update(
+            cursus =>
+              cursus.filter(
+                item =>
+                  item.cursus.id !== id
+              )
+          );
+
+        },
+
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de la suppression du cursus :',
+            error
+          );
+
+        }
+
+      });
+
   }
+
 }

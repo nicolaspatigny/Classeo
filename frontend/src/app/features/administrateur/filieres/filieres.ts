@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
+
 import {
   FormControl,
   FormGroup,
@@ -20,208 +26,425 @@ import { FiliereService } from '../../../core/services/filiere';
 })
 export class FilieresAdministrateur implements OnInit {
 
-  private readonly filiereService = inject(FiliereService);
+  private readonly filiereService =
+    inject(FiliereService);
 
-  // Liste des filières
-  filieres = signal<Filiere[]>([]);
 
-  // Mode du formulaire
-  modeFormulaire = signal<'ajout' | 'modification' | null>(null);
+  // =========================================================
+  // DONNÉES
+  // =========================================================
 
-  // ID de la filière actuellement modifiée
-  filiereEnModification = signal<number | null>(null);
+  filieres =
+    signal<Filiere[]>([]);
 
-  // Formulaire
-  filiereForm = new FormGroup({
-    nom: new FormControl('', {
-      nonNullable: true,
-      validators: [
-        Validators.required
-      ]
-    })
-  });
 
+  // =========================================================
+  // FORMULAIRE
+  // =========================================================
+
+  modeFormulaire =
+    signal<'ajout' | 'modification' | null>(null);
+
+
+  filiereEnModification =
+    signal<number | null>(null);
+
+
+  filiereForm =
+    new FormGroup({
+
+      nom: new FormControl('', {
+
+        nonNullable: true,
+
+        validators: [
+          Validators.required
+        ]
+
+      })
+
+    });
+
+
+  // =========================================================
+  // INITIALISATION
+  // =========================================================
 
   ngOnInit(): void {
+
     this.loadFilieres();
+
   }
 
 
+  // =========================================================
+  // CHARGEMENT
+  // =========================================================
+
   /**
-   * Charge les filières.
+   * Charge les filières depuis le backend.
    */
   private loadFilieres(): void {
 
-    this.filiereService.getFilieres().subscribe({
+    this.filiereService
+      .getFilieres()
+      .subscribe({
 
-      next: filieres => {
+        next: filieres => {
 
-        this.filieres.set(filieres);
+          this.filieres.set(
+            filieres
+          );
 
-        console.log('Filières :', this.filieres());
-      },
+          console.log(
+            'Filières :',
+            this.filieres()
+          );
 
-      error: error => {
-        console.error(
-          'Erreur lors du chargement des filières :',
-          error
-        );
-      }
+        },
 
-    });
+        error: error => {
+
+          console.error(
+            'Erreur lors du chargement des filières :',
+            error
+          );
+
+        }
+
+      });
+
   }
 
+
+  // =========================================================
+  // AJOUT
+  // =========================================================
 
   /**
    * Ouvre le formulaire en mode ajout.
    */
   ajouterFiliere(): void {
 
-    this.modeFormulaire.set('ajout');
-    this.filiereEnModification.set(null);
+    this.modeFormulaire.set(
+      'ajout'
+    );
+
+    this.filiereEnModification.set(
+      null
+    );
 
     this.filiereForm.reset({
+
       nom: ''
+
     });
+
   }
 
+
+  // =========================================================
+  // MODIFICATION
+  // =========================================================
 
   /**
    * Ouvre le formulaire en mode modification.
    */
-  modifierFiliere(filiere: Filiere): void {
+  modifierFiliere(
+    filiere: Filiere
+  ): void {
 
-    this.modeFormulaire.set('modification');
-    this.filiereEnModification.set(filiere.id);
+    this.modeFormulaire.set(
+      'modification'
+    );
+
+    this.filiereEnModification.set(
+      filiere.id
+    );
 
     this.filiereForm.setValue({
-      nom: filiere.nom
+
+      nom:
+      filiere.nom
+
     });
+
   }
 
+
+  // =========================================================
+  // ANNULATION
+  // =========================================================
 
   /**
    * Ferme le formulaire.
    */
   annulerFormulaire(): void {
 
-    this.modeFormulaire.set(null);
-    this.filiereEnModification.set(null);
+    this.modeFormulaire.set(
+      null
+    );
+
+    this.filiereEnModification.set(
+      null
+    );
 
     this.filiereForm.reset({
+
       nom: ''
+
     });
+
   }
 
 
+  // =========================================================
+  // ENREGISTREMENT
+  // =========================================================
+
   /**
    * Ajoute ou modifie une filière.
+   *
+   * POST /api/filieres
+   * PUT  /api/filieres/{id}
    */
   enregistrerFiliere(): void {
 
-    if (this.filiereForm.invalid) {
+    if (
+      this.filiereForm.invalid
+    ) {
 
       this.filiereForm.markAllAsTouched();
 
       return;
+
     }
 
-    const formValue = this.filiereForm.getRawValue();
+
+    const form =
+      this.filiereForm.getRawValue();
 
 
-    // ─────────────────────────────────────
+    // =====================================================
     // AJOUT
-    // ─────────────────────────────────────
+    // =====================================================
 
-    if (this.modeFormulaire() === 'ajout') {
+    if (
+      this.modeFormulaire() ===
+      'ajout'
+    ) {
 
-      const ids = this.filieres().map(
-        filiere => filiere.id
-      );
+      const request = {
 
-      const nouvelId =
-        ids.length > 0
-          ? Math.max(...ids) + 1
-          : 1;
+        nom:
+        form.nom
 
-      const nouvelleFiliere: Filiere = {
-        id: nouvelId,
-        nom: formValue.nom
       };
 
-      this.filieres.update(
-        filieres => [
-          ...filieres,
-          nouvelleFiliere
-        ]
-      );
 
       console.log(
-        'Filière ajoutée :',
-        nouvelleFiliere
+        'POST /api/filieres :',
+        request
       );
+
+
+      this.filiereService
+        .createFiliere(request)
+        .subscribe({
+
+          next: filiere => {
+
+            console.log(
+              'Filière créée :',
+              filiere
+            );
+
+
+            /*
+             * On ajoute la filière
+             * retournée par le backend.
+             */
+            this.filieres.update(
+              filieres => [
+                ...filieres,
+                filiere
+              ]
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la création de la filière :',
+              error
+            );
+
+          }
+
+        });
+
+
+      return;
+
     }
 
 
-    // ─────────────────────────────────────
+    // =====================================================
     // MODIFICATION
-    // ─────────────────────────────────────
+    // =====================================================
 
-    if (this.modeFormulaire() === 'modification') {
+    if (
+      this.modeFormulaire() ===
+      'modification'
+    ) {
 
-      const id = this.filiereEnModification();
+      const id =
+        this.filiereEnModification();
+
 
       if (id === null) {
+
         return;
+
       }
 
-      const filiereModifiee: Filiere = {
-        id,
-        nom: formValue.nom
+
+      const request = {
+
+        nom:
+        form.nom
+
       };
 
-      this.filieres.update(
-        filieres =>
-          filieres.map(filiere =>
-            filiere.id === id
-              ? filiereModifiee
-              : filiere
-          )
-      );
 
       console.log(
-        'Filière modifiée :',
-        filiereModifiee
+        `PUT /api/filieres/${id} :`,
+        request
       );
+
+
+      this.filiereService
+        .updateFiliere(
+          id,
+          request
+        )
+        .subscribe({
+
+          next: filiere => {
+
+            console.log(
+              'Filière modifiée :',
+              filiere
+            );
+
+
+            /*
+             * Remplace la filière
+             * uniquement après confirmation
+             * du backend.
+             */
+            this.filieres.update(
+              filieres =>
+                filieres.map(
+                  item =>
+                    item.id === id
+                      ? filiere
+                      : item
+                )
+            );
+
+
+            this.annulerFormulaire();
+
+          },
+
+          error: error => {
+
+            console.error(
+              'Erreur lors de la modification de la filière :',
+              error
+            );
+
+          }
+
+        });
+
     }
 
-    this.annulerFormulaire();
   }
 
+
+  // =========================================================
+  // SUPPRESSION
+  // =========================================================
 
   /**
    * Supprime une filière.
    */
-  supprimerFiliere(id: number): void {
+  supprimerFiliere(
+    id: number
+  ): void {
 
-    const confirmation = confirm(
-      'Voulez-vous vraiment supprimer cette filière ?'
-    );
+    const confirmation =
+      confirm(
+        'Voulez-vous vraiment supprimer cette filière ?'
+      );
+
 
     if (!confirmation) {
+
       return;
+
     }
 
-    this.filieres.update(
-      filieres =>
-        filieres.filter(
-          filiere => filiere.id !== id
-        )
-    );
 
     console.log(
-      'Filière supprimée :',
-      id
+      `DELETE /api/filieres/${id}`
     );
+
+
+    this.filiereService
+      .deleteFiliere(id)
+      .subscribe({
+
+        next: () => {
+
+          console.log(
+            'Filière supprimée :',
+            id
+          );
+
+
+          /*
+           * On retire la filière de l'affichage
+           * uniquement après confirmation
+           * du backend.
+           */
+          this.filieres.update(
+            filieres =>
+              filieres.filter(
+                filiere =>
+                  filiere.id !== id
+              )
+          );
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Erreur lors de la suppression de la filière :',
+            error
+          );
+
+        }
+
+      });
+
   }
+
 }

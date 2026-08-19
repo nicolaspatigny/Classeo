@@ -7,14 +7,22 @@
 
     <!-- Logo -->
     <div class="flex items-center justify-center mb-16">
-      <div class="w-130 h-40 rounded-full bg-white/95 flex items-center justify-center shadow-md">
+
+      <div
+        class="w-130 h-40 rounded-full bg-white/95
+               flex items-center justify-center shadow-md"
+      >
+
         <img
           [src]="currentTheme.logo"
           [alt]="'Logo portail ' + currentTheme.name"
           class="w-100 h-40 object-contain"
         >
+
       </div>
+
     </div>
+
 
     <!-- Login card -->
     <div class="bg-white rounded-xl shadow-xl p-8">
@@ -22,10 +30,12 @@
       <!-- Portals -->
       <div class="flex gap-2 mb-8">
 
+        <!-- Élève -->
         <button
           type="button"
           (click)="selectPortal('ELEVE')"
-          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          class="flex-1 py-2 px-3 rounded-lg
+                 font-medium transition-colors"
           [style.background-color]="
             selectedPortal === 'ELEVE'
               ? themes.ELEVE.primary
@@ -40,10 +50,13 @@
           Élève
         </button>
 
+
+        <!-- Enseignant -->
         <button
           type="button"
           (click)="selectPortal('ENSEIGNANT')"
-          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          class="flex-1 py-2 px-3 rounded-lg
+                 font-medium transition-colors"
           [style.background-color]="
             selectedPortal === 'ENSEIGNANT'
               ? themes.ENSEIGNANT.primary
@@ -58,10 +71,13 @@
           Enseignant
         </button>
 
+
+        <!-- Administrateur -->
         <button
           type="button"
           (click)="selectPortal('ADMINISTRATEUR')"
-          class="flex-1 py-2 px-3 rounded-lg font-medium transition-colors"
+          class="flex-1 py-2 px-3 rounded-lg
+                 font-medium transition-colors"
           [style.background-color]="
             selectedPortal === 'ADMINISTRATEUR'
               ? themes.ADMINISTRATEUR.primary
@@ -78,6 +94,7 @@
 
       </div>
 
+
       <!-- Title -->
       <div class="text-center mb-6">
 
@@ -90,6 +107,7 @@
 
       </div>
 
+
       <!-- Form -->
       <form
         [formGroup]="loginForm"
@@ -97,10 +115,13 @@
         class="space-y-5"
       >
 
+        <!-- Username -->
         <div>
+
           <label
             for="username"
-            class="block text-sm font-medium text-slate-700 mb-1"
+            class="block text-sm font-medium
+                   text-slate-700 mb-1"
           >
             Identifiant
           </label>
@@ -109,24 +130,36 @@
             id="username"
             type="text"
             formControlName="username"
-            class="w-full px-4 py-2 border border-slate-300 rounded-lg
-            focus:outline-none"
+            autocomplete="username"
+            class="w-full px-4 py-2
+                   border border-slate-300
+                   rounded-lg
+                   focus:outline-none
+                   focus:ring-2"
           >
 
-          @if (loginForm.controls.username.touched &&
-          loginForm.controls.username.hasError('required')) {
+
+          @if (
+            loginForm.controls.username.touched &&
+            loginForm.controls.username.hasError('required')
+            ) {
 
             <p class="mt-1 text-sm text-red-600">
               L'identifiant est requis.
             </p>
 
           }
+
         </div>
 
+
+        <!-- Password -->
         <div>
+
           <label
             for="password"
-            class="block text-sm font-medium text-slate-700 mb-1"
+            class="block text-sm font-medium
+                   text-slate-700 mb-1"
           >
             Mot de passe
           </label>
@@ -135,39 +168,41 @@
             id="password"
             type="password"
             formControlName="password"
-            class="w-full px-4 py-2 border border-slate-300 rounded-lg
-            focus:outline-none"
+            autocomplete="current-password"
+            class="w-full px-4 py-2
+                   border border-slate-300
+                   rounded-lg
+                   focus:outline-none
+                   focus:ring-2"
           >
-          @if (loginForm.controls.password.touched &&
-          loginForm.controls.password.hasError('required')) {
+
+
+          @if (
+            loginForm.controls.password.touched &&
+            loginForm.controls.password.hasError('required')
+            ) {
 
             <p class="mt-1 text-sm text-red-600">
               Le mot de passe est requis.
             </p>
 
           }
+
         </div>
 
-        <!-- Erreur -->
-        @if (errorMessage) {
-
-          <p class="text-sm text-red-600 text-center">
-            {{ errorMessage }}
-          </p>
-
-        }
 
         <!-- Bouton -->
         <button
           type="submit"
-          class="w-full py-2.5 rounded-lg text-white font-medium
+          [disabled]="loading()"
+          class="w-full py-2.5 rounded-lg
+         text-white font-medium
          transition-all duration-150 ease-out
-         hover:brightness-90 hover:-translate-y-0.5
-         active:translate-y-0 active:scale-[0.98]
-         focus:outline-none focus:ring-2 focus:ring-offset-2"
+         disabled:opacity-60
+         disabled:cursor-not-allowed"
           [style.background-color]="currentTheme.primary"
         >
-          {{ loading ? 'Connexion...' : 'Connexion' }}
+          {{ loading() ? 'Connexion...' : 'Connexion' }}
         </button>
 
       </form>
@@ -175,5 +210,84 @@
     </div>
 
   </div>
+
+
+  <!-- ================================================= -->
+  <!-- POPUP ERREUR DE CONNEXION -->
+  <!-- ================================================= -->
+
+  @if (errorMessage()) {
+
+    <div
+      class="fixed inset-0 z-50
+           flex items-center justify-center
+           bg-black/50
+           p-4"
+    >
+
+      <div
+        class="w-full max-w-sm
+             bg-white rounded-xl
+             shadow-2xl
+             p-6"
+      >
+
+        <div class="flex justify-center mb-4">
+
+          <div
+            class="w-12 h-12
+                 rounded-full
+                 bg-red-100
+                 flex items-center justify-center"
+          >
+
+          <span
+            class="text-red-600
+                   text-2xl font-bold"
+          >
+            !
+          </span>
+
+          </div>
+
+        </div>
+
+
+        <h2
+          class="text-xl font-semibold
+               text-center text-slate-800
+               mb-2"
+        >
+          Échec de la connexion
+        </h2>
+
+
+        <p
+          class="text-sm
+               text-center
+               text-slate-600
+               mb-6"
+        >
+          {{ errorMessage() }}
+        </p>
+
+
+        <button
+          type="button"
+          (click)="closeError()"
+          class="w-full py-2.5 rounded-lg
+               text-white font-medium
+               transition-all
+               hover:brightness-90"
+          [style.background-color]="currentTheme.primary"
+        >
+          Fermer
+        </button>
+
+      </div>
+
+    </div>
+
+  }
 
 </div>

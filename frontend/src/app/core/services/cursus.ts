@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Cursus } from '../../models/cursus';
 import { API_URL } from '../config/api.config';
+import {Promotion} from '../../models/promotion';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,11 @@ export class CursusService {
    */
   getCursusById(id: number): Observable<Cursus> {
 
+    if (id == null) {
+      return this.http.get<Cursus>(
+        `${this.cursusUrl}/1`
+      );
+    }
     return this.http.get<Cursus>(
       `${this.cursusUrl}/${id}`
     );

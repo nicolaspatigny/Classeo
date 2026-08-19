@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Filiere } from '../../models/filiere';
 import { API_URL } from '../config/api.config';
+import {Promotion} from '../../models/promotion';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,11 @@ export class FiliereService {
    */
   getFiliereById(id: number): Observable<Filiere> {
 
+    if (id == null) {
+      return this.http.get<Filiere>(
+        `${this.url}/1`
+      );
+    }
     return this.http.get<Filiere>(
       `${this.url}/${id}`
     );

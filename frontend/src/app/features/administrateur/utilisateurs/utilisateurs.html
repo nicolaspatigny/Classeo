@@ -1,6 +1,9 @@
 <div class="space-y-6">
 
-  <!-- En-tête -->
+  <!-- ========================= -->
+  <!-- EN-TÊTE -->
+  <!-- ========================= -->
+
   <div class="flex items-center justify-between">
 
     <div>
@@ -23,7 +26,8 @@
       (click)="ajouterUtilisateur()"
       class="px-4 py-2 rounded-lg
              bg-slate-800
-             text-white font-medium
+             text-white
+             font-medium
              hover:bg-slate-700
              transition-colors"
     >
@@ -32,36 +36,90 @@
 
   </div>
 
+
+  <!-- ========================= -->
+  <!-- MESSAGE DE SUCCÈS -->
+  <!-- ========================= -->
+
+  @if (successMessage()) {
+
+    <div
+      class="p-4 rounded-lg
+             bg-green-50
+             border border-green-200
+             text-green-700"
+    >
+      {{ successMessage() }}
+    </div>
+
+  }
+
+
+  <!-- ========================= -->
+  <!-- MESSAGE D'ERREUR -->
+  <!-- ========================= -->
+
+  @if (errorMessage()) {
+
+    <div
+      class="p-4 rounded-lg
+             bg-red-50
+             border border-red-200
+             text-red-700"
+    >
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+
+  <!-- ========================= -->
+  <!-- FORMULAIRE -->
+  <!-- ========================= -->
+
   @if (formulaireOuvert()) {
 
     <div
       class="bg-white
-           rounded-xl
-           border border-slate-200
-           shadow-sm
-           p-6"
+             rounded-xl
+             border border-slate-200
+             shadow-sm
+             p-6"
     >
+
+      <!-- Titre -->
 
       <div
         class="flex items-center
-             justify-between mb-6"
+               justify-between
+               mb-6"
       >
 
         <div>
 
           <h2
-            class="text-lg font-semibold
-                 text-slate-800"
+            class="text-lg
+                   font-semibold
+                   text-slate-800"
           >
+
             @if (utilisateurEnModification()) {
+
               Modifier l'utilisateur
+
             } @else {
+
               Ajouter un utilisateur
+
             }
+
           </h2>
 
+
           <p
-            class="text-sm text-slate-500 mt-1"
+            class="text-sm
+                   text-slate-500
+                   mt-1"
           >
             Renseignez les informations de l'utilisateur.
           </p>
@@ -71,41 +129,57 @@
       </div>
 
 
+      <!-- Formulaire -->
+
       <form
         [formGroup]="utilisateurForm"
         (ngSubmit)="enregistrerUtilisateur()"
         class="space-y-5"
       >
 
-        <!-- Nom / prénom -->
+
+        <!-- ========================= -->
+        <!-- NOM / PRÉNOM -->
+        <!-- ========================= -->
+
         <div
           class="grid
-               grid-cols-1
-               md:grid-cols-2
-               gap-5"
+                 grid-cols-1
+                 md:grid-cols-2
+                 gap-5"
         >
+
+          <!-- Nom -->
 
           <div>
 
             <label
               for="nom"
-              class="block text-sm font-medium
-                   text-slate-700 mb-1"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
             >
               Nom
             </label>
+
 
             <input
               id="nom"
               type="text"
               formControlName="nom"
-              class="w-full px-4 py-2
-                   border border-slate-300
-                   rounded-lg
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-slate-500"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
             >
+
 
             @if (
               utilisateurForm.controls.nom.touched &&
@@ -113,7 +187,9 @@
               ) {
 
               <p
-                class="mt-1 text-sm text-red-600"
+                class="mt-1
+                       text-sm
+                       text-red-600"
               >
                 Le nom est requis.
               </p>
@@ -123,27 +199,37 @@
           </div>
 
 
+          <!-- Prénom -->
+
           <div>
 
             <label
               for="prenom"
-              class="block text-sm font-medium
-                   text-slate-700 mb-1"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
             >
               Prénom
             </label>
+
 
             <input
               id="prenom"
               type="text"
               formControlName="prenom"
-              class="w-full px-4 py-2
-                   border border-slate-300
-                   rounded-lg
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-slate-500"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
             >
+
 
             @if (
               utilisateurForm.controls.prenom.touched &&
@@ -151,7 +237,9 @@
               ) {
 
               <p
-                class="mt-1 text-sm text-red-600"
+                class="mt-1
+                       text-sm
+                       text-red-600"
               >
                 Le prénom est requis.
               </p>
@@ -163,59 +251,96 @@
         </div>
 
 
-        <!-- Date de naissance / rôle -->
+        <!-- ========================= -->
+        <!-- DATE / RÔLE -->
+        <!-- ========================= -->
+
         <div
           class="grid
-               grid-cols-1
-               md:grid-cols-2
-               gap-5"
+                 grid-cols-1
+                 md:grid-cols-2
+                 gap-5"
         >
+
+          <!-- Date de naissance -->
 
           <div>
 
             <label
               for="dateNaissance"
-              class="block text-sm font-medium
-                   text-slate-700 mb-1"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
             >
               Date de naissance
             </label>
+
 
             <input
               id="dateNaissance"
               type="date"
               formControlName="dateNaissance"
-              class="w-full px-4 py-2
-                   border border-slate-300
-                   rounded-lg
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-slate-500"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
             >
+
+
+            @if (
+              utilisateurForm.controls.dateNaissance.touched &&
+              utilisateurForm.controls.dateNaissance.hasError('required')
+              ) {
+
+              <p
+                class="mt-1
+                       text-sm
+                       text-red-600"
+              >
+                La date de naissance est requise.
+              </p>
+
+            }
 
           </div>
 
+
+          <!-- Rôle -->
 
           <div>
 
             <label
               for="role"
-              class="block text-sm font-medium
-                   text-slate-700 mb-1"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
             >
               Rôle
             </label>
 
+
             <select
               id="role"
               formControlName="role"
-              class="w-full px-4 py-2
-                   border border-slate-300
-                   rounded-lg
-                   bg-white
-                   focus:outline-none
-                   focus:ring-2
-                   focus:ring-slate-500"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     bg-white
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
             >
 
               <option value="ELEVE">
@@ -233,128 +358,205 @@
         </div>
 
 
-        <!-- Informations élève -->
+        <!-- ========================= -->
+        <!-- LOGIN / MOT DE PASSE -->
+        <!-- ========================= -->
+
+        <div
+          class="grid
+                 grid-cols-1
+                 md:grid-cols-2
+                 gap-5"
+        >
+
+          <!-- Login -->
+
+          <div>
+
+            <label
+              for="login"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
+            >
+              Login
+            </label>
+
+
+            <input
+              id="login"
+              type="text"
+              formControlName="login"
+              autocomplete="username"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
+            >
+
+
+            @if (
+              utilisateurForm.controls.login.touched &&
+              utilisateurForm.controls.login.hasError('required')
+              ) {
+
+              <p
+                class="mt-1
+                       text-sm
+                       text-red-600"
+              >
+                Le login est requis.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- Mot de passe -->
+
+          <div>
+
+            <label
+              for="password"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
+            >
+              Mot de passe
+            </label>
+
+
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              autocomplete="new-password"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
+                     rounded-lg
+                     focus:outline-none
+                     focus:ring-2
+                     focus:ring-slate-500"
+            >
+
+
+            @if (
+              utilisateurForm.controls.password.touched &&
+              utilisateurForm.controls.password.hasError('required')
+              ) {
+
+              <p
+                class="mt-1
+                       text-sm
+                       text-red-600"
+              >
+                Le mot de passe est requis.
+              </p>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- PROMOTION -->
+        <!-- ========================= -->
+
         @if (
           utilisateurForm.controls.role.value === 'ELEVE'
           ) {
 
-          <div
-            class="grid
-                 grid-cols-1
-                 md:grid-cols-2
-                 gap-5"
-          >
+          <div>
 
-            <!-- Promotion -->
-            <div>
+            <label
+              for="promotionId"
+              class="block
+                     text-sm
+                     font-medium
+                     text-slate-700
+                     mb-1"
+            >
+              Promotion
+            </label>
 
-              <label
-                for="promotionId"
-                class="block text-sm font-medium
-                     text-slate-700 mb-1"
-              >
-                Promotion
-              </label>
 
-              <select
-                id="promotionId"
-                formControlName="promotionId"
-                class="w-full px-4 py-2
-                     border border-slate-300
+            <select
+              id="promotionId"
+              formControlName="promotionId"
+              class="w-full
+                     px-4
+                     py-2
+                     border
+                     border-slate-300
                      rounded-lg
                      bg-white
                      focus:outline-none
                      focus:ring-2
                      focus:ring-slate-500"
-              >
+            >
 
-                <option [ngValue]="null">
-                  Aucune promotion
+              <option [ngValue]="null">
+                Aucune promotion
+              </option>
+
+
+              @for (
+                promotion of promotions();
+                track promotion.id
+                ) {
+
+                <option
+                  [ngValue]="promotion.id"
+                >
+                  {{ promotion.nom }}
                 </option>
 
-                @for (
-                  promotion of promotions();
-                  track promotion.id
-                  ) {
+              }
 
-                  <option
-                    [ngValue]="promotion.id"
-                  >
-                    {{ promotion.nom }}
-                  </option>
-
-                }
-
-              </select>
-
-            </div>
-
-
-            <!-- Cursus -->
-            <div>
-
-              <label
-                for="cursusId"
-                class="block text-sm font-medium
-                     text-slate-700 mb-1"
-              >
-                Cursus
-              </label>
-
-              <select
-                id="cursusId"
-                formControlName="cursusId"
-                class="w-full px-4 py-2
-                     border border-slate-300
-                     rounded-lg
-                     bg-white
-                     focus:outline-none
-                     focus:ring-2
-                     focus:ring-slate-500"
-              >
-
-                <option [ngValue]="null">
-                  Aucun cursus
-                </option>
-
-                @for (
-                  cursusItem of cursus();
-                  track cursusItem.id
-                  ) {
-
-                  <option
-                    [ngValue]="cursusItem.id"
-                  >
-                    {{ cursusItem.nom }}
-                  </option>
-
-                }
-
-              </select>
-
-            </div>
+            </select>
 
           </div>
 
         }
 
 
-        <!-- Actions -->
+        <!-- ========================= -->
+        <!-- ACTIONS -->
+        <!-- ========================= -->
+
         <div
-          class="flex justify-end
-               gap-3
-               pt-3
-               border-t border-slate-100"
+          class="flex
+                 justify-end
+                 gap-3
+                 pt-3
+                 border-t
+                 border-slate-100"
         >
 
           <button
             type="button"
             (click)="fermerFormulaire()"
-            class="px-4 py-2
-                 rounded-lg
-                 text-slate-600
-                 hover:bg-slate-100
-                 transition-colors"
+            class="px-4
+                   py-2
+                   rounded-lg
+                   text-slate-600
+                   hover:bg-slate-100
+                   transition-colors"
           >
             Annuler
           </button>
@@ -362,19 +564,33 @@
 
           <button
             type="submit"
-            class="px-4 py-2
-                 rounded-lg
-                 bg-slate-800
-                 text-white
-                 font-medium
-                 hover:bg-slate-700
-                 transition-colors"
+            [disabled]="loading()"
+            class="px-4
+                   py-2
+                   rounded-lg
+                   bg-slate-800
+                   text-white
+                   font-medium
+                   hover:bg-slate-700
+                   transition-colors
+                   disabled:opacity-50
+                   disabled:cursor-not-allowed"
           >
-            @if (utilisateurEnModification()) {
+
+            @if (loading()) {
+
+              Enregistrement...
+
+            } @else if (utilisateurEnModification()) {
+
               Enregistrer les modifications
+
             } @else {
+
               Ajouter l'utilisateur
+
             }
+
           </button>
 
         </div>
@@ -385,11 +601,17 @@
 
   }
 
-  <!-- Sélection du rôle -->
+
+  <!-- ========================= -->
+  <!-- SÉLECTION DU RÔLE -->
+  <!-- ========================= -->
+
   <div
-    class="flex gap-2
+    class="flex
+           gap-2
            bg-white
-           border border-slate-200
+           border
+           border-slate-200
            rounded-xl
            p-2
            w-fit"
@@ -398,13 +620,23 @@
     <button
       type="button"
       (click)="changerRole('ELEVE')"
-      class="px-5 py-2 rounded-lg
+      class="px-5
+             py-2
+             rounded-lg
              font-medium
              transition-colors"
-      [class.bg-slate-800]="roleSelectionne() === 'ELEVE'"
-      [class.text-white]="roleSelectionne() === 'ELEVE'"
-      [class.text-slate-600]="roleSelectionne() !== 'ELEVE'"
-      [class.hover:bg-slate-100]="roleSelectionne() !== 'ELEVE'"
+      [class.bg-slate-800]="
+        roleSelectionne() === 'ELEVE'
+      "
+      [class.text-white]="
+        roleSelectionne() === 'ELEVE'
+      "
+      [class.text-slate-600]="
+        roleSelectionne() !== 'ELEVE'
+      "
+      [class.hover:bg-slate-100]="
+        roleSelectionne() !== 'ELEVE'
+      "
     >
       Élèves
     </button>
@@ -413,13 +645,23 @@
     <button
       type="button"
       (click)="changerRole('ENSEIGNANT')"
-      class="px-5 py-2 rounded-lg
+      class="px-5
+             py-2
+             rounded-lg
              font-medium
              transition-colors"
-      [class.bg-slate-800]="roleSelectionne() === 'ENSEIGNANT'"
-      [class.text-white]="roleSelectionne() === 'ENSEIGNANT'"
-      [class.text-slate-600]="roleSelectionne() !== 'ENSEIGNANT'"
-      [class.hover:bg-slate-100]="roleSelectionne() !== 'ENSEIGNANT'"
+      [class.bg-slate-800]="
+        roleSelectionne() === 'ENSEIGNANT'
+      "
+      [class.text-white]="
+        roleSelectionne() === 'ENSEIGNANT'
+      "
+      [class.text-slate-600]="
+        roleSelectionne() !== 'ENSEIGNANT'
+      "
+      [class.hover:bg-slate-100]="
+        roleSelectionne() !== 'ENSEIGNANT'
+      "
     >
       Enseignants
     </button>
@@ -427,7 +669,10 @@
   </div>
 
 
-  <!-- Liste -->
+  <!-- ========================= -->
+  <!-- LISTE DES UTILISATEURS -->
+  <!-- ========================= -->
+
   <div
     class="bg-white
            rounded-xl
@@ -445,65 +690,80 @@
         >
 
           <!-- En-tête -->
+
           <thead
             class="bg-slate-50
-                   border-b border-slate-200"
+                   border-b
+                   border-slate-200"
           >
 
           <tr>
 
             <th
               class="text-left
-                       px-6 py-4
+                       px-6
+                       py-4
                        font-semibold
                        text-slate-600"
             >
               Nom
             </th>
 
+
             <th
               class="text-left
-                       px-6 py-4
+                       px-6
+                       py-4
                        font-semibold
                        text-slate-600"
             >
               Prénom
             </th>
 
+
             <th
               class="text-left
-                       px-6 py-4
+                       px-6
+                       py-4
+                       font-semibold
+                       text-slate-600"
+            >
+              Login
+            </th>
+
+
+            <th
+              class="text-left
+                       px-6
+                       py-4
                        font-semibold
                        text-slate-600"
             >
               Date de naissance
             </th>
 
-            @if (roleSelectionne() === 'ELEVE') {
+
+            @if (
+              roleSelectionne() === 'ELEVE'
+              ) {
 
               <th
                 class="text-left
-                         px-6 py-4
+                         px-6
+                         py-4
                          font-semibold
                          text-slate-600"
               >
                 Promotion
               </th>
 
-              <th
-                class="text-left
-                         px-6 py-4
-                         font-semibold
-                         text-slate-600"
-              >
-                Cursus
-              </th>
-
             }
+
 
             <th
               class="text-right
-                       px-6 py-4
+                       px-6
+                       py-4
                        font-semibold
                        text-slate-600"
             >
@@ -516,8 +776,10 @@
 
 
           <!-- Corps -->
+
           <tbody
-            class="divide-y divide-slate-100"
+            class="divide-y
+                   divide-slate-100"
           >
 
             @for (
@@ -531,7 +793,8 @@
               >
 
                 <td
-                  class="px-6 py-4
+                  class="px-6
+                         py-4
                          font-medium
                          text-slate-800"
                 >
@@ -540,7 +803,8 @@
 
 
                 <td
-                  class="px-6 py-4
+                  class="px-6
+                         py-4
                          text-slate-600"
                 >
                   {{ user.prenom }}
@@ -548,7 +812,17 @@
 
 
                 <td
-                  class="px-6 py-4
+                  class="px-6
+                         py-4
+                         text-slate-600"
+                >
+                  {{ user.login }}
+                </td>
+
+
+                <td
+                  class="px-6
+                         py-4
                          text-slate-600"
                 >
                   {{ user.dateNaissance }}
@@ -560,18 +834,11 @@
                   ) {
 
                   <td
-                    class="px-6 py-4
+                    class="px-6
+                           py-4
                            text-slate-600"
                   >
                     {{ getPromotionNom(user.promotionId) }}
-                  </td>
-
-
-                  <td
-                    class="px-6 py-4
-                           text-slate-600"
-                  >
-                    {{ getCursusNom(user.cursusId) }}
                   </td>
 
                 }
@@ -590,7 +857,8 @@
                     <button
                       type="button"
                       (click)="modifierUtilisateur(user)"
-                      class="px-3 py-1.5
+                      class="px-3
+                             py-1.5
                              rounded-lg
                              text-slate-600
                              hover:bg-slate-100
@@ -603,7 +871,8 @@
                     <button
                       type="button"
                       (click)="supprimerUtilisateur(user)"
-                      class="px-3 py-1.5
+                      class="px-3
+                             py-1.5
                              rounded-lg
                              text-red-600
                              hover:bg-red-50
@@ -629,15 +898,22 @@
     } @else {
 
       <div
-        class="p-10 text-center"
+        class="p-10
+               text-center"
       >
 
         <p class="text-slate-500">
 
-          @if (roleSelectionne() === 'ELEVE') {
+          @if (
+            roleSelectionne() === 'ELEVE'
+            ) {
+
             Aucun élève enregistré.
+
           } @else {
+
             Aucun enseignant enregistré.
+
           }
 
         </p>

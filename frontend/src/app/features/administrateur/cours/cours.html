@@ -13,7 +13,7 @@
       </h1>
 
       <p class="mt-1 text-sm text-slate-500">
-        Gérez les cours et leurs promotions.
+        Gérez les cours et leur promotion.
       </p>
 
     </div>
@@ -62,7 +62,7 @@
 
           <p class="mt-1 text-sm text-slate-500">
             Créez un nouveau cours et associez-le
-            à une ou plusieurs promotions.
+            à une promotion.
           </p>
 
         } @else {
@@ -72,7 +72,7 @@
           </h2>
 
           <p class="mt-1 text-sm text-slate-500">
-            Modifiez le cours et ses promotions.
+            Modifiez les informations du cours.
           </p>
 
         }
@@ -80,19 +80,21 @@
       </div>
 
 
-      <!-- Formulaire -->
+      <!-- ======================================================= -->
+      <!-- FORMULAIRE                                               -->
+      <!-- ======================================================= -->
 
       <form
         [formGroup]="coursForm"
         (ngSubmit)="enregistrerCours()"
       >
 
-        <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 
-          <!-- ================================================= -->
-          <!-- NOM                                                 -->
-          <!-- ================================================= -->
+          <!-- =================================================== -->
+          <!-- NOM DU COURS                                         -->
+          <!-- =================================================== -->
 
           <div>
 
@@ -130,84 +132,59 @@
           </div>
 
 
-          <!-- ================================================= -->
-          <!-- PROMOTIONS                                          -->
-          <!-- ================================================= -->
+          <!-- =================================================== -->
+          <!-- PROMOTION                                            -->
+          <!-- =================================================== -->
 
           <div>
 
             <label
-              class="block mb-3
+              for="coursPromotion"
+              class="block mb-2
                      text-sm font-medium text-slate-700"
             >
-              Promotions associées
+              Promotion
             </label>
 
-
-            <div
-              class="border border-slate-300
-                     rounded-lg divide-y
-                     divide-slate-200"
+            <select
+              id="coursPromotion"
+              formControlName="promotionId"
+              class="w-full px-4 py-2.5
+                     rounded-lg border border-slate-300
+                     bg-white
+                     focus:outline-none
+                     focus:ring-2 focus:ring-[#334155]
+                     focus:border-transparent"
             >
+
+              <option [ngValue]="0">
+                Sélectionnez une promotion
+              </option>
 
               @for (
                 promotion of promotions();
                 track promotion.id
                 ) {
 
-                <label
-                  class="flex items-center gap-3
-                         px-4 py-3
-                         cursor-pointer
-                         hover:bg-slate-50
-                         transition-colors"
-                >
-
-                  <input
-                    type="checkbox"
-                    [checked]="promotionSelectionnee(promotion.id)"
-                    (change)="togglePromotion(
-                      promotion.id,
-                      $event
-                    )"
-                    class="h-4 w-4"
-                  >
-
-                  <div>
-
-                    <p
-                      class="text-sm font-medium
-                             text-slate-800"
-                    >
-                      {{ promotion.nom }}
-                    </p>
-
-                    <p
-                      class="text-xs text-slate-500"
-                    >
-                      Du {{ promotion.dateDebut }}
-                      au {{ promotion.dateFin }}
-                    </p>
-
-                  </div>
-
-                </label>
+                <option [ngValue]="promotion.id">
+                  {{ promotion.nom }}
+                </option>
 
               }
 
+            </select>
 
-              @if (promotions().length === 0) {
 
-                <p
-                  class="px-4 py-4
-                         text-sm text-slate-500"
-                >
-                  Aucune promotion disponible.
-                </p>
+            @if (
+              coursForm.controls.promotionId.touched &&
+              coursForm.controls.promotionId.invalid
+              ) {
 
-              }
+              <p class="mt-1 text-sm text-red-600">
+                Veuillez sélectionner une promotion.
+              </p>
 
-            </div>
+            }
 
           </div>
 
@@ -293,24 +270,24 @@
 
         <th
           class="px-6 py-4 text-left
-                   text-sm font-semibold
-                   text-slate-600"
+                 text-sm font-semibold
+                 text-slate-600"
         >
           Cours
         </th>
 
         <th
           class="px-6 py-4 text-left
-                   text-sm font-semibold
-                   text-slate-600"
+                 text-sm font-semibold
+                 text-slate-600"
         >
-          Promotions
+          Promotion
         </th>
 
         <th
           class="px-6 py-4 text-right
-                   text-sm font-semibold
-                   text-slate-600"
+                 text-sm font-semibold
+                 text-slate-600"
         >
           Actions
         </th>
@@ -320,7 +297,9 @@
       </thead>
 
 
-      <!-- Corps -->
+      <!-- ======================================================= -->
+      <!-- CORPS                                                     -->
+      <!-- ======================================================= -->
 
       <tbody class="divide-y divide-slate-100">
 
@@ -334,10 +313,9 @@
                    transition-colors"
           >
 
-
-            <!-- ============================================== -->
-            <!-- COURS                                            -->
-            <!-- ============================================== -->
+            <!-- =============================================== -->
+            <!-- COURS                                             -->
+            <!-- =============================================== -->
 
             <td
               class="px-6 py-4
@@ -348,35 +326,27 @@
             </td>
 
 
-            <!-- ============================================== -->
-            <!-- PROMOTIONS                                       -->
-            <!-- ============================================== -->
+            <!-- =============================================== -->
+            <!-- PROMOTION                                         -->
+            <!-- =============================================== -->
 
-            <td class="px-6 py-4">
+            <td
+              class="px-6 py-4
+                     text-sm text-slate-600"
+            >
 
-              @if (item.promotions.length > 0) {
+              @if (item.promotion) {
 
-                <div class="flex flex-wrap gap-2">
-
-                  @for (
-                    promotion of item.promotions;
-                    track promotion.id
-                    ) {
-
-                    <span
-                      class="inline-flex
-                             px-2.5 py-1
-                             rounded-full
-                             bg-slate-100
-                             text-slate-700
-                             text-xs font-medium"
-                    >
-                      {{ promotion.nom }}
-                    </span>
-
-                  }
-
-                </div>
+                <span
+                  class="inline-flex
+                         px-2.5 py-1
+                         rounded-full
+                         bg-slate-100
+                         text-slate-700
+                         text-xs font-medium"
+                >
+                  {{ item.promotion.nom }}
+                </span>
 
               } @else {
 
@@ -391,9 +361,9 @@
             </td>
 
 
-            <!-- ============================================== -->
-            <!-- ACTIONS                                          -->
-            <!-- ============================================== -->
+            <!-- =============================================== -->
+            <!-- ACTIONS                                           -->
+            <!-- =============================================== -->
 
             <td class="px-6 py-4">
 
@@ -419,9 +389,7 @@
 
                 <button
                   type="button"
-                  (click)="supprimerCours(
-                    item.cours.id
-                  )"
+                  (click)="supprimerCours(item.cours.id)"
                   class="px-3 py-2 rounded-lg
                          text-sm text-red-600
                          hover:bg-red-50
@@ -439,9 +407,9 @@
         }
 
 
-      <!-- ================================================= -->
-      <!-- AUCUN COURS                                         -->
-      <!-- ================================================= -->
+      <!-- =================================================== -->
+      <!-- AUCUN COURS                                           -->
+      <!-- =================================================== -->
 
         @if (cours().length === 0) {
 

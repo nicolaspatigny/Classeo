@@ -34,6 +34,11 @@ export class PromotionService {
     id: number
   ): Observable<Promotion> {
 
+    if (id == null) {
+      return this.http.get<Promotion>(
+        `${this.url}/1`
+      );
+    }
     return this.http.get<Promotion>(
       `${this.url}/${id}`
     );
