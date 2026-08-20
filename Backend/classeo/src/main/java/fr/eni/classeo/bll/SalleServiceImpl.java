@@ -1,7 +1,7 @@
 package fr.eni.classeo.bll;
 
-import fr.eni.classeo.bo.Salle;
 import fr.eni.classeo.dal.SalleRepository;
+import fr.eni.classeo.dto.SalleDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +15,16 @@ public class SalleServiceImpl implements SalleService {
     private SalleRepository salleRepository;
 
     @Override
-    public List<Salle> getSalles() {
-        return salleRepository.findAll();
+    public List<SalleDto> findAllSalles() {
+        return salleRepository.findAll().stream()
+                .map(salle -> new SalleDto(salle.getId(), salle.getNom()))
+                .toList();
     }
 
     @Override
-    public Salle getSalle(Integer id) {
+    public SalleDto findByIdSalle(Integer id) {
         return salleRepository.findById(id)
-                .orElseThrow(()->new EntityNotFoundException("Salle non trouvée"));
+                .map(salle -> new SalleDto(salle.getId(), salle.getNom()))
+                .orElseThrow(() -> new EntityNotFoundException("Salle non trouvée"));
     }
 }

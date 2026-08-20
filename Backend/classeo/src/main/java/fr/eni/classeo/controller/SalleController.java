@@ -3,6 +3,7 @@ package fr.eni.classeo.controller;
 
 import fr.eni.classeo.bll.SalleService;
 import fr.eni.classeo.bo.Salle;
+import fr.eni.classeo.dto.SalleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +21,12 @@ public class SalleController {
     private SalleService salleService;
 
     @GetMapping
-    public ResponseEntity<List<Salle>> getSalles(){
-        return ResponseEntity.ok(salleService.getSalles());
+    public ResponseEntity<List<SalleDto>> getSalles(){
+        return ResponseEntity.ok(salleService.findAllSalles());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Salle> getSalle(@PathVariable Integer id){
-        return ResponseEntity.ok(salleService.getSalle(id));
+    public ResponseEntity<SalleDto> getSalle(@PathVariable Integer id){
+        return ResponseEntity.ok(salleService.findByIdSalle(id));
     }
 }
