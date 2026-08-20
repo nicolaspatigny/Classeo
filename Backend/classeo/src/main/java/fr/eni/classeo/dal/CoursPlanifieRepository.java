@@ -53,9 +53,11 @@ SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
         cp.id,
         cp.cursusCours.id.coursId,
         cp.date,
+        cp.formateur.id,
+        cp.promotion.id,
         cp.heureDebut,
         cp.heureFin,
-        cp.salle.nom
+        cp.salle.id
     )
     FROM CoursPlanifie cp
 """)
@@ -66,9 +68,11 @@ SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
         cp.id,
         cp.cursusCours.id.coursId,
         cp.date,
+        cp.formateur.id,
+        cp.promotion.id,
         cp.heureDebut,
         cp.heureFin,
-        cp.salle.nom
+        cp.salle.id
     )
     FROM CoursPlanifie cp
     WHERE cp.id = :id
@@ -102,4 +106,6 @@ SELECT new fr.eni.classeo.dto.CoursPlanifieDto(
     FROM CoursPlanifie cp
 """)
     List<CoursFormateurDto> listeCoursFormateur();
+
+
 }

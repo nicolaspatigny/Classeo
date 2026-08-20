@@ -18,7 +18,7 @@ public class Cours {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(length = 250, nullable = false)
+    @Column(length = 250, nullable = false, unique = true)
     @Size(max = 250, message = "max 250")
     private String nom;
 

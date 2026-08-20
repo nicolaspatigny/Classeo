@@ -3,6 +3,9 @@ package fr.eni.classeo.controller;
 import fr.eni.classeo.bll.CoursService;
 import fr.eni.classeo.bll.NoteService;
 import fr.eni.classeo.bo.Cours;
+import fr.eni.classeo.dto.CoursDto;
+import fr.eni.classeo.dto.CoursPostDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +76,12 @@ public class CoursController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<Cours> createCours(@Valid @RequestBody CoursPostDto cours){
+        Cours created = coursService.addCours(cours);
+        return ResponseEntity.status((HttpStatus.CREATED)).body(created);
     }
 
 }

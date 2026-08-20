@@ -4,6 +4,8 @@ import fr.eni.classeo.bo.Cursus;
 import fr.eni.classeo.bo.Filiere;
 import fr.eni.classeo.dal.CursusRepository;
 import fr.eni.classeo.dal.FiliereRepository;
+import fr.eni.classeo.dto.CoursDto;
+import fr.eni.classeo.dto.CoursPostDto;
 import fr.eni.classeo.dto.CursusPostDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -91,4 +93,6 @@ public class CursusServiceImpl implements CursusService {
 
         cursusRepository.delete(cursus);
     }
+
+
 }

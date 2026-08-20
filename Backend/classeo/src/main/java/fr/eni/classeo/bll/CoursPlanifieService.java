@@ -11,13 +11,17 @@ public interface CoursPlanifieService {
 
     List<CoursDto> listeCoursParPromotion(int promotionId);
 
-    List<CoursDto> listeCoursParFormateur(int formateurId);
+    List<CoursDto>  listeCoursParFormateur(int formateurId);
 
     List<CoursPlanifieDto> listeCoursPlanifie();
 
     CoursPlanifieDto getCoursPlanifieById(int id);
 
     List<CoursElevesDto> listeCoursEleves();
+
+    List<CoursFormateurDto>  listeCoursFormateur();
+
+    CoursPlanifieDto addCoursPlanifie(CoursPlanifiePostDto coursPlanifiePostDto);
 
     List<CoursFormateurDto> listeCoursFormateur();
 
