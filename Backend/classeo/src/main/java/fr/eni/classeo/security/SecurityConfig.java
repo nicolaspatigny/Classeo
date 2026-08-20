@@ -3,6 +3,7 @@ package fr.eni.classeo.security;
 import fr.eni.classeo.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -64,23 +65,33 @@ public class SecurityConfig {
                         // Login
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        //Users
-                        .requestMatchers("/api/users/**")
-                        .authenticated()
+                        // Error page
+                        .requestMatchers("/error").permitAll()
 
-                        // Admin only
-                        .requestMatchers("/api/admin/**")
+                        // GET : Élève + Enseignant + Admin
+                        .requestMatchers(HttpMethod.GET, "/api/**")
+                        .hasAnyRole("ELEVE", "ENSEIGNANT", "ADMINISTRATEUR")
+
+                        // Séances : Enseignant + Admin
+                        .requestMatchers(HttpMethod.POST, "/api/seances", "/api/seances/**")
+                        .hasAnyRole("ENSEIGNANT", "ADMINISTRATEUR")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/seances", "/api/seances/**")
+                        .hasAnyRole("ENSEIGNANT", "ADMINISTRATEUR")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/seances", "/api/seances/**")
+                        .hasAnyRole("ENSEIGNANT", "ADMINISTRATEUR")
+
+                        // Everything else : Admin
+                        .requestMatchers(HttpMethod.POST, "/api/**")
                         .hasRole("ADMINISTRATEUR")
 
-                        // Teacher + Admin
-                        .requestMatchers("/api/teacher/**")
-                        .hasAnyRole("TEACHER", "ADMINISTRATEUR")
+                        .requestMatchers(HttpMethod.PUT, "/api/**")
+                        .hasRole("ADMINISTRATEUR")
 
-                        // Student + Teacher + Admin
-                        .requestMatchers("/api/student/**")
-                        .hasAnyRole("STUDENT", "TEACHER", "ADMINISTRATEUR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/**")
+                        .hasRole("ADMINISTRATEUR")
 
-                        // Everything else requires authentication
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(

@@ -1,6 +1,6 @@
 package fr.eni.classeo.controller;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleTestController {
 
     @GetMapping("/student/test")
-    public ResponseEntity<String> student() {
-        return ResponseEntity.ok("Student access granted");
+    public String student(Authentication authentication) {
+        return "User: " + authentication.getName()
+                + " | Authorities: " + authentication.getAuthorities();
     }
 
     @GetMapping("/teacher/test")
-    public ResponseEntity<String> teacher() {
-        return ResponseEntity.ok("Teacher access granted");
+    public String teacher(Authentication authentication) {
+        return "User: " + authentication.getName()
+                + " | Authorities: " + authentication.getAuthorities();
     }
 
     @GetMapping("/admin/test")
-    public ResponseEntity<String> admin() {
-        return ResponseEntity.ok("Admin access granted");
+    public String admin(Authentication authentication) {
+        return "User: " + authentication.getName()
+                + " | Authorities: " + authentication.getAuthorities();
     }
 }
