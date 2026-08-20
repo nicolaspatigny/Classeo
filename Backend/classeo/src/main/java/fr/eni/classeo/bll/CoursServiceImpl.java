@@ -72,13 +72,17 @@ public class CoursServiceImpl implements CoursService {
             cursusCoursRepository.save(CursusCours.builder()
                             .cursus(cursus).cours(saved).build());
 
-        }
-        Cours toSave  = Cours.builder()
-                .nom(cours.getNom())
-                .duree(1).build();
-        Cours saved = coursRepository.save(toSave);
+            return saved;
 
-        return saved;
+        }else {
+            Cours toSave  = Cours.builder()
+                    .nom(cours.getNom())
+                    .duree(1).build();
+            Cours saved = coursRepository.save(toSave);
+
+            return saved;
+        }
+
 
     }
 }
