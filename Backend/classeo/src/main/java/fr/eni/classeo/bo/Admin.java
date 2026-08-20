@@ -13,5 +13,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ToString(callSuper=true)
 @Entity
-public class Administrateur extends Utilisateur{
+public class Admin extends Utilisateur{
 }

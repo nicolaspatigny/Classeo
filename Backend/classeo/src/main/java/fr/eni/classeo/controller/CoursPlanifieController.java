@@ -65,7 +65,6 @@ public class CoursPlanifieController {
         }
     }
 
-    //TODO cours-enseignant
     @PostMapping("/seances")
     public ResponseEntity<CoursPlanifieDto> addCoursPlanifie(@RequestBody CoursPlanifiePostDto coursPlanifiePostDto) {
         CoursPlanifieDto created = coursPlanifieService.addCoursPlanifie(coursPlanifiePostDto);
