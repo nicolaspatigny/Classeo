@@ -80,7 +80,7 @@ Pour cela, il y une autentification par token JWT, avec un systeme de login et m
 2 choses en parralele :
 - Qui envoye au authenticationManager qui permet de recuperer les detail de l'utilisateur pour generer le token                           |                    authRepository qui retourne un user
 - Via le JWTService il cree le token grace à Jwts.builder                                                                                                                       |    Check si l'utilisateur est en BdD
--                                                                                                                                                                                                             |    Check si le role de l'utilisateur correspond avec celui en BdD
+-                                                                                                                                                                                 
 -> Convertion des roles au cas où il y a missmatch entre les format d'ecrire des roles entre front et back
 -> Genere un body de Response pour le Front avec buildUserResponse() [Token, User] (pour cela faut aller chercher prmoId,cursusId,filliereID, et l'user)
 -> Il renvoye une reponse au frontend avec le Token ainsi que les information de l'User
